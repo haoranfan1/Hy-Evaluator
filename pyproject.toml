@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hy3-process-evaluator"
+version = "0.1.0"
+description = "Evidence-linked process evaluation workbench for Hy3 coding-agent trajectories."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "MIT"
+authors = [{ name = "Haoran Fan" }]
+dependencies = [
+  "fastapi>=0.116,<1",
+  "harbor==0.22.0",
+  "mini-swe-agent==2.4.6",
+  "openai>=2.54,<3",
+  "pandas>=2.3,<4",
+  "pydantic>=2.11,<3",
+  "pydantic-settings>=2.10,<3",
+  "python-multipart>=0.0.20,<1",
+  "scipy>=1.16,<2",
+  "uvicorn[standard]>=0.35,<1",
+]
+
+[project.scripts]
+hy3-workbench = "hy3_workbench.cli:main"
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28,<1",
+  "pytest>=8.4,<10",
+  "pytest-asyncio>=1.1,<2",
+  "ruff==0.16.4",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hy3_workbench"]
+
+[tool.uv]
+cache-dir = ".local/uv/cache"
+package = true
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+asyncio_mode = "auto"
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "SIM", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"

@@ -2,7 +2,23 @@
 
 ## Status
 
-**Research is complete. Implementation is ready to begin.**
+**Research is complete. The isolated application foundation is implemented.**
+
+Completed foundation work:
+
+- Repository-local Python 3.12 through `scripts/uv-local`.
+- Locked Python dependencies, including Harbor 0.22.0 and mini-SWE-agent 2.4.6.
+- MIT license, `.env.example`, runtime pins, and development documentation.
+- FastAPI health endpoint that never calls Hy3 implicitly.
+- Explicit single-request Hy3 handshake command with nested reasoning configuration.
+- React/Vite application shell and initial backend/frontend tests.
+
+Current setup gates:
+
+- Configure the ignored `.env` with the real Hy3 endpoint, model, and key, then run
+  `./scripts/check-hy3`.
+- Generate `frontend/package-lock.json` after npm registry connectivity is available; no frontend
+  packages or partial lockfile were retained from the failed network attempts.
 
 ## Single next action
 
@@ -18,7 +34,7 @@ recorded ATIF v1.7 fixture
     -> React run-detail page linking findings to trajectory steps
 ```
 
-Before writing the complete UI, perform the bounded Hy3 handshake needed by this slice:
+Before writing the complete UI, complete the bounded Hy3 handshake needed by this slice:
 
 - Confirm `HY3_BASE_URL`, `HY3_MODEL`, and authentication.
 - Confirm Chat Completions and nested `chat_template_kwargs.reasoning_effort=high`.

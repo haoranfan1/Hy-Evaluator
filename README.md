@@ -10,8 +10,10 @@ This repository will implement Project 2 as a web-based workbench for evaluating
 - The four-part research phase is complete.
 - The SWE-bench/mini-SWE-agent/Harbor/ATIF direction is fixed.
 - The hybrid evaluator, metadata contracts, React/FastAPI architecture, web workflow, and ten-day implementation roadmap are specified.
-- The first implementation action is an offline ATIF-to-evidence-debugger vertical slice.
-- No application code has been implemented yet.
+- The repository-local Python 3.12 environment, dependency lock, FastAPI health endpoint, explicit
+  Hy3 handshake client, React/Vite shell, configuration examples, and initial tests are scaffolded.
+- The offline ATIF-to-evidence-debugger vertical slice is the active implementation milestone; it
+  is not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 
@@ -41,4 +43,9 @@ See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 
 ## Development
 
-Setup and run commands will be added with the first vertical slice. Do not add real credentials to this repository; Hy3 credentials must be supplied through environment variables or an ignored local configuration file.
+The application foundation uses a repository-local Python 3.12 environment managed by `uv` and a
+React/Vite frontend. See [Development setup](docs/DEVELOPMENT_SETUP.md) for the isolation policy,
+configuration, local commands, Docker gate, and Google Cloud fallback.
+
+Do not add real credentials to this repository. Copy `.env.example` to the ignored `.env` file and
+set Hy3 credentials locally.
