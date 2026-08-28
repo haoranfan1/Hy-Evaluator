@@ -1,0 +1,57 @@
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.agents/
+*.swp
+*.swo
+*~
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.python-version
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# JavaScript and TypeScript
+node_modules/
+.npm/
+.pnpm-store/
+
+# Build and packaging output
+build/
+dist/
+site/
+
+# Runtime and generated local output
+.local/
+tmp/
+temp/
+.cache/
+logs/
+*.log
+outputs/
+artifacts/
+
+# Local model files and checkpoints
+models/
+checkpoints/
+*.ckpt
+*.safetensors
