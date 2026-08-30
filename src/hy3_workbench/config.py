@@ -28,6 +28,7 @@ class Settings(BaseSettings):
 
     workbench_data_dir: Path = Path(".local/workbench")
     harbor_jobs_dir: Path = Path(".local/harbor/jobs")
+    results_dir: Path = Path("results")
     workbench_host: str = "127.0.0.1"
     workbench_port: int = Field(default=8000, ge=1, le=65535)
 

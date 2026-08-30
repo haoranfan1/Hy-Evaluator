@@ -62,10 +62,25 @@ Completed:
   fixture produced `valid` with zero findings, so neither direction shows a schema failure or a
   false positive.
 
+- SQLite persistence (`WorkbenchRepository`) stores manifests, runs, evaluations, and
+  append-only human-review versions as contract-validated payloads; bundle imports are atomic
+  with no partial writes, review versions are strictly sequential, and a stored evaluation is
+  replaced only through an explicit `force` path that is refused once any review exists.
+- The offline workflow is callable through FastAPI: health with database readiness, task/run
+  listings, bundle import (canonical relative paths only; traversal, symlink escapes, layout
+  errors, contract violations, hash mismatches, and duplicates are rejected), digest-idempotent
+  evaluation (input plus evaluator/rubric/prompt versions plus judge configuration; changed
+  configuration requires `force=true`), run/trajectory/evaluation reads, blinded initial
+  reviews before adjudication versions, and deterministic exports.
+- Exports rebuild `results/per_run/*.json` and `results/human_reviews.jsonl` from persisted
+  records only and are byte-stable across repeated export calls.
+- A restarted process on the same SQLite file preserves every imported run, evaluation, and
+  review; an unconfigured judge returns an explicit 503 instead of a fabricated result.
+
 Current phase:
 
-- **Day 4 — API and persistence.**
-- Days 1–3 are complete. UI, human-review analytics, and real benchmark execution remain
+- **Day 5 — evidence debugger UI.**
+- Days 1–4 are complete. Human-review UI, analytics, and real benchmark execution remain
   deliberately deferred.
 
 ## Fixed execution decisions
@@ -140,8 +155,8 @@ Only one benchmark, harness, trace format, semantic judge configuration, and loc
 | Complete | **1 — Contracts and fixtures** | Implement typed core schemas, immutable artifact identity, controlled ATIF fixture bundles, and one structured Hy3 compatibility response. | Hy3 JSON-object behavior is recorded; valid, invalid, and inconclusive fixture bundles validate offline; artifact hashes and human expected labels are stable. |
 | Complete | **2 — Deterministic evaluator** | Validate ATIF/artifact identity; extract verifier, patch, command, and integrity facts; implement outcome/inconclusive policies and unit tests. | Fixtures produce reproducible deterministic checks without a model call, and malformed/missing evidence becomes inconclusive. |
 | Complete | **3 — Semantic evaluator** | Implement the versioned rubric, fixed Hy3 judge, evidence-reference validation, one schema-repair retry, and merge policy. | Invalid and valid fixtures produce typed, evidence-linked results; semantic failure remains honest and inspectable. |
-| **Current** | **4 — API and persistence** | Add SQLite indexes, immutable artifact registration, import/evaluate/read/review endpoints, exports, and restart/interruption behavior. | The offline workflow is callable through FastAPI and survives process restart without corrupting evidence. |
-| Pending | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
+| Complete | **4 — API and persistence** | Add SQLite indexes, immutable artifact registration, import/evaluate/read/review endpoints, exports, and restart/interruption behavior. | The offline workflow is callable through FastAPI and survives process restart without corrupting evidence. |
+| **Current** | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
 | Pending | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
 | Pending | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |
 | Pending | **8 — Evaluation and validation** | Freeze a small difficulty-covering task slice; run sequentially; label every gradeable incorrect run and audit every resolved-and-flagged run. | Required localization and false-positive evidence exists with explicit numerators, denominators, exclusions, and label provenance. |

@@ -20,8 +20,10 @@ This repository will implement Project 2 as a web-based workbench for evaluating
   judge with evidence-reference validation and one schema-repair retry, honest semantic failure,
   and merged contract-valid evaluation results. Two bounded live Hy3 reviews reproduced the
   fixture oracles exactly.
-- The Day 4 SQLite persistence and FastAPI workflow are the active implementation milestone; they
-  are not complete yet.
+- The Day 4 persistence and API workflow are complete: SQLite storage with atomic imports and
+  append-only review versions, plus restart-safe FastAPI endpoints for import,
+  digest-idempotent evaluation, reads, blinded reviews, adjudications, and byte-stable exports.
+- The Day 5 evidence-debugger UI is the active implementation milestone; it is not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 
