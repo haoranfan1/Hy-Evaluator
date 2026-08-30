@@ -30,12 +30,26 @@ Completed:
 - One bounded live Hy3 response passed JSON-object mode and local `SemanticReviewOutput`
   validation. The sanitized result is stored in ignored project-local state; native server-side
   JSON Schema enforcement is not assumed.
+- The deterministic lane (`EvidenceExtractor`) produces typed, evidence-linked checks for
+  identity/hash verification, ATIF structure, per-test verifier records, coverage and
+  consistency, the resolved/unresolved/inconclusive outcome policy, patch scope and
+  sensitive-file warnings, protected-path hard process failures, advisory command failures,
+  and final-claim-versus-evidence comparison — all without a model call.
+- Ungradeable runs are classified from verifier logs: an evidenced patch-application failure is
+  an agent-caused unresolved outcome; infrastructure markers become an inconclusive exclusion.
+- Every emitted evidence reference is checked against a bundle resolver; a dangling reference
+  is a hard internal error, and corrupted-bundle tests prove malformed ATIF forces
+  `inconclusive` before any model call.
+- Recorded implementation evidence: Harbor's pinned ATIF v1.7 model already rejects
+  non-sequential step IDs and observation results referencing unknown tool calls at load time,
+  so the workbench validates those through `AtifAdapter.load` failures instead of duplicating
+  the checks on parsed objects.
 
 Current phase:
 
-- **Day 2 — deterministic evidence extraction and outcome policy.**
-- Day 1 is complete. Semantic diagnosis, merge policy, persistence, APIs, UI, and real benchmark
-  execution remain deliberately deferred.
+- **Day 3 — semantic evaluator and merge policy.**
+- Days 1–2 are complete. Persistence, APIs, UI, and real benchmark execution remain
+  deliberately deferred.
 
 ## Fixed execution decisions
 
@@ -107,8 +121,8 @@ Only one benchmark, harness, trace format, semantic judge configuration, and loc
 | Status | Day | Objective | Exit condition |
 | --- | --- | --- | --- |
 | Complete | **1 — Contracts and fixtures** | Implement typed core schemas, immutable artifact identity, controlled ATIF fixture bundles, and one structured Hy3 compatibility response. | Hy3 JSON-object behavior is recorded; valid, invalid, and inconclusive fixture bundles validate offline; artifact hashes and human expected labels are stable. |
-| **Current** | **2 — Deterministic evaluator** | Validate ATIF/artifact identity; extract verifier, patch, command, and integrity facts; implement outcome/inconclusive policies and unit tests. | Fixtures produce reproducible deterministic checks without a model call, and malformed/missing evidence becomes inconclusive. |
-| Pending | **3 — Semantic evaluator** | Implement the versioned rubric, fixed Hy3 judge, evidence-reference validation, one schema-repair retry, and merge policy. | Invalid and valid fixtures produce typed, evidence-linked results; semantic failure remains honest and inspectable. |
+| Complete | **2 — Deterministic evaluator** | Validate ATIF/artifact identity; extract verifier, patch, command, and integrity facts; implement outcome/inconclusive policies and unit tests. | Fixtures produce reproducible deterministic checks without a model call, and malformed/missing evidence becomes inconclusive. |
+| **Current** | **3 — Semantic evaluator** | Implement the versioned rubric, fixed Hy3 judge, evidence-reference validation, one schema-repair retry, and merge policy. | Invalid and valid fixtures produce typed, evidence-linked results; semantic failure remains honest and inspectable. |
 | Pending | **4 — API and persistence** | Add SQLite indexes, immutable artifact registration, import/evaluate/read/review endpoints, exports, and restart/interruption behavior. | The offline workflow is callable through FastAPI and survives process restart without corrupting evidence. |
 | Pending | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
 | Pending | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |

@@ -12,8 +12,12 @@ This repository will implement Project 2 as a web-based workbench for evaluating
 - The hybrid evaluator, metadata contracts, React/FastAPI architecture, web workflow, and ten-day implementation roadmap are specified.
 - The repository-local Python 3.12 environment, dependency lock, FastAPI health endpoint, explicit
   Hy3 handshake client, React/Vite shell, configuration examples, and initial tests are scaffolded.
-- The offline ATIF-to-evidence-debugger vertical slice is the active implementation milestone; it
-  is not complete yet.
+- The Day 1 contracts, verified fixture bundles, and offline evidence gate are complete.
+- The Day 2 deterministic lane is complete: typed, evidence-linked checks for identity, ATIF
+  structure, per-test verifier results, outcome policy, patch scope, protected paths, command
+  failures, and final-claim comparison, produced without any model call.
+- The Day 3 semantic evaluator and merge policy are the active implementation milestone; they are
+  not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 
