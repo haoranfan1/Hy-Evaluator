@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     hy3_temperature: float = Field(default=0.9, ge=0.0, le=2.0)
     hy3_top_p: float = Field(default=1.0, ge=0.0, le=1.0)
     hy3_timeout_seconds: float = Field(default=90.0, gt=0.0, le=300.0)
+    semantic_context_limit_chars: int = Field(default=180_000, ge=1_000)
 
     workbench_data_dir: Path = Path(".local/workbench")
     harbor_jobs_dir: Path = Path(".local/harbor/jobs")

@@ -44,11 +44,28 @@ Completed:
   non-sequential step IDs and observation results referencing unknown tool calls at load time,
   so the workbench validates those through `AtifAdapter.load` failures instead of duplicating
   the checks on parsed objects.
+- The semantic lane is implemented with the frozen `process-rubric-v1` rubric and
+  `semantic-prompt-v1` prompt: masked generating-model identity, no reference patch, one
+  JSON-object request, Pydantic validation, rejection of any finding or first error citing a
+  nonexistent step, tool call, patch file, test, or task field, exactly one schema-repair
+  retry, and both raw responses persisted under ignored `.local/` state. Failure stays honest
+  (`unavailable` / `context_limit`) and never fabricates a verdict.
+- The merge policy produces contract-valid `EvaluationResult` records: deterministic
+  inconclusive evidence skips the judge, hard process failures force `invalid` and outrank a
+  contradicting semantic `valid` verdict (which becomes `partial` plus a human-review
+  exclusion), the first error is the lowest validated material step restricted to
+  agent-authored steps, and `correct_result_invalid_process` derives only from conclusive
+  statuses.
+- Two bounded live Hy3 semantic reviews are recorded under `.local/workbench/compatibility/`:
+  the invalid fixture produced `invalid` with the first error at step 3 / `call-edit-1` /
+  `task_interpretation` on the first attempt, matching the human oracle exactly, and the valid
+  fixture produced `valid` with zero findings, so neither direction shows a schema failure or a
+  false positive.
 
 Current phase:
 
-- **Day 3 — semantic evaluator and merge policy.**
-- Days 1–2 are complete. Persistence, APIs, UI, and real benchmark execution remain
+- **Day 4 — API and persistence.**
+- Days 1–3 are complete. UI, human-review analytics, and real benchmark execution remain
   deliberately deferred.
 
 ## Fixed execution decisions
@@ -122,8 +139,8 @@ Only one benchmark, harness, trace format, semantic judge configuration, and loc
 | --- | --- | --- | --- |
 | Complete | **1 — Contracts and fixtures** | Implement typed core schemas, immutable artifact identity, controlled ATIF fixture bundles, and one structured Hy3 compatibility response. | Hy3 JSON-object behavior is recorded; valid, invalid, and inconclusive fixture bundles validate offline; artifact hashes and human expected labels are stable. |
 | Complete | **2 — Deterministic evaluator** | Validate ATIF/artifact identity; extract verifier, patch, command, and integrity facts; implement outcome/inconclusive policies and unit tests. | Fixtures produce reproducible deterministic checks without a model call, and malformed/missing evidence becomes inconclusive. |
-| **Current** | **3 — Semantic evaluator** | Implement the versioned rubric, fixed Hy3 judge, evidence-reference validation, one schema-repair retry, and merge policy. | Invalid and valid fixtures produce typed, evidence-linked results; semantic failure remains honest and inspectable. |
-| Pending | **4 — API and persistence** | Add SQLite indexes, immutable artifact registration, import/evaluate/read/review endpoints, exports, and restart/interruption behavior. | The offline workflow is callable through FastAPI and survives process restart without corrupting evidence. |
+| Complete | **3 — Semantic evaluator** | Implement the versioned rubric, fixed Hy3 judge, evidence-reference validation, one schema-repair retry, and merge policy. | Invalid and valid fixtures produce typed, evidence-linked results; semantic failure remains honest and inspectable. |
+| **Current** | **4 — API and persistence** | Add SQLite indexes, immutable artifact registration, import/evaluate/read/review endpoints, exports, and restart/interruption behavior. | The offline workflow is callable through FastAPI and survives process restart without corrupting evidence. |
 | Pending | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
 | Pending | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
 | Pending | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |

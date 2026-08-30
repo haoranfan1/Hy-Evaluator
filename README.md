@@ -16,8 +16,12 @@ This repository will implement Project 2 as a web-based workbench for evaluating
 - The Day 2 deterministic lane is complete: typed, evidence-linked checks for identity, ATIF
   structure, per-test verifier results, outcome policy, patch scope, protected paths, command
   failures, and final-claim comparison, produced without any model call.
-- The Day 3 semantic evaluator and merge policy are the active implementation milestone; they are
-  not complete yet.
+- The Day 3 semantic evaluator and merge policy are complete: a versioned rubric, the fixed Hy3
+  judge with evidence-reference validation and one schema-repair retry, honest semantic failure,
+  and merged contract-valid evaluation results. Two bounded live Hy3 reviews reproduced the
+  fixture oracles exactly.
+- The Day 4 SQLite persistence and FastAPI workflow are the active implementation milestone; they
+  are not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 

@@ -28,6 +28,15 @@ class Hy3StructuredCompatibilityResult(BaseModel):
     semantic_output: SemanticReviewOutput
 
 
+class Hy3JsonResponse(BaseModel):
+    """Raw content and non-secret metadata from one JSON-object request."""
+
+    response_id: str | None
+    model: str | None
+    content: str
+    reasoning_content_received: bool
+
+
 class Hy3Client:
     """Wrap the exact Hy3 Chat Completions configuration used by the evaluator."""
 
@@ -73,6 +82,30 @@ class Hy3Client:
             model=getattr(response, "model", None),
             content_received=bool(content.strip()),
             reasoning_content_received=bool(reasoning_content),
+        )
+
+    def complete_json(self, messages: list[dict[str, str]]) -> Hy3JsonResponse:
+        """Make one JSON-object request with the fixed judge configuration."""
+
+        response = self._client.chat.completions.create(
+            model=self.settings.hy3_model,
+            messages=messages,
+            temperature=self.settings.hy3_temperature,
+            top_p=self.settings.hy3_top_p,
+            response_format={"type": "json_object"},
+            extra_body={
+                "chat_template_kwargs": {
+                    "reasoning_effort": self.settings.hy3_reasoning_effort,
+                }
+            },
+        )
+
+        message = response.choices[0].message
+        return Hy3JsonResponse(
+            response_id=getattr(response, "id", None),
+            model=getattr(response, "model", None),
+            content=message.content or "",
+            reasoning_content_received=bool(getattr(message, "reasoning_content", None)),
         )
 
     def structured_compatibility(self) -> Hy3StructuredCompatibilityResult:
