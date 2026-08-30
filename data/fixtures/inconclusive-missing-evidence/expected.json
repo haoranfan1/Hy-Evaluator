@@ -1,0 +1,45 @@
+{
+  "schema_version": "evaluation-result-v1",
+  "created_at": "2026-08-30T14:01:00Z",
+  "evaluation_id": "evaluation-fixture-inconclusive-missing-evidence",
+  "run_id": "run-fixture-inconclusive-missing-evidence",
+  "evaluator_version": "fixture-oracle-v1",
+  "rubric_version": "process-rubric-v1",
+  "semantic_prompt_version": "semantic-prompt-v1",
+  "status": "inconclusive",
+  "outcome_status": "inconclusive",
+  "process_status": "inconclusive",
+  "correct_result_invalid_process": null,
+  "first_error": {
+    "location": "none",
+    "step_id": null,
+    "tool_call_id": null,
+    "primary_category": null
+  },
+  "deterministic_checks": [
+    {
+      "schema_version": "deterministic-check-v1",
+      "created_at": "2026-08-30T14:01:00Z",
+      "check_id": "check-inconclusive-evidence",
+      "status": "unknown",
+      "summary": "The official behavioral contract cannot be graded from the captured evidence.",
+      "evidence": [
+        {
+          "kind": "atif_step",
+          "step_id": 2,
+          "tool_call_id": "call-test-1"
+        },
+        {
+          "kind": "task",
+          "field": "standard_answer.pass_to_pass"
+        }
+      ],
+      "hard_process_failure": false
+    }
+  ],
+  "findings": [],
+  "exclusions": [
+    "missing_pass_to_pass_evidence"
+  ],
+  "raw_semantic_output_path": null
+}

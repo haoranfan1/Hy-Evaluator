@@ -1,0 +1,16 @@
+{
+  "schema_version": "fixture-verifier-report-v1",
+  "outcome_status": "unresolved",
+  "fail_to_pass": [
+    {
+      "name": "tests/test_normalize.py::test_zero_is_preserved",
+      "status": "failed"
+    }
+  ],
+  "pass_to_pass": [
+    {
+      "name": "tests/test_existing_behavior.py::test_positive_value_unchanged",
+      "status": "passed"
+    }
+  ]
+}

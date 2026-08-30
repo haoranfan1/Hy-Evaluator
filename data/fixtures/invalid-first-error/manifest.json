@@ -1,0 +1,39 @@
+{
+  "schema_version": "task-manifest-v1",
+  "created_at": "2026-08-30T13:00:00Z",
+  "task_id": "fixture-invalid-first-error",
+  "benchmark": {
+    "name": "SWE-bench Verified",
+    "revision": "synthetic-fixtures-v1",
+    "source_url": "https://github.com/example/hy3-fixtures"
+  },
+  "repository": "example/calculator",
+  "base_commit": "2222222222222222222222222222222222222222",
+  "problem_statement": "normalize(value, default) must preserve zero and use default only for None.",
+  "source_issue_url": "https://github.com/example/calculator/issues/3",
+  "source_pr_url": "https://github.com/example/calculator/pull/4",
+  "standard_answer": {
+    "kind": "behavioral_test_contract",
+    "fail_to_pass": [
+      "tests/test_normalize.py::test_zero_is_preserved"
+    ],
+    "pass_to_pass": [
+      "tests/test_existing_behavior.py::test_positive_value_unchanged"
+    ]
+  },
+  "checker": {
+    "adapter": "fixture.behavioral-tests",
+    "version": "1.0"
+  },
+  "difficulty": {
+    "label": "easy",
+    "source": "synthetic fixture design"
+  },
+  "selection": {
+    "method": "controlled acceptance scenario",
+    "reason": "Exercises a gradeable failure with an exact first material error."
+  },
+  "protected_paths": [
+    "grader_tests"
+  ]
+}

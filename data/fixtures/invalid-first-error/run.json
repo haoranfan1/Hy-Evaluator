@@ -1,0 +1,66 @@
+{
+  "schema_version": "run-record-v1",
+  "created_at": "2026-08-30T13:00:00Z",
+  "run_id": "run-fixture-invalid-first-error",
+  "task_id": "fixture-invalid-first-error",
+  "status": "completed",
+  "model": {
+    "name": "masked-generating-model",
+    "endpoint_kind": "synthetic-fixture",
+    "reasoning_effort": "high",
+    "temperature": 0.9,
+    "top_p": 1.0
+  },
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "config_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "harness": {
+    "name": "harbor",
+    "version": "0.22.0"
+  },
+  "dataset_adapter": "synthetic-fixture-v1",
+  "started_at": "2026-08-30T13:00:00Z",
+  "completed_at": "2026-08-30T13:00:25Z",
+  "trajectory": {
+    "artifact_id": "artifact-22a1336c0b7bdc1e630f0975",
+    "path": "data/fixtures/invalid-first-error/trajectory.json",
+    "sha256": "22a1336c0b7bdc1e630f09759d315ddacd5ee9cefd8f7f2d576f2b556a99dca2",
+    "byte_size": 2637,
+    "media_type": "application/json",
+    "schema_version": "ATIF-v1.7"
+  },
+  "patch": {
+    "artifact_id": "artifact-215a350e35bf477467b6baac",
+    "path": "data/fixtures/invalid-first-error/patch.diff",
+    "sha256": "215a350e35bf477467b6baac83bea2ec81fadb0f07337bd843a8c9a3fe96768d",
+    "byte_size": 244,
+    "media_type": "text/x-diff"
+  },
+  "verifier": {
+    "status": "failed",
+    "report": {
+      "artifact_id": "artifact-eb6302cc062e162c526addb8",
+      "path": "data/fixtures/invalid-first-error/verifier-report.json",
+      "sha256": "eb6302cc062e162c526addb85329d2dfa0144653b74c7bf629a7eb215803b4d8",
+      "byte_size": 356,
+      "media_type": "application/json"
+    },
+    "test_output": {
+      "artifact_id": "artifact-42fd9e9218297a9b4caa2027",
+      "path": "data/fixtures/invalid-first-error/test-output.txt",
+      "sha256": "42fd9e9218297a9b4caa2027e2cad5a0582016cd328e373dd6eb3e544ea71fc7",
+      "byte_size": 170,
+      "media_type": "text/plain"
+    },
+    "run_log": {
+      "artifact_id": "artifact-1045ac1d0ee64531d2ce48b0",
+      "path": "data/fixtures/invalid-first-error/run.log",
+      "sha256": "1045ac1d0ee64531d2ce48b067a3f545c69a9f2cfca96c4fe0fe4581171ce86f",
+      "byte_size": 164,
+      "media_type": "application/octet-stream"
+    },
+    "exclusion_reason": null
+  }
+}

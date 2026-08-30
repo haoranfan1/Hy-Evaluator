@@ -1,0 +1,7 @@
+diff --git a/src/calculator.py b/src/calculator.py
+--- a/src/calculator.py
++++ b/src/calculator.py
+@@ -1,2 +1,2 @@
+ def normalize(value, default):
+-    return value if value else default
++    return value if value is not None else default

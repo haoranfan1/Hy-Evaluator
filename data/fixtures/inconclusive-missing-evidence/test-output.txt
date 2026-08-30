@@ -1,0 +1,2 @@
+ERROR worker connection lost
+No reliable test exit status or PASS_TO_PASS results were captured.

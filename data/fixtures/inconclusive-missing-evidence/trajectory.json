@@ -1,0 +1,50 @@
+{
+  "schema_version": "ATIF-v1.7",
+  "session_id": "run-fixture-inconclusive-missing-evidence",
+  "trajectory_id": "trajectory-fixture-inconclusive-missing-evidence",
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "model_name": "masked-generating-model"
+  },
+  "steps": [
+    {
+      "step_id": 1,
+      "timestamp": "2026-08-30T14:00:01Z",
+      "source": "user",
+      "message": "Preserve zero in normalize(value, default); default applies only to None."
+    },
+    {
+      "step_id": 2,
+      "timestamp": "2026-08-30T14:00:05Z",
+      "source": "agent",
+      "message": "Run the focused test before deciding on a change.",
+      "tool_calls": [
+        {
+          "tool_call_id": "call-test-1",
+          "function_name": "bash",
+          "arguments": {
+            "command": "pytest -q tests/test_normalize.py::test_zero_is_preserved"
+          }
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-test-1",
+            "content": "infrastructure error: worker connection lost; command exit status unavailable"
+          }
+        ]
+      },
+      "llm_call_count": 1
+    },
+    {
+      "step_id": 3,
+      "timestamp": "2026-08-30T14:00:10Z",
+      "source": "agent",
+      "message": "The environment stopped before test or patch evidence could be collected; no correctness claim is possible.",
+      "llm_call_count": 1
+    }
+  ],
+  "notes": "Synthetic infrastructure-ambiguity fixture; verifier evidence is intentionally incomplete."
+}

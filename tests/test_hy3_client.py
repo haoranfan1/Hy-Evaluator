@@ -21,6 +21,25 @@ class FakeCompletions:
         )
 
 
+class FakeStructuredCompletions(FakeCompletions):
+    def create(self, **kwargs: Any) -> SimpleNamespace:
+        self.arguments = kwargs
+        message = SimpleNamespace(
+            content=(
+                '{"schema_version":"semantic-review-v1","process_status":"valid",'
+                '"first_error":{"location":"none","step_id":null,'
+                '"tool_call_id":null,"primary_category":null},"findings":[],'
+                '"summary":"Compatibility response validated."}'
+            ),
+            reasoning_content="checked schema",
+        )
+        return SimpleNamespace(
+            id="chatcmpl-structured-test",
+            model="hy3-test",
+            choices=[SimpleNamespace(message=message)],
+        )
+
+
 def test_handshake_uses_nested_hy3_reasoning_configuration() -> None:
     completions = FakeCompletions()
     fake_client = SimpleNamespace(chat=SimpleNamespace(completions=completions))
@@ -37,6 +56,30 @@ def test_handshake_uses_nested_hy3_reasoning_configuration() -> None:
     assert result.content_received
     assert result.reasoning_content_received
     assert completions.arguments is not None
+    assert completions.arguments["extra_body"] == {
+        "chat_template_kwargs": {"reasoning_effort": "high"}
+    }
+
+
+def test_structured_compatibility_uses_json_mode_and_validates_schema() -> None:
+    completions = FakeStructuredCompletions()
+    fake_client = SimpleNamespace(chat=SimpleNamespace(completions=completions))
+    settings = Settings(
+        _env_file=None,
+        hy3_base_url="https://example.invalid/v1",
+        hy3_model="hy3-test",
+        hy3_api_key=SecretStr("test-only-key"),
+        hy3_reasoning_effort="high",
+    )
+
+    result = Hy3Client(settings, client=fake_client).structured_compatibility()
+
+    assert result.response_format == "json_object"
+    assert result.reasoning_content_received
+    assert result.semantic_output.process_status == "valid"
+    assert result.semantic_output.first_error.location == "none"
+    assert completions.arguments is not None
+    assert completions.arguments["response_format"] == {"type": "json_object"}
     assert completions.arguments["extra_body"] == {
         "chat_template_kwargs": {"reasoning_effort": "high"}
     }

@@ -1,0 +1,11 @@
+{
+  "schema_version": "fixture-verifier-report-v1",
+  "outcome_status": "inconclusive",
+  "fail_to_pass": [
+    {
+      "name": "tests/test_normalize.py::test_zero_is_preserved",
+      "status": "failed"
+    }
+  ],
+  "exclusion_reason": "worker connection lost before PASS_TO_PASS evidence was produced"
+}

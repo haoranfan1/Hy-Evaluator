@@ -1,0 +1,4 @@
+FAIL_TO_PASS
+tests/test_normalize.py::test_zero_is_preserved PASSED
+PASS_TO_PASS
+tests/test_existing_behavior.py::test_positive_value_unchanged PASSED

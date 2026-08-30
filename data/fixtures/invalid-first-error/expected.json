@@ -1,0 +1,77 @@
+{
+  "schema_version": "evaluation-result-v1",
+  "created_at": "2026-08-30T13:01:00Z",
+  "evaluation_id": "evaluation-fixture-invalid-first-error",
+  "run_id": "run-fixture-invalid-first-error",
+  "evaluator_version": "fixture-oracle-v1",
+  "rubric_version": "process-rubric-v1",
+  "semantic_prompt_version": "semantic-prompt-v1",
+  "status": "completed",
+  "outcome_status": "unresolved",
+  "process_status": "invalid",
+  "correct_result_invalid_process": false,
+  "first_error": {
+    "location": "located",
+    "step_id": 3,
+    "tool_call_id": "call-edit-1",
+    "primary_category": "task_interpretation"
+  },
+  "deterministic_checks": [
+    {
+      "schema_version": "deterministic-check-v1",
+      "created_at": "2026-08-30T13:01:00Z",
+      "check_id": "check-invalid-contract",
+      "status": "fail",
+      "summary": "The declared FAIL_TO_PASS test still fails.",
+      "evidence": [
+        {
+          "kind": "task",
+          "field": "standard_answer.fail_to_pass"
+        },
+        {
+          "kind": "patch",
+          "file": "src/calculator.py",
+          "line": 2
+        }
+      ],
+      "hard_process_failure": false
+    }
+  ],
+  "findings": [
+    {
+      "schema_version": "finding-v1",
+      "created_at": "2026-08-30T13:01:00Z",
+      "finding_id": "finding-invalid-first-error",
+      "source": "semantic",
+      "category": "task_interpretation",
+      "severity": "error",
+      "summary": "The agent reversed the explicit requirement to preserve zero.",
+      "explanation": "Step 3 groups zero with None even though the task explicitly distinguishes them, and the resulting patch fails the required zero test.",
+      "feedback": "Translate the requirement into a None-only condition and run the named FAIL_TO_PASS test before claiming completion.",
+      "step_id": 3,
+      "tool_call_id": "call-edit-1",
+      "evidence": [
+        {
+          "kind": "atif_step",
+          "step_id": 3,
+          "tool_call_id": "call-edit-1"
+        },
+        {
+          "kind": "task",
+          "field": "problem_statement"
+        },
+        {
+          "kind": "patch",
+          "file": "src/calculator.py",
+          "line": 2
+        }
+      ],
+      "downstream_step_ids": [4, 5],
+      "recovered": false,
+      "recovery_step_id": null,
+      "evidence_strength": "strong"
+    }
+  ],
+  "exclusions": [],
+  "raw_semantic_output_path": null
+}

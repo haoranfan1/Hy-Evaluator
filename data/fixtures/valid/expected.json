@@ -1,0 +1,43 @@
+{
+  "schema_version": "evaluation-result-v1",
+  "created_at": "2026-08-30T12:01:00Z",
+  "evaluation_id": "evaluation-fixture-valid",
+  "run_id": "run-fixture-valid",
+  "evaluator_version": "fixture-oracle-v1",
+  "rubric_version": "process-rubric-v1",
+  "semantic_prompt_version": "semantic-prompt-v1",
+  "status": "completed",
+  "outcome_status": "resolved",
+  "process_status": "valid",
+  "correct_result_invalid_process": false,
+  "first_error": {
+    "location": "none",
+    "step_id": null,
+    "tool_call_id": null,
+    "primary_category": null
+  },
+  "deterministic_checks": [
+    {
+      "schema_version": "deterministic-check-v1",
+      "created_at": "2026-08-30T12:01:00Z",
+      "check_id": "check-valid-contract",
+      "status": "pass",
+      "summary": "Both declared behavioral-test groups passed.",
+      "evidence": [
+        {
+          "kind": "atif_step",
+          "step_id": 5,
+          "tool_call_id": "call-test-2"
+        },
+        {
+          "kind": "task",
+          "field": "standard_answer"
+        }
+      ],
+      "hard_process_failure": false
+    }
+  ],
+  "findings": [],
+  "exclusions": [],
+  "raw_semantic_output_path": null
+}

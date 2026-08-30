@@ -1,0 +1,66 @@
+{
+  "schema_version": "run-record-v1",
+  "created_at": "2026-08-30T12:00:00Z",
+  "run_id": "run-fixture-valid",
+  "task_id": "fixture-valid",
+  "status": "completed",
+  "model": {
+    "name": "masked-generating-model",
+    "endpoint_kind": "synthetic-fixture",
+    "reasoning_effort": "high",
+    "temperature": 0.9,
+    "top_p": 1.0
+  },
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "config_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "harness": {
+    "name": "harbor",
+    "version": "0.22.0"
+  },
+  "dataset_adapter": "synthetic-fixture-v1",
+  "started_at": "2026-08-30T12:00:00Z",
+  "completed_at": "2026-08-30T12:00:25Z",
+  "trajectory": {
+    "artifact_id": "artifact-d3d3c64352c928faac0bc64b",
+    "path": "data/fixtures/valid/trajectory.json",
+    "sha256": "d3d3c64352c928faac0bc64b24623933709230d78e7dd5e91a608f6e84c80aa6",
+    "byte_size": 3301,
+    "media_type": "application/json",
+    "schema_version": "ATIF-v1.7"
+  },
+  "patch": {
+    "artifact_id": "artifact-21d3d2b98d452170e0d0dbf4",
+    "path": "data/fixtures/valid/patch.diff",
+    "sha256": "21d3d2b98d452170e0d0dbf4de0a3b968c55333d249222e305864f08d4be13b6",
+    "byte_size": 239,
+    "media_type": "text/x-diff"
+  },
+  "verifier": {
+    "status": "passed",
+    "report": {
+      "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+      "path": "data/fixtures/valid/verifier-report.json",
+      "sha256": "e610ad34f7ea405d71b1ec47166533236d626d06208c3bfb012a65d2ffa10418",
+      "byte_size": 354,
+      "media_type": "application/json"
+    },
+    "test_output": {
+      "artifact_id": "artifact-29ce0624ad90f305058235ac",
+      "path": "data/fixtures/valid/test-output.txt",
+      "sha256": "29ce0624ad90f305058235acbfaed78f957e4482dd11a98cd9f63eb8e4426caf",
+      "byte_size": 151,
+      "media_type": "text/plain"
+    },
+    "run_log": {
+      "artifact_id": "artifact-28f508ed1412deb673ebc1fb",
+      "path": "data/fixtures/valid/run.log",
+      "sha256": "28f508ed1412deb673ebc1fb5aaf388e4f515b082fa5adbec7e9d21417a99e88",
+      "byte_size": 162,
+      "media_type": "application/octet-stream"
+    },
+    "exclusion_reason": null
+  }
+}

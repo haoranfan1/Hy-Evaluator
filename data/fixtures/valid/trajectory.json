@@ -1,0 +1,122 @@
+{
+  "schema_version": "ATIF-v1.7",
+  "session_id": "run-fixture-valid",
+  "trajectory_id": "trajectory-fixture-valid",
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "model_name": "masked-generating-model"
+  },
+  "steps": [
+    {
+      "step_id": 1,
+      "timestamp": "2026-08-30T12:00:01Z",
+      "source": "user",
+      "message": "Preserve zero in normalize(value, default); default applies only to None."
+    },
+    {
+      "step_id": 2,
+      "timestamp": "2026-08-30T12:00:05Z",
+      "source": "agent",
+      "message": "Inspect the target implementation before editing.",
+      "tool_calls": [
+        {
+          "tool_call_id": "call-read-1",
+          "function_name": "bash",
+          "arguments": {
+            "command": "sed -n '1,120p' src/calculator.py"
+          }
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-read-1",
+            "content": "def normalize(value, default):\n    return value if value else default\n"
+          }
+        ]
+      },
+      "llm_call_count": 1
+    },
+    {
+      "step_id": 3,
+      "timestamp": "2026-08-30T12:00:10Z",
+      "source": "agent",
+      "message": "Run the focused test to confirm the reported behavior.",
+      "tool_calls": [
+        {
+          "tool_call_id": "call-test-1",
+          "function_name": "bash",
+          "arguments": {
+            "command": "pytest -q tests/test_normalize.py::test_zero_is_preserved"
+          }
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-test-1",
+            "content": "1 failed: normalize(0, 7) returned 7"
+          }
+        ]
+      },
+      "llm_call_count": 1
+    },
+    {
+      "step_id": 4,
+      "timestamp": "2026-08-30T12:00:15Z",
+      "source": "agent",
+      "message": "Replace the truthiness check with an explicit None check.",
+      "tool_calls": [
+        {
+          "tool_call_id": "call-edit-1",
+          "function_name": "apply_patch",
+          "arguments": {
+            "patch": "return value if value is not None else default"
+          }
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-edit-1",
+            "content": "Patch applied."
+          }
+        ]
+      },
+      "llm_call_count": 1
+    },
+    {
+      "step_id": 5,
+      "timestamp": "2026-08-30T12:00:20Z",
+      "source": "agent",
+      "message": "Run the behavioral contract after the change.",
+      "tool_calls": [
+        {
+          "tool_call_id": "call-test-2",
+          "function_name": "bash",
+          "arguments": {
+            "command": "pytest -q tests/test_normalize.py tests/test_existing_behavior.py"
+          }
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-test-2",
+            "content": "2 passed in 0.04s"
+          }
+        ]
+      },
+      "llm_call_count": 1
+    },
+    {
+      "step_id": 6,
+      "timestamp": "2026-08-30T12:00:24Z",
+      "source": "agent",
+      "message": "Implemented the explicit None check; both focused and regression tests pass.",
+      "llm_call_count": 1
+    }
+  ],
+  "notes": "Synthetic controlled fixture; no hidden reference patch was provided to the agent."
+}
