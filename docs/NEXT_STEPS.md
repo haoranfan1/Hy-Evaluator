@@ -2,47 +2,54 @@
 
 ## Status
 
-**Current gate: Day 10 delivery freeze and demo.**
-
-Completed prerequisites:
-
-- Days 1–9 are complete: the validated Day 8 slice with blinded labels and adjudications,
-  evaluator v2 with its recorded regression card (false positives 3/4 → 0/4, exact
-  localization 0/4 → 3/4, detection preserved), judge-stability records (verdict and step
-  unanimous across ten sessions), the submission report (`docs/REPORT.md`), and
-  adjudication-aware analytics.
+**Day 1–10 engineering is complete and audited.** The validated Day 8 slice with blinded
+labels and adjudications, evaluator v2 with its recorded regression card, judge-stability
+records, the submission report ([REPORT.md](REPORT.md)), the delivery-freeze requirement
+audit with the clean-environment verification record
+([REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md)), and the demo script with its isolation
+protocol ([DEMO.md](DEMO.md)) all exist.
 
 ## Single next action
 
-Freeze and package the delivery so a reviewer can verify everything quickly.
+The operator's final human review pass:
 
-1. **Requirement audit.** Walk `docs/PROJECT_REQUIREMENTS.md` item by item and record where
-   each requirement is satisfied (code, evidence file, report section); fix any gap found.
-2. **Clean-environment verification.** From a fresh clone (no `.local`, no `.env`): backend
-   install + full pytest, frontend install + tests + build, API start with the degraded
-   (judge-unconfigured) health state, fixture import + deterministic evaluation. Record the
-   exact commands and outcomes in `docs/DEVELOPMENT_SETUP.md` if anything differs.
-3. **Security and hygiene audit.** Confirm no secrets, tokens, or absolute host paths in any
-   committed file; confirm `.local/` isolation held; confirm exports and fixtures pass the
-   existing secret-scan tests.
-4. **README final pass.** Lead with what the project is, the headline validated findings,
-   the quickstart, and the evidence map (report, results, slices, environment checks).
-5. **Demo (≤2 minutes).** Script and record: open the run list → open the django-16899 run
-   blinded → save a label → reveal the confirmed diagnosis at step 13 → show the
-   scoped analytics with the false-positive chips → show the regression card numbers in the
-   report. Store the recording path and the script in `docs/`.
-6. **Delivery tag.** Final commit, tag, and push; verify the repository renders correctly on
-   the host (README, report, images).
+1. **Use the workbench end to end by hand** (run list, run detail with the evidence lanes,
+   blinded review flow on the demo state copy, analytics with and without slice scope) and
+   note every bug, confusing behavior, or broken rendering found. Findings become the next
+   fix slice before submission.
+2. **Record the ≤2-minute demo** following [DEMO.md](DEMO.md) — in particular the
+   state-isolation protocol (serve the `.local/workbench-demo` copy while recording) and the
+   post-recording check that the real store is untouched. Place the video at
+   `docs/demo/` and link it from [DEMO.md](DEMO.md).
+3. **Tag and submit** once the review pass is clean: create the annotated delivery tag,
+   push it with the branch, verify the repository renders correctly on GitHub (README
+   links, report tables, demo video), and submit the repository link through the
+   Rhino-Bird channel.
 
-## Exit condition
+To start the servers for the review:
 
-A reviewer starting from the public repository can set up the project, run the offline test
-suite, inspect the validated evidence, reproduce the documented pipeline on a compatible
-host, and watch the demo in under two minutes.
+```bash
+./scripts/uv-local run hy3-workbench
+```
 
-## Explicitly deferred
+```bash
+cd frontend && npm run dev
+```
 
-- Widening the slice beyond Django and adding inter-rater agreement: future work recorded in
-  the report's limitations.
+## Maintenance notes
 
-Implementation details are fixed in [ARCHITECTURE.md](ARCHITECTURE.md) and [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md).
+- The offline gate for any change stays the same:
+  `./scripts/uv-local run pytest -q`, `ruff check .`, `ruff format --check .`,
+  `cd frontend && npm test && npm run typecheck && npm run build`.
+- Committed evidence under `results/` and `data/` is frozen validation output; regenerate
+  it only alongside a new recorded evaluation round, never casually.
+- The evaluator version, rubric version, and prompt version must be bumped together with
+  any behavior change, with a new regression card against the frozen labels.
+
+## Explicitly deferred (future work, recorded in the report's limitations)
+
+- Widening the slice beyond the Django family and beyond eight tasks.
+- A second independent blinded labeler and an inter-rater agreement measure.
+- Closing the relative-path write-detection gap (the django-15278 localization miss).
+- Raising semantic-lane coverage past the 180K-character context limit (4/8 slice runs
+  abstained honestly).

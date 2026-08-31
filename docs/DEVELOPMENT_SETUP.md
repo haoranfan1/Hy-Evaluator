@@ -55,9 +55,17 @@ Run the API with:
 ./scripts/uv-local run hy3-workbench
 ```
 
+Without a configured `.env`, the API starts in an honest degraded state: `GET /api/health`
+reports Hy3 as unconfigured, fixture import and all read endpoints work, and
+`POST /api/runs/{run_id}/evaluate` refuses with "Hy3 is not configured" instead of producing a
+verdict without a judge. The deterministic lane is fully exercised offline by the pytest suite,
+which scripts the judge and never calls the network.
+
 ## Frontend environment
 
-The repository pins Node 24 LTS in `.node-version`. With `fnm`:
+The repository pins the verified Node version in `.node-version` (22.23.2 — the runtime every
+frontend test, typecheck, and build in this project actually ran on). Any Node satisfying
+Vite 7's engine range (≥ 20.19 or ≥ 22.12) should work. With `fnm`:
 
 ```bash
 fnm install

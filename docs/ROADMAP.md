@@ -209,11 +209,32 @@ Completed:
   reads "rejected: false positive", never as a confirmed problem), and
   `GET /api/analytics/slices` lists committed slices for scope navigation.
 
+- Day 10 froze the delivery. The requirement audit (`docs/REQUIREMENTS_AUDIT.md`) walks all
+  21 acceptance-checklist items with evidence pointers; the clean-environment verification
+  (fresh clone, no `.env`, no `.local`) cold-installed the toolchain and passed the full
+  offline suites, the degraded-API workflow, and fixture import — after catching one real
+  delivery bug (the blanket `*.log` ignore rule had silently excluded the fixture bundles'
+  `run.log` artifacts; 28 tests failed in the clone until the scoped negation landed).
+- The security and hygiene audit confirmed the real credentials appear in no committed file,
+  no committed file contains absolute host paths (outside the hygiene test's own assertion),
+  and no stray benchmark outputs or databases are tracked.
+- The ≤2-minute demo is scripted (`docs/DEMO.md`): the scene-by-scene click path — run
+  list → blinded label and reveal on the unresolved fixture → the django-16899 step-13
+  case with its adjudicated review history → slice-scoped analytics with the
+  false-positive adjudication chips → the regression card in the published report — plus
+  the state-isolation protocol (record against a copy of the workbench state) and the
+  optional Playwright driver `frontend/scripts/record_demo.mjs`. A scripted rehearsal
+  (~65 s) validated the flow end to end and the frozen evidence was verified untouched
+  afterwards; the submitted video is recorded by the operator during the final human
+  review.
+- The README now leads with the project, the headline validated findings, the quickstart,
+  and the evidence map.
+
 Current phase:
 
-- **Day 10 — delivery freeze, clean-environment verification, and the demo recording.**
-- Days 1–9 are complete: validated evidence, the versioned evaluator fix with its regression
-  card, judge-stability records, and the submission report exist.
+- **Day 10 engineering is complete.** The remaining pre-submission steps are the
+  operator's end-to-end human review pass and the self-recorded demo; any bug that review
+  finds becomes the next fix slice, and the delivery tag is created after it.
 
 ## Fixed execution decisions
 

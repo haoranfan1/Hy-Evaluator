@@ -12,9 +12,19 @@ Current tracked fixtures:
   incomplete verifier report that must remain inconclusive.
 
 Each bundle includes `manifest.json`, Harbor-compatible ATIF v1.7 `trajectory.json`, `run.json`
-with project-relative SHA-256 artifact identities, patch and verifier artifacts, `expected.json`,
-and an immutable human-review oracle. A future `manifests/swebench_verified.jsonl` will hold the
-selected real-task slice and provenance.
+with project-relative SHA-256 artifact identities, patch and verifier artifacts (including
+`run.log`, tracked by an explicit `.gitignore` negation), `expected.json`, and an immutable
+human-review oracle.
+
+Real-task records:
+
+- `evaluation-slices/day8-slice-v1.json`: the frozen eight-task SWE-bench Verified slice —
+  dataset revision pin, seeded difficulty-stratified selection with the full candidate order,
+  frame constraints, substitution rule, run configuration, and the blinding protocol, all
+  recorded before any run.
+- `environment-checks/`: recorded oracle/environment gates (host, images, commands, outcomes)
+  showing every selected task resolved under its gold patch on the source-built ARM64 images
+  before any agent run.
 
 Live Harbor jobs, benchmark datasets, raw API output, and mutable review state belong under the
 ignored project-local `.local/` directory. The structured Hy3 compatibility record is stored at

@@ -89,7 +89,10 @@ Required metrics (v1, from `results/metrics-day8-slice-v1.csv`): final-answer
 accuracy 8/8 (official); predicted process correctness 0/7 (evaluator);
 adjudicated process correctness 4/8 (human); correct-result confirmed-problem
 rate 4/7 and evaluator false-positive rate 3/7 (human); confirmed-invalid exact
-localization 0/4 and within-one-step 0/4 (mixed). The incorrect-run detection
+localization 0/4 and within-one-step 0/4 (mixed). The primary-error
+distribution is a single category: all four confirmed first errors are
+`process_integrity` (human-confirmed; the v1 evaluator located none of them
+exactly). The incorrect-run detection
 and localization metrics keep their original definitions and are honestly empty
 (0/0) because the slice contains no unresolved runs. No difficulty decline was
 observed (outcome rate 100% in every band; bootstrap verdict `not_established`,
