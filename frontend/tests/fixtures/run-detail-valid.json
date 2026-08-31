@@ -1,0 +1,340 @@
+{
+  "run": {
+    "created_at": "2026-08-30T12:00:00Z",
+    "schema_version": "run-record-v1",
+    "run_id": "run-fixture-valid",
+    "task_id": "fixture-valid",
+    "status": "completed",
+    "model": {
+      "name": "masked-generating-model",
+      "endpoint_kind": "synthetic-fixture",
+      "reasoning_effort": "high",
+      "temperature": 0.9,
+      "top_p": 1.0
+    },
+    "agent": {
+      "name": "mini-swe-agent",
+      "version": "2.4.6",
+      "config_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "harness": {
+      "name": "harbor",
+      "version": "0.22.0"
+    },
+    "dataset_adapter": "synthetic-fixture-v1",
+    "started_at": "2026-08-30T12:00:00Z",
+    "completed_at": "2026-08-30T12:00:25Z",
+    "trajectory": {
+      "artifact_id": "artifact-d3d3c64352c928faac0bc64b",
+      "path": "data/fixtures/valid/trajectory.json",
+      "sha256": "d3d3c64352c928faac0bc64b24623933709230d78e7dd5e91a608f6e84c80aa6",
+      "byte_size": 3301,
+      "media_type": "application/json",
+      "schema_version": "ATIF-v1.7"
+    },
+    "patch": {
+      "artifact_id": "artifact-21d3d2b98d452170e0d0dbf4",
+      "path": "data/fixtures/valid/patch.diff",
+      "sha256": "21d3d2b98d452170e0d0dbf4de0a3b968c55333d249222e305864f08d4be13b6",
+      "byte_size": 239,
+      "media_type": "text/x-diff"
+    },
+    "verifier": {
+      "status": "passed",
+      "report": {
+        "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+        "path": "data/fixtures/valid/verifier-report.json",
+        "sha256": "e610ad34f7ea405d71b1ec47166533236d626d06208c3bfb012a65d2ffa10418",
+        "byte_size": 354,
+        "media_type": "application/json"
+      },
+      "test_output": {
+        "artifact_id": "artifact-29ce0624ad90f305058235ac",
+        "path": "data/fixtures/valid/test-output.txt",
+        "sha256": "29ce0624ad90f305058235acbfaed78f957e4482dd11a98cd9f63eb8e4426caf",
+        "byte_size": 151,
+        "media_type": "text/plain"
+      },
+      "run_log": {
+        "artifact_id": "artifact-28f508ed1412deb673ebc1fb",
+        "path": "data/fixtures/valid/run.log",
+        "sha256": "28f508ed1412deb673ebc1fb5aaf388e4f515b082fa5adbec7e9d21417a99e88",
+        "byte_size": 162,
+        "media_type": "application/octet-stream"
+      },
+      "exclusion_reason": null
+    }
+  },
+  "task": {
+    "created_at": "2026-08-30T12:00:00Z",
+    "schema_version": "task-manifest-v1",
+    "task_id": "fixture-valid",
+    "benchmark": {
+      "name": "SWE-bench Verified",
+      "revision": "synthetic-fixtures-v1",
+      "source_url": "https://github.com/example/hy3-fixtures"
+    },
+    "repository": "example/calculator",
+    "base_commit": "1111111111111111111111111111111111111111",
+    "problem_statement": "normalize(value, default) must preserve zero and use default only for None.",
+    "source_issue_url": "https://github.com/example/calculator/issues/1",
+    "source_pr_url": "https://github.com/example/calculator/pull/2",
+    "standard_answer": {
+      "kind": "behavioral_test_contract",
+      "fail_to_pass": [
+        "tests/test_normalize.py::test_zero_is_preserved"
+      ],
+      "pass_to_pass": [
+        "tests/test_existing_behavior.py::test_positive_value_unchanged"
+      ]
+    },
+    "checker": {
+      "adapter": "fixture.behavioral-tests",
+      "version": "1.0"
+    },
+    "difficulty": {
+      "label": "easy",
+      "source": "synthetic fixture design"
+    },
+    "selection": {
+      "method": "controlled acceptance scenario",
+      "reason": "Exercises a resolved result with a valid observable process."
+    },
+    "protected_paths": [
+      "grader_tests"
+    ],
+    "reference_patch": null
+  },
+  "evaluation": {
+    "created_at": "2026-08-30T22:24:36.173197Z",
+    "schema_version": "evaluation-result-v1",
+    "evaluation_id": "evaluation-run-fixture-valid",
+    "run_id": "run-fixture-valid",
+    "evaluator_version": "workbench-evaluator-v1",
+    "rubric_version": "process-rubric-v1",
+    "semantic_prompt_version": "semantic-prompt-v1",
+    "status": "completed",
+    "outcome_status": "resolved",
+    "process_status": "valid",
+    "correct_result_invalid_process": false,
+    "first_error": {
+      "location": "none",
+      "step_id": null,
+      "tool_call_id": null,
+      "primary_category": null
+    },
+    "deterministic_checks": [
+      {
+        "created_at": "2026-08-30T22:24:36.172205Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-identity",
+        "status": "pass",
+        "summary": "Task linkage and every referenced artifact hash verify.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172371Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-atif-structure",
+        "status": "pass",
+        "summary": "ATIF structure is valid with 6 sequential steps.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172405Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-verifier-report",
+        "status": "pass",
+        "summary": "The verifier report parses against the behavioral-test contract.",
+        "evidence": [
+          {
+            "kind": "verifier",
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "test_name": null
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172457Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-test-fail-to-pass-1",
+        "status": "pass",
+        "summary": "Declared fail-to-pass test tests/test_normalize.py::test_zero_is_preserved passed.",
+        "evidence": [
+          {
+            "kind": "verifier",
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "test_name": "tests/test_normalize.py::test_zero_is_preserved"
+          },
+          {
+            "kind": "task",
+            "field": "standard_answer.fail_to_pass"
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172480Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-test-pass-to-pass-1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test tests/test_existing_behavior.py::test_positive_value_unchanged passed.",
+        "evidence": [
+          {
+            "kind": "verifier",
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "test_name": "tests/test_existing_behavior.py::test_positive_value_unchanged"
+          },
+          {
+            "kind": "task",
+            "field": "standard_answer.pass_to_pass"
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172486Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-verifier-coverage",
+        "status": "pass",
+        "summary": "The verifier report covers exactly the declared behavioral tests.",
+        "evidence": [
+          {
+            "kind": "verifier",
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "test_name": null
+          },
+          {
+            "kind": "task",
+            "field": "standard_answer.fail_to_pass"
+          },
+          {
+            "kind": "task",
+            "field": "standard_answer.pass_to_pass"
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172493Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-outcome",
+        "status": "pass",
+        "summary": "The official outcome is resolved: 2/2 declared behavioral tests passed.",
+        "evidence": [
+          {
+            "kind": "verifier",
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "test_name": null
+          },
+          {
+            "kind": "task",
+            "field": "standard_answer.fail_to_pass"
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172543Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-patch-scope",
+        "status": "pass",
+        "summary": "The patch changes 1 file(s) and 2 line(s).",
+        "evidence": [
+          {
+            "kind": "patch",
+            "file": "src/calculator.py",
+            "line": null
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172562Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-patch-tests",
+        "status": "pass",
+        "summary": "The patch does not modify test files.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172565Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-patch-lockfiles",
+        "status": "pass",
+        "summary": "The patch does not modify lockfiles.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172570Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-patch-generated",
+        "status": "pass",
+        "summary": "The patch does not modify generated files.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172585Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-protected-paths",
+        "status": "pass",
+        "summary": "No manifest-protected path is accessed or modified.",
+        "evidence": [
+          {
+            "kind": "task",
+            "field": "protected_paths"
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172609Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-command-failure-3-1",
+        "status": "warning",
+        "summary": "Advisory: step 3 observed a failure from tool call 'call-test-1' (bash): failing tests reported. Failed exploration is not a process error by itself.",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 3,
+            "tool_call_id": "call-test-1"
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.172716Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-final-claim",
+        "status": "pass",
+        "summary": "The final success claim at step 6 is consistent with executed FAIL_TO_PASS verification.",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 6,
+            "tool_call_id": null
+          },
+          {
+            "kind": "task",
+            "field": "standard_answer.fail_to_pass"
+          }
+        ],
+        "hard_process_failure": false
+      }
+    ],
+    "findings": [],
+    "exclusions": [],
+    "raw_semantic_output_path": ".local/test-record-fixtures/wb/semantic/run-fixture-valid/attempt-1.json"
+  },
+  "artifacts": {
+    "patch": "diff --git a/src/calculator.py b/src/calculator.py\n--- a/src/calculator.py\n+++ b/src/calculator.py\n@@ -1,2 +1,2 @@\n def normalize(value, default):\n-    return value if value else default\n+    return value if value is not None else default\n",
+    "test_output": "FAIL_TO_PASS\ntests/test_normalize.py::test_zero_is_preserved PASSED\nPASS_TO_PASS\ntests/test_existing_behavior.py::test_positive_value_unchanged PASSED\n",
+    "run_log": "2026-08-30T12:00:00Z fixture run started\n2026-08-30T12:00:20Z official behavioral tests completed\n2026-08-30T12:00:25Z fixture run completed with resolved status\n"
+  }
+}

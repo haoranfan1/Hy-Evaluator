@@ -23,7 +23,12 @@ This repository will implement Project 2 as a web-based workbench for evaluating
 - The Day 4 persistence and API workflow are complete: SQLite storage with atomic imports and
   append-only review versions, plus restart-safe FastAPI endpoints for import,
   digest-idempotent evaluation, reads, blinded reviews, adjudications, and byte-stable exports.
-- The Day 5 evidence-debugger UI is the active implementation milestone; it is not complete yet.
+- The Day 5 evidence-debugger UI is complete: a filterable run list and a run detail page with
+  the step timeline, marked first error, evidence lanes with two-way cross-highlighting, patch
+  and verifier views, and honest inconclusive rendering — verified live against the API with a
+  real Hy3 judge.
+- The Day 6 human-review workflow and analytics are the active implementation milestone; they
+  are not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 

@@ -77,11 +77,27 @@ Completed:
 - A restarted process on the same SQLite file preserves every imported run, evaluation, and
   review; an unconfigured judge returns an explicit 503 instead of a fabricated result.
 
+- The evidence-debugger UI is implemented against the Day 4 API: a filterable run list with
+  outcome/process/first-error columns, and a run detail page with an ordered ATIF step
+  timeline, a marked first-error step and tool call, separate findings and deterministic-check
+  lanes, finding-to-step and step-to-finding cross-highlighting, clickable evidence chips that
+  navigate to the patch/verifier/task views, a colored diff, a per-test verifier table, and
+  explicit exclusions for inconclusive runs instead of an invented verdict.
+- Run-list and run-detail responses were extended in place (difficulty, first error, verified
+  artifact texts); no new endpoint was added for the UI.
+- Frontend tests run against recorded API responses captured from the real backend; nine
+  Vitest tests cover the run list, filters, timeline order, first-error marking, both
+  cross-highlight directions, the verifier and patch tabs, and inconclusive rendering.
+- A full live check was recorded: the served backend imported the three bundles through the
+  API, live Hy3 evaluations reproduced all three oracles again (first error at step 3,
+  `call-edit-1`, `task_interpretation`; this time the judge also independently flagged the
+  unsupported step-5 success claim as a second finding), and headless-browser screenshots
+  confirmed the debugger renders the first error without raw JSON.
+
 Current phase:
 
-- **Day 5 — evidence debugger UI.**
-- Days 1–4 are complete. Human-review UI, analytics, and real benchmark execution remain
-  deliberately deferred.
+- **Day 6 — human review and analytics.**
+- Days 1–5 are complete. Real benchmark execution remains deliberately deferred.
 
 ## Fixed execution decisions
 
@@ -156,8 +172,8 @@ Only one benchmark, harness, trace format, semantic judge configuration, and loc
 | Complete | **2 — Deterministic evaluator** | Validate ATIF/artifact identity; extract verifier, patch, command, and integrity facts; implement outcome/inconclusive policies and unit tests. | Fixtures produce reproducible deterministic checks without a model call, and malformed/missing evidence becomes inconclusive. |
 | Complete | **3 — Semantic evaluator** | Implement the versioned rubric, fixed Hy3 judge, evidence-reference validation, one schema-repair retry, and merge policy. | Invalid and valid fixtures produce typed, evidence-linked results; semantic failure remains honest and inspectable. |
 | Complete | **4 — API and persistence** | Add SQLite indexes, immutable artifact registration, import/evaluate/read/review endpoints, exports, and restart/interruption behavior. | The offline workflow is callable through FastAPI and survives process restart without corrupting evidence. |
-| **Current** | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
-| Pending | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
+| Complete | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
+| **Current** | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
 | Pending | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |
 | Pending | **8 — Evaluation and validation** | Freeze a small difficulty-covering task slice; run sequentially; label every gradeable incorrect run and audit every resolved-and-flagged run. | Required localization and false-positive evidence exists with explicit numerators, denominators, exclusions, and label provenance. |
 | Pending | **9 — Analysis and differentiation** | Export final metrics/report/case studies; implement the regression card only if core evidence is complete; finish README and setup documentation. | Submission artifacts tell one coherent task-to-diagnosis-to-analysis story. |

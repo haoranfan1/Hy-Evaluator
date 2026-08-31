@@ -1,0 +1,181 @@
+{
+  "schema_version": "ATIF-v1.7",
+  "session_id": "run-fixture-valid",
+  "trajectory_id": "trajectory-fixture-valid",
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "model_name": "masked-generating-model",
+    "tool_definitions": null,
+    "extra": null
+  },
+  "steps": [
+    {
+      "step_id": 1,
+      "timestamp": "2026-08-30T12:00:01Z",
+      "source": "user",
+      "model_name": null,
+      "reasoning_effort": null,
+      "message": "Preserve zero in normalize(value, default); default applies only to None.",
+      "reasoning_content": null,
+      "tool_calls": null,
+      "observation": null,
+      "metrics": null,
+      "is_copied_context": null,
+      "llm_call_count": null,
+      "extra": null
+    },
+    {
+      "step_id": 2,
+      "timestamp": "2026-08-30T12:00:05Z",
+      "source": "agent",
+      "model_name": null,
+      "reasoning_effort": null,
+      "message": "Inspect the target implementation before editing.",
+      "reasoning_content": null,
+      "tool_calls": [
+        {
+          "tool_call_id": "call-read-1",
+          "function_name": "bash",
+          "arguments": {
+            "command": "sed -n '1,120p' src/calculator.py"
+          },
+          "extra": null
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-read-1",
+            "content": "def normalize(value, default):\n    return value if value else default\n",
+            "subagent_trajectory_ref": null,
+            "extra": null
+          }
+        ]
+      },
+      "metrics": null,
+      "is_copied_context": null,
+      "llm_call_count": 1,
+      "extra": null
+    },
+    {
+      "step_id": 3,
+      "timestamp": "2026-08-30T12:00:10Z",
+      "source": "agent",
+      "model_name": null,
+      "reasoning_effort": null,
+      "message": "Run the focused test to confirm the reported behavior.",
+      "reasoning_content": null,
+      "tool_calls": [
+        {
+          "tool_call_id": "call-test-1",
+          "function_name": "bash",
+          "arguments": {
+            "command": "pytest -q tests/test_normalize.py::test_zero_is_preserved"
+          },
+          "extra": null
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-test-1",
+            "content": "1 failed: normalize(0, 7) returned 7",
+            "subagent_trajectory_ref": null,
+            "extra": null
+          }
+        ]
+      },
+      "metrics": null,
+      "is_copied_context": null,
+      "llm_call_count": 1,
+      "extra": null
+    },
+    {
+      "step_id": 4,
+      "timestamp": "2026-08-30T12:00:15Z",
+      "source": "agent",
+      "model_name": null,
+      "reasoning_effort": null,
+      "message": "Replace the truthiness check with an explicit None check.",
+      "reasoning_content": null,
+      "tool_calls": [
+        {
+          "tool_call_id": "call-edit-1",
+          "function_name": "apply_patch",
+          "arguments": {
+            "patch": "return value if value is not None else default"
+          },
+          "extra": null
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-edit-1",
+            "content": "Patch applied.",
+            "subagent_trajectory_ref": null,
+            "extra": null
+          }
+        ]
+      },
+      "metrics": null,
+      "is_copied_context": null,
+      "llm_call_count": 1,
+      "extra": null
+    },
+    {
+      "step_id": 5,
+      "timestamp": "2026-08-30T12:00:20Z",
+      "source": "agent",
+      "model_name": null,
+      "reasoning_effort": null,
+      "message": "Run the behavioral contract after the change.",
+      "reasoning_content": null,
+      "tool_calls": [
+        {
+          "tool_call_id": "call-test-2",
+          "function_name": "bash",
+          "arguments": {
+            "command": "pytest -q tests/test_normalize.py tests/test_existing_behavior.py"
+          },
+          "extra": null
+        }
+      ],
+      "observation": {
+        "results": [
+          {
+            "source_call_id": "call-test-2",
+            "content": "2 passed in 0.04s",
+            "subagent_trajectory_ref": null,
+            "extra": null
+          }
+        ]
+      },
+      "metrics": null,
+      "is_copied_context": null,
+      "llm_call_count": 1,
+      "extra": null
+    },
+    {
+      "step_id": 6,
+      "timestamp": "2026-08-30T12:00:24Z",
+      "source": "agent",
+      "model_name": null,
+      "reasoning_effort": null,
+      "message": "Implemented the explicit None check; both focused and regression tests pass.",
+      "reasoning_content": null,
+      "tool_calls": null,
+      "observation": null,
+      "metrics": null,
+      "is_copied_context": null,
+      "llm_call_count": 1,
+      "extra": null
+    }
+  ],
+  "notes": "Synthetic controlled fixture; no hidden reference patch was provided to the agent.",
+  "final_metrics": null,
+  "continued_trajectory_ref": null,
+  "extra": null,
+  "subagent_trajectories": null
+}

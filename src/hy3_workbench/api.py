@@ -9,11 +9,14 @@ from harbor.models.trajectories import Trajectory
 from pydantic import BaseModel, Field
 
 from hy3_workbench import __version__
+from hy3_workbench.artifact_store import ArtifactIntegrityError, ArtifactStore
 from hy3_workbench.atif import AtifAdapter, AtifValidationError
 from hy3_workbench.config import Settings, get_settings
 from hy3_workbench.contracts import (
+    ArtifactReference,
     EvaluationResult,
     FindingDecision,
+    FirstError,
     HumanLabel,
     HumanReview,
     RunRecord,
@@ -67,9 +70,12 @@ class EvaluateResponse(BaseModel):
 class RunSummary(BaseModel):
     run_id: str
     task_id: str
+    repository: str
+    difficulty: str
     run_status: str
     outcome_status: str | None
     process_status: str | None
+    first_error: FirstError | None
     evaluation_id: str | None
     review_count: int
 
@@ -82,10 +88,19 @@ class TaskListResponse(BaseModel):
     tasks: list[TaskManifest]
 
 
+class ArtifactTexts(BaseModel):
+    """Verified artifact contents the debugger renders directly."""
+
+    patch: str | None
+    test_output: str | None
+    run_log: str | None
+
+
 class RunDetailResponse(BaseModel):
     run: RunRecord
     task: TaskManifest
     evaluation: EvaluationResult | None
+    artifacts: ArtifactTexts
 
 
 class EvaluationDetailResponse(BaseModel):
@@ -216,14 +231,18 @@ def list_tasks(repository: RepositoryDependency) -> TaskListResponse:
 def list_runs(repository: RepositoryDependency) -> RunListResponse:
     summaries = []
     for stored in repository.list_runs():
+        task = repository.get_task(stored.task_id)
         evaluation = repository.get_evaluation_for_run(stored.run.run_id)
         summaries.append(
             RunSummary(
                 run_id=stored.run.run_id,
                 task_id=stored.task_id,
+                repository=task.repository,
+                difficulty=task.difficulty.label,
                 run_status=stored.run.status,
                 outcome_status=evaluation.result.outcome_status if evaluation else None,
                 process_status=evaluation.result.process_status if evaluation else None,
+                first_error=evaluation.result.first_error if evaluation else None,
                 evaluation_id=evaluation.result.evaluation_id if evaluation else None,
                 review_count=(
                     len(repository.list_reviews(evaluation.result.evaluation_id))
@@ -258,17 +277,38 @@ def evaluate_run(
 
 
 @app.get("/api/runs/{run_id}", response_model=RunDetailResponse)
-def run_detail(run_id: str, repository: RepositoryDependency) -> RunDetailResponse:
+def run_detail(
+    run_id: str,
+    repository: RepositoryDependency,
+    project_root: ProjectRootDependency,
+) -> RunDetailResponse:
     try:
         stored = repository.get_run(run_id)
         task = repository.get_task(stored.task_id)
     except RepositoryNotFoundError as error:
         raise _http_error(error) from error
     evaluation = repository.get_evaluation_for_run(run_id)
+
+    store = ArtifactStore(project_root)
+
+    def verified_text(reference: ArtifactReference | None) -> str | None:
+        if reference is None:
+            return None
+        try:
+            store.verify(reference)
+        except ArtifactIntegrityError:
+            return None
+        return (project_root / reference.path).read_text(encoding="utf-8")
+
     return RunDetailResponse(
         run=stored.run,
         task=task,
         evaluation=evaluation.result if evaluation else None,
+        artifacts=ArtifactTexts(
+            patch=verified_text(stored.run.patch),
+            test_output=verified_text(stored.run.verifier.test_output),
+            run_log=verified_text(stored.run.verifier.run_log),
+        ),
     )
 
 

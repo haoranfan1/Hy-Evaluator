@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link, Navigate, Route, Routes } from "react-router";
 
-type ComponentHealth = {
-  status: "ready" | "not_configured";
-  detail: string;
-};
+import { RunDetailPage } from "./pages/RunDetailPage";
+import { RunsPage } from "./pages/RunsPage";
 
 type HealthResponse = {
   status: "ready" | "degraded";
   version: string;
-  components: Record<string, ComponentHealth>;
 };
 
 async function fetchHealth(): Promise<HealthResponse> {
@@ -24,37 +22,28 @@ export function App() {
 
   return (
     <main className="shell">
-      <p className="eyebrow">Hy3 process evaluation workbench</p>
-      <h1>Evidence before verdict.</h1>
-      <p className="lede">
-        The application foundation is ready for the first ATIF-to-evidence-debugger slice.
-      </p>
-
-      <section className="status-card" aria-labelledby="foundation-status">
+      <header className="app-head">
         <div>
-          <p className="label">Foundation status</p>
-          <h2 id="foundation-status">
-            {health.isPending && "Checking local API…"}
-            {health.isError && "API is not reachable"}
-            {health.data && (health.data.status === "ready" ? "Ready" : "Configuration needed")}
-          </h2>
+          <p className="eyebrow">Hy3 process evaluation workbench</p>
+          <h1 className="app-title">
+            <Link to="/runs">Evidence debugger</Link>
+          </h1>
         </div>
-        {health.data && <span className={`badge badge-${health.data.status}`}>v{health.data.version}</span>}
-      </section>
+        <span
+          className={`chip chip-${health.data ? health.data.status : "pending"}`}
+          title="Local API status"
+        >
+          {health.isPending && "checking API…"}
+          {health.isError && "API unreachable"}
+          {health.data && `API ${health.data.status} · v${health.data.version}`}
+        </span>
+      </header>
 
-      {health.data && (
-        <div className="component-grid">
-          {Object.entries(health.data.components).map(([name, component]) => (
-            <article className="component-card" key={name}>
-              <div className="component-heading">
-                <h3>{name}</h3>
-                <span className={`dot dot-${component.status}`} aria-hidden="true" />
-              </div>
-              <p>{component.detail}</p>
-            </article>
-          ))}
-        </div>
-      )}
+      <Routes>
+        <Route path="/" element={<Navigate to="/runs" replace />} />
+        <Route path="/runs" element={<RunsPage />} />
+        <Route path="/runs/:runId" element={<RunDetailPage />} />
+      </Routes>
     </main>
   );
 }

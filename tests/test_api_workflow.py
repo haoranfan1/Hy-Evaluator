@@ -75,10 +75,14 @@ async def test_full_offline_workflow_via_the_api(client: AsyncClient, judge: Fak
         by_id = {entry["run_id"]: entry for entry in runs}
         assert by_id["run-fixture-valid"]["outcome_status"] == "resolved"
         assert by_id["run-fixture-invalid-first-error"]["process_status"] == "invalid"
+        assert by_id["run-fixture-invalid-first-error"]["difficulty"] == "easy"
+        assert by_id["run-fixture-invalid-first-error"]["first_error"]["step_id"] == 3
 
         detail = (await client.get("/api/runs/run-fixture-invalid-first-error")).json()
         assert detail["task"]["task_id"] == "fixture-invalid-first-error"
         assert detail["evaluation"]["first_error"]["step_id"] == 3
+        assert detail["artifacts"]["patch"].startswith("diff --git")
+        assert "FAIL_TO_PASS" in detail["artifacts"]["test_output"]
 
         trajectory = (
             await client.get("/api/runs/run-fixture-invalid-first-error/trajectory")

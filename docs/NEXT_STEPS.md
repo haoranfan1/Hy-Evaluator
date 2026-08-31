@@ -2,64 +2,73 @@
 
 ## Status
 
-**Current gate: Day 5 evidence debugger UI.**
+**Current gate: Day 6 human review and analytics.**
 
 Completed prerequisites:
 
-- Days 1–3: strict contracts, verified fixture bundles, the deterministic lane, the fixed Hy3
-  semantic judge with one repair retry and honest failure, and the merge policy, with two
-  recorded live Hy3 reviews reproducing the fixture oracles.
-- Day 4: SQLite persistence with atomic imports and append-only review versions, plus the
-  FastAPI workflow — import, digest-idempotent evaluate, run/trajectory/evaluation reads,
-  blinded initial reviews, adjudications, and byte-stable exports — all restart-safe.
-- 85 backend tests and Ruff pass without Docker; live Hy3 usage stays optional for the tests.
+- Days 1–4: contracts, fixtures, the deterministic lane, the fixed Hy3 semantic judge and merge
+  policy, SQLite persistence, and the restart-safe FastAPI workflow with blinded review
+  endpoints and byte-stable exports.
+- Day 5: the evidence-debugger UI — filterable run list, ordered step timeline with the marked
+  first-error step, findings/checks lanes with two-way step cross-highlighting, evidence chips
+  navigating to patch/verifier/task views, and honest inconclusive rendering — verified
+  end-to-end against the live API with recorded screenshots.
+- 85 backend tests, 9 frontend tests, Ruff, typecheck, and the production build pass.
 
 ## Single next action
 
-Build the evidence-debugger frontend against the Day 4 API, using the three imported fixture
-bundles as data. No human-review forms, analytics charts, or live execution controls yet.
+Implement the human-review workflow in the UI and the provenance-aware analytics lane, using
+the three persisted fixture evaluations as data. No real benchmark execution.
 
 ```text
-GET /api/runs                    -> run list with outcome, process, first error, review state
-GET /api/runs/{id}               -> run detail header and evaluation summary
-GET /api/runs/{id}/trajectory    -> ordered ATIF step timeline
-GET /api/evaluations/{id}        -> deterministic checks, findings, evidence references
+run detail (review mode)
+    -> blinded initial label (semantic verdict hidden, deterministic evidence visible)
+    -> reveal -> adjudication + finding decisions (new immutable version)
+persisted evaluations + reviews
+    -> MetricCalculator (numerator, denominator, exclusions, provenance per metric)
+    -> GET /api/analytics/summary -> /analytics page
+    -> exports: metrics.csv + summary.json
 ```
 
 Required behavior:
 
-1. `/runs` lists imported runs with task, difficulty, execution status, outcome status,
-   process status, first-error summary, and review state, with simple client-side filters for
-   outcome and process status.
-2. `/runs/{run_id}` shows the trajectory as an ordered step timeline: step source, message,
-   tool calls with arguments, and observations, with the first-error step visually marked.
-3. An evidence panel presents deterministic checks and semantic findings in separate lanes,
-   each showing status/severity, summary, and its evidence references.
-4. Selecting a finding highlights every ATIF step it cites, and selecting a step lists every
-   check and finding citing it; evidence references to the patch, verifier artifacts, and task
-   fields navigate to the matching tab or panel.
-5. Patch and verifier tabs render the generated diff and the per-test verifier results with
-   pass/fail state; inconclusive runs surface their exclusions instead of an invented verdict.
-6. The frontend uses the established stack (React 19, TypeScript, Vite, React Router,
-   TanStack Query) served by Vite dev proxy against the local API; no new backend endpoints
-   are added for the UI.
-7. Frontend unit tests cover the run list, the step timeline, and the finding-to-step
-   cross-highlighting against recorded API fixtures; `npm run build` and the backend suite
-   both pass.
+1. Review mode on the run detail page: until an initial review exists, the semantic verdict,
+   findings lane, and first-error banner stay hidden while task, trajectory, patch, and
+   verifier evidence remain visible; the reviewer records the initial label from that state.
+2. After the initial label is saved, the evaluator output is revealed and an adjudication form
+   appends a new immutable review version with accept/edit/reject/needs-more-evidence,
+   per-finding decisions, and a final label.
+3. A backend `MetricCalculator` derives the required metric set from persisted records only:
+   final-answer accuracy, predicted and adjudicated process-correctness rates, incorrect-run
+   error-detection accuracy, exact and within-one-step localization accuracy,
+   correct-result confirmed-problem and false-positive rates, primary-error distribution, and
+   per-difficulty tables. Every metric carries numerator, denominator, exclusions, and label
+   provenance (`human` versus `evaluator`).
+4. The adjacent-difficulty decline test uses a fixed recorded seed and reports
+   `not_established` when the bootstrap interval does not lie fully below zero; it must never
+   fabricate an interval from empty difficulty bands.
+5. `GET /api/analytics/summary` returns the typed metrics; `POST /api/exports` additionally
+   writes `results/metrics.csv` and `results/summary.json` deterministically.
+6. The `/analytics` page renders the outcome-versus-process quadrant, primary-error
+   distribution, difficulty table with explicit denominators, decline-interval statement,
+   excluded/inconclusive runs, and links to the underlying runs, marking each aggregate as
+   human- or evaluator-provenance.
+7. Backend unit tests cover the metric definitions (including empty and single-run
+   denominators) and blinding enforcement; frontend tests cover the blinded review flow and
+   the analytics rendering from recorded responses.
 
 ## Exit condition
 
-The gate is complete when a reviewer, starting from `/runs`, can open the invalid fixture run
-and understand — without reading raw JSON — that the run is unresolved, the process is invalid,
-the first error is at step 3 (`call-edit-1`, `task_interpretation`), which evidence supports
-it, what the patch changed, and which declared test still fails; the valid and inconclusive
-fixtures render correctly (no first error / explicit exclusions); and frontend tests, the
-frontend build, the backend suite, and Ruff all pass.
+The gate is complete when a reviewer can label the invalid fixture run before seeing the
+evaluator verdict, adjudicate after the reveal, and then open `/analytics` and read every
+required metric with explicit numerators, denominators, exclusions, and provenance — all
+produced from persisted fixture data; blinded initial labels are demonstrably recorded before
+reveal timestamps; and the backend suite, frontend tests, Ruff, and both builds pass.
 
 ## Explicitly deferred
 
-- Human-review forms (blinded initial label, adjudication) and analytics: Day 6.
 - Real Hy3/Harbor/SWE-bench execution and the job manager: Day 7.
-- Regression cards, comparison views, and decorative polish: only after mandatory evidence passes.
+- The final difficulty-covering evaluation slice and its human labels: Day 8.
+- Report/case-study exports and the regression card: Days 9+, only after mandatory evidence.
 
 Implementation details are fixed in [ARCHITECTURE.md](ARCHITECTURE.md) and [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md).

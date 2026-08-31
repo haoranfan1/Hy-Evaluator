@@ -1,0 +1,55 @@
+{
+  "runs": [
+    {
+      "run_id": "run-fixture-inconclusive-missing-evidence",
+      "task_id": "fixture-inconclusive-missing-evidence",
+      "repository": "example/calculator",
+      "difficulty": "easy",
+      "run_status": "interrupted",
+      "outcome_status": "inconclusive",
+      "process_status": "inconclusive",
+      "first_error": {
+        "location": "none",
+        "step_id": null,
+        "tool_call_id": null,
+        "primary_category": null
+      },
+      "evaluation_id": "evaluation-run-fixture-inconclusive-missing-evidence",
+      "review_count": 0
+    },
+    {
+      "run_id": "run-fixture-invalid-first-error",
+      "task_id": "fixture-invalid-first-error",
+      "repository": "example/calculator",
+      "difficulty": "easy",
+      "run_status": "completed",
+      "outcome_status": "unresolved",
+      "process_status": "invalid",
+      "first_error": {
+        "location": "located",
+        "step_id": 3,
+        "tool_call_id": "call-edit-1",
+        "primary_category": "task_interpretation"
+      },
+      "evaluation_id": "evaluation-run-fixture-invalid-first-error",
+      "review_count": 0
+    },
+    {
+      "run_id": "run-fixture-valid",
+      "task_id": "fixture-valid",
+      "repository": "example/calculator",
+      "difficulty": "easy",
+      "run_status": "completed",
+      "outcome_status": "resolved",
+      "process_status": "valid",
+      "first_error": {
+        "location": "none",
+        "step_id": null,
+        "tool_call_id": null,
+        "primary_category": null
+      },
+      "evaluation_id": "evaluation-run-fixture-valid",
+      "review_count": 0
+    }
+  ]
+}

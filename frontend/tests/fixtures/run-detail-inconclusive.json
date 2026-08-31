@@ -1,0 +1,255 @@
+{
+  "run": {
+    "created_at": "2026-08-30T14:00:00Z",
+    "schema_version": "run-record-v1",
+    "run_id": "run-fixture-inconclusive-missing-evidence",
+    "task_id": "fixture-inconclusive-missing-evidence",
+    "status": "interrupted",
+    "model": {
+      "name": "masked-generating-model",
+      "endpoint_kind": "synthetic-fixture",
+      "reasoning_effort": "high",
+      "temperature": 0.9,
+      "top_p": 1.0
+    },
+    "agent": {
+      "name": "mini-swe-agent",
+      "version": "2.4.6",
+      "config_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "harness": {
+      "name": "harbor",
+      "version": "0.22.0"
+    },
+    "dataset_adapter": "synthetic-fixture-v1",
+    "started_at": "2026-08-30T14:00:00Z",
+    "completed_at": "2026-08-30T14:00:11Z",
+    "trajectory": {
+      "artifact_id": "artifact-bd9b070900a959bf9fdd1c29",
+      "path": "data/fixtures/inconclusive-missing-evidence/trajectory.json",
+      "sha256": "bd9b070900a959bf9fdd1c292fa82b242e0e05953be190a5220deb2a20e31a32",
+      "byte_size": 1533,
+      "media_type": "application/json",
+      "schema_version": "ATIF-v1.7"
+    },
+    "patch": {
+      "artifact_id": "artifact-500a190f5a57fde755093e58",
+      "path": "data/fixtures/inconclusive-missing-evidence/patch.diff",
+      "sha256": "500a190f5a57fde755093e58ca8f25686eb48bf5cbf4fe9ca05bd1cfb5300560",
+      "byte_size": 65,
+      "media_type": "text/x-diff"
+    },
+    "verifier": {
+      "status": "inconclusive",
+      "report": {
+        "artifact_id": "artifact-f1ef6f16b90d95f63b2576d6",
+        "path": "data/fixtures/inconclusive-missing-evidence/verifier-report.json",
+        "sha256": "f1ef6f16b90d95f63b2576d667048c704206890555a959ed1704a29f8a042ae1",
+        "byte_size": 306,
+        "media_type": "application/json"
+      },
+      "test_output": {
+        "artifact_id": "artifact-bdca490170daec5fcf4b5c72",
+        "path": "data/fixtures/inconclusive-missing-evidence/test-output.txt",
+        "sha256": "bdca490170daec5fcf4b5c7242139b332fd9c1a2ee2ec5e9238145b04f7eaf90",
+        "byte_size": 97,
+        "media_type": "text/plain"
+      },
+      "run_log": {
+        "artifact_id": "artifact-4d28adbeccf043097ca32897",
+        "path": "data/fixtures/inconclusive-missing-evidence/run.log",
+        "sha256": "4d28adbeccf043097ca328974f3665c334b5a0e79c2d73d32ca8dec450135831",
+        "byte_size": 176,
+        "media_type": "application/octet-stream"
+      },
+      "exclusion_reason": "worker connection lost before complete verifier evidence was produced"
+    }
+  },
+  "task": {
+    "created_at": "2026-08-30T14:00:00Z",
+    "schema_version": "task-manifest-v1",
+    "task_id": "fixture-inconclusive-missing-evidence",
+    "benchmark": {
+      "name": "SWE-bench Verified",
+      "revision": "synthetic-fixtures-v1",
+      "source_url": "https://github.com/example/hy3-fixtures"
+    },
+    "repository": "example/calculator",
+    "base_commit": "3333333333333333333333333333333333333333",
+    "problem_statement": "normalize(value, default) must preserve zero and use default only for None.",
+    "source_issue_url": "https://github.com/example/calculator/issues/5",
+    "source_pr_url": "https://github.com/example/calculator/pull/6",
+    "standard_answer": {
+      "kind": "behavioral_test_contract",
+      "fail_to_pass": [
+        "tests/test_normalize.py::test_zero_is_preserved"
+      ],
+      "pass_to_pass": [
+        "tests/test_existing_behavior.py::test_positive_value_unchanged"
+      ]
+    },
+    "checker": {
+      "adapter": "fixture.behavioral-tests",
+      "version": "1.0"
+    },
+    "difficulty": {
+      "label": "easy",
+      "source": "synthetic fixture design"
+    },
+    "selection": {
+      "method": "controlled acceptance scenario",
+      "reason": "Proves missing verifier evidence remains inconclusive."
+    },
+    "protected_paths": [
+      "grader_tests"
+    ],
+    "reference_patch": null
+  },
+  "evaluation": {
+    "created_at": "2026-08-30T22:24:36.201609Z",
+    "schema_version": "evaluation-result-v1",
+    "evaluation_id": "evaluation-run-fixture-inconclusive-missing-evidence",
+    "run_id": "run-fixture-inconclusive-missing-evidence",
+    "evaluator_version": "workbench-evaluator-v1",
+    "rubric_version": "process-rubric-v1",
+    "semantic_prompt_version": "semantic-prompt-v1",
+    "status": "inconclusive",
+    "outcome_status": "inconclusive",
+    "process_status": "inconclusive",
+    "correct_result_invalid_process": null,
+    "first_error": {
+      "location": "none",
+      "step_id": null,
+      "tool_call_id": null,
+      "primary_category": null
+    },
+    "deterministic_checks": [
+      {
+        "created_at": "2026-08-30T22:24:36.201373Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-identity",
+        "status": "pass",
+        "summary": "Task linkage and every referenced artifact hash verify.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201464Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-atif-structure",
+        "status": "pass",
+        "summary": "ATIF structure is valid with 3 sequential steps.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201500Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-verifier-report",
+        "status": "fail",
+        "summary": "No gradeable verifier report: verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201538Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-verifier-infrastructure",
+        "status": "unknown",
+        "summary": "Verifier logs show an infrastructure failure, so the run cannot be graded against the behavioral-test contract.",
+        "evidence": [
+          {
+            "kind": "verifier",
+            "artifact_id": "artifact-bdca490170daec5fcf4b5c72",
+            "test_name": null
+          },
+          {
+            "kind": "verifier",
+            "artifact_id": "artifact-4d28adbeccf043097ca32897",
+            "test_name": null
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201557Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-patch-scope",
+        "status": "warning",
+        "summary": "The generated patch has no recognizable unified-diff file sections.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201559Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-patch-tests",
+        "status": "pass",
+        "summary": "The patch does not modify test files.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201560Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-patch-lockfiles",
+        "status": "pass",
+        "summary": "The patch does not modify lockfiles.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201562Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-patch-generated",
+        "status": "pass",
+        "summary": "The patch does not modify generated files.",
+        "evidence": [],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201570Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-protected-paths",
+        "status": "pass",
+        "summary": "No manifest-protected path is accessed or modified.",
+        "evidence": [
+          {
+            "kind": "task",
+            "field": "protected_paths"
+          }
+        ],
+        "hard_process_failure": false
+      },
+      {
+        "created_at": "2026-08-30T22:24:36.201589Z",
+        "schema_version": "deterministic-check-v1",
+        "check_id": "check-final-claim",
+        "status": "pass",
+        "summary": "The final agent step 3 makes no explicit success claim.",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 3,
+            "tool_call_id": null
+          },
+          {
+            "kind": "task",
+            "field": "standard_answer.fail_to_pass"
+          }
+        ],
+        "hard_process_failure": false
+      }
+    ],
+    "findings": [],
+    "exclusions": [
+      "infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)"
+    ],
+    "raw_semantic_output_path": null
+  },
+  "artifacts": {
+    "patch": "# No patch was recoverable after the worker connection was lost.\n",
+    "test_output": "ERROR worker connection lost\nNo reliable test exit status or PASS_TO_PASS results were captured.\n",
+    "run_log": "2026-08-30T14:00:00Z fixture run started\n2026-08-30T14:00:06Z worker connection lost during test execution\n2026-08-30T14:00:11Z run stopped without a gradeable verifier result\n"
+  }
+}
