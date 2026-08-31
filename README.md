@@ -43,8 +43,14 @@ This repository will implement Project 2 as a web-based workbench for evaluating
   process correctness 4/8, a 4/7 confirmed correct-result-invalid-process rate, a 3/7
   evaluator false-positive rate (read-only protected-path references), and a 0/4 localization
   baseline that pins the evaluator's reference-vs-modification anchoring gap.
-- The Day 9 analysis, report, case studies, and evaluator-fix regression card are the active
-  milestone; not complete yet.
+- The Day 9 analysis is complete: evaluator v2 separates read-only references from
+  modification evidence behind a manifest-level protected-path policy and anchors first
+  errors at the first successful write; the recorded regression card shows false positives
+  3/4 → 0/4 and exact localization 0/4 → 3/4 against the frozen human labels with detection
+  preserved; judge stability is unanimous across ten recorded sessions; and
+  [the report](docs/REPORT.md) presents the validated story with four case studies.
+- The Day 10 delivery freeze, clean-environment verification, and demo recording are the
+  active milestone; not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 
@@ -66,6 +72,7 @@ See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 
 - [Documentation index](docs/README.md)
 - [Project requirements](docs/PROJECT_REQUIREMENTS.md)
+- [Report — validated results and case studies](docs/REPORT.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Evaluator specification](docs/EVALUATOR_SPEC.md)

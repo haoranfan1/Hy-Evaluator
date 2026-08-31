@@ -250,6 +250,17 @@ export function AnalyticsPage() {
               <li key={`${entry.run_id}-${entry.kind}`}>
                 <Link to={`/runs/${entry.run_id}`}>{entry.run_id}</Link>
                 <span className="chip chip-category">{entry.kind.replaceAll("_", " ")}</span>
+                {entry.adjudication && (
+                  <span
+                    className={`chip ${
+                      entry.adjudication === "reject" ? "chip-reject" : "chip-accept"
+                    }`}
+                  >
+                    {entry.adjudication === "reject"
+                      ? "rejected: false positive"
+                      : `human ${entry.adjudication}`}
+                  </span>
+                )}
                 <br />
                 {entry.note}
               </li>

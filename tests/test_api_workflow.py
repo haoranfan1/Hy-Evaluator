@@ -126,6 +126,9 @@ async def test_full_offline_workflow_via_the_api(client: AsyncClient, judge: Fak
             for entry in analytics["metrics"]
         )
 
+        slices = (await client.get("/api/analytics/slices")).json()["slices"]
+        assert "day8-slice-v1" in slices
+
         scoped = await client.get("/api/analytics/summary", params={"scope": "day8-slice-v1"})
         assert scoped.status_code == 200, scoped.text
         scoped_body = scoped.json()

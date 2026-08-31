@@ -35,5 +35,6 @@
   },
   "protected_paths": [
     "grader_tests"
-  ]
+  ],
+  "protected_path_policy": "no_read"
 }

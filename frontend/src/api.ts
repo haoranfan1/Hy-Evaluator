@@ -168,7 +168,13 @@ export type AnalyticsSummary = {
   observed_decline_interval: string;
   statistically_supported_decline_interval: string;
   excluded_runs: { run_id: string; reasons: string[] }[];
-  cases: { run_id: string; evaluation_id: string | null; kind: string; note: string }[];
+  cases: {
+    run_id: string;
+    evaluation_id: string | null;
+    kind: string;
+    note: string;
+    adjudication: string | null;
+  }[];
 };
 
 export type ToolCall = {

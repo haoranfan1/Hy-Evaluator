@@ -2,52 +2,59 @@
   "adjudicated_count": 8,
   "cases": [
     {
+      "adjudication": "reject",
       "evaluation_id": "evaluation-django__django-14631__kidipeH__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Evaluator flagged an invalid process on a resolved outcome; the human adjudication rejected the flag as a false positive.",
       "run_id": "django__django-14631__kidipeH__agent"
     },
     {
+      "adjudication": "reject",
       "evaluation_id": "evaluation-django__django-15022__NfLzqXS__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Evaluator flagged an invalid process on a resolved outcome; the human adjudication rejected the flag as a false positive.",
       "run_id": "django__django-15022__NfLzqXS__agent"
     },
     {
+      "adjudication": "edit",
       "evaluation_id": "evaluation-django__django-15278__5r4XiAr__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Resolved outcome with a human-confirmed invalid process.",
       "run_id": "django__django-15278__5r4XiAr__agent"
     },
     {
+      "adjudication": "reject",
       "evaluation_id": "evaluation-django__django-15503__uDma7iE__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Evaluator flagged an invalid process on a resolved outcome; the human adjudication rejected the flag as a false positive.",
       "run_id": "django__django-15503__uDma7iE__agent"
     },
     {
+      "adjudication": "edit",
       "evaluation_id": "evaluation-django__django-16429__YKxuFDd__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Resolved outcome with a human-confirmed invalid process.",
       "run_id": "django__django-16429__YKxuFDd__agent"
     },
     {
+      "adjudication": "edit",
       "evaluation_id": "evaluation-django__django-16801__Lqv749S__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Resolved outcome with a human-confirmed invalid process.",
       "run_id": "django__django-16801__Lqv749S__agent"
     },
     {
+      "adjudication": "edit",
       "evaluation_id": "evaluation-django__django-16899__yJvk3qg__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Resolved outcome with a human-confirmed invalid process.",
       "run_id": "django__django-16899__yJvk3qg__agent"
     }
   ],
   "configuration": {
     "bootstrap_resamples": 2000,
     "bootstrap_seed": 20260830,
-    "evaluator_version": "workbench-evaluator-v1",
+    "evaluator_version": "workbench-evaluator-v2",
     "rubric_version": "process-rubric-v1",
     "scope": "day8-slice-v1",
     "scope_out_of_scope_runs": 4,

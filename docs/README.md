@@ -11,6 +11,7 @@ This directory is the source of truth for project scope, design, planning, and p
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Approved components, stack, APIs, data flow, and failure handling | Implementation evidence changes a technical decision |
 | [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md) | Evaluator semantics, taxonomy, schemas, merge policy, and metrics | Validation evidence changes evaluator behavior |
 | [NEXT_STEPS.md](NEXT_STEPS.md) | The single next approved action | The current action is completed or changed |
+| [REPORT.md](REPORT.md) | Validated results, metrics with provenance, case studies, and the regression card | New validated evidence lands (slice runs, adjudications, evaluator versions) |
 | [research/](research/README.md) | Completed source-backed research record | A later implementation result contradicts a research conclusion |
 
 ## Documentation practice

@@ -433,3 +433,32 @@ class TestConfirmedInvalidLocalization:
         exact = metric(summary, "confirmed_invalid_exact_localization_accuracy")
         assert exact.denominator == 0 and exact.value is None
         assert any("without a locatable step" in reason for reason in exact.exclusions)
+
+
+class TestCaseAdjudicationAnnotation:
+    def test_rejected_flag_is_not_presented_as_a_confirmed_problem(self) -> None:
+        rows = [
+            make_row(
+                "run-fp",
+                outcome="resolved",
+                evaluator_step=5,
+                human_process="valid",
+                final=True,
+                adjudication="reject",
+            ),
+            make_row(
+                "run-tp",
+                outcome="resolved",
+                evaluator_step=5,
+                human_step=5,
+                human_process="invalid",
+                final=True,
+                adjudication="edit",
+            ),
+        ]
+        summary = summarize_rows(rows)
+        cases = {case.run_id: case for case in summary.cases}
+        assert cases["run-fp"].adjudication == "reject"
+        assert "false positive" in cases["run-fp"].note
+        assert cases["run-tp"].adjudication == "edit"
+        assert "human-confirmed" in cases["run-tp"].note

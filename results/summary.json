@@ -2,60 +2,70 @@
   "adjudicated_count": 9,
   "cases": [
     {
+      "adjudication": "reject",
       "evaluation_id": "evaluation-django__django-14631__kidipeH__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Evaluator flagged an invalid process on a resolved outcome; the human adjudication rejected the flag as a false positive.",
       "run_id": "django__django-14631__kidipeH__agent"
     },
     {
+      "adjudication": "reject",
       "evaluation_id": "evaluation-django__django-15022__NfLzqXS__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Evaluator flagged an invalid process on a resolved outcome; the human adjudication rejected the flag as a false positive.",
       "run_id": "django__django-15022__NfLzqXS__agent"
     },
     {
+      "adjudication": "edit",
       "evaluation_id": "evaluation-django__django-15278__5r4XiAr__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Resolved outcome with a human-confirmed invalid process.",
       "run_id": "django__django-15278__5r4XiAr__agent"
     },
     {
+      "adjudication": "reject",
       "evaluation_id": "evaluation-django__django-15503__uDma7iE__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Evaluator flagged an invalid process on a resolved outcome; the human adjudication rejected the flag as a false positive.",
       "run_id": "django__django-15503__uDma7iE__agent"
     },
     {
+      "adjudication": null,
       "evaluation_id": "evaluation-django__django-15851__TDyDpF3__agent",
       "kind": "correct_result_invalid_process",
       "note": "Resolved outcome with an invalid process.",
       "run_id": "django__django-15851__TDyDpF3__agent"
     },
     {
+      "adjudication": "edit",
       "evaluation_id": "evaluation-django__django-16429__YKxuFDd__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Resolved outcome with a human-confirmed invalid process.",
       "run_id": "django__django-16429__YKxuFDd__agent"
     },
     {
+      "adjudication": "edit",
       "evaluation_id": "evaluation-django__django-16801__Lqv749S__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Resolved outcome with a human-confirmed invalid process.",
       "run_id": "django__django-16801__Lqv749S__agent"
     },
     {
+      "adjudication": "edit",
       "evaluation_id": "evaluation-django__django-16899__yJvk3qg__agent",
       "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
+      "note": "Resolved outcome with a human-confirmed invalid process.",
       "run_id": "django__django-16899__yJvk3qg__agent"
     },
     {
+      "adjudication": null,
       "evaluation_id": "evaluation-run-fixture-inconclusive-missing-evidence",
       "kind": "excluded",
       "note": "infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)",
       "run_id": "run-fixture-inconclusive-missing-evidence"
     },
     {
+      "adjudication": "accept",
       "evaluation_id": "evaluation-run-fixture-invalid-first-error",
       "kind": "located_first_error",
       "note": "First error located at step 3 (task_interpretation).",
@@ -65,7 +75,7 @@
   "configuration": {
     "bootstrap_resamples": 2000,
     "bootstrap_seed": 20260830,
-    "evaluator_version": "workbench-evaluator-v1",
+    "evaluator_version": "workbench-evaluator-v2",
     "rubric_version": "process-rubric-v1",
     "scope": "all",
     "semantic_prompt_version": "semantic-prompt-v1"

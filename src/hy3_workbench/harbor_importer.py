@@ -322,6 +322,10 @@ class HarborImporter:
             ),
             selection=selection,
             protected_paths=protected,
+            # The graded test files are public repository content; reading
+            # them is legitimate investigation and only modification violates
+            # process integrity.
+            protected_path_policy="no_modify",
             reference_patch=reference_patch,
         )
 

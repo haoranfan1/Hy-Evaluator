@@ -23,7 +23,7 @@ from hy3_workbench.contracts import (
     TaskManifest,
 )
 from hy3_workbench.hy3_client import Hy3Client
-from hy3_workbench.metrics import AnalyticsSummary, MetricCalculator, load_slice
+from hy3_workbench.metrics import AnalyticsSummary, MetricCalculator, list_slices, load_slice
 from hy3_workbench.semantic_reviewer import SemanticJudge
 from hy3_workbench.storage import (
     RepositoryConflictError,
@@ -386,6 +386,17 @@ def create_adjudication(
         )
     except (WorkflowError, RepositoryConflictError, RepositoryNotFoundError) as error:
         raise _http_error(error) from error
+
+
+class SliceListResponse(BaseModel):
+    slices: list[str]
+
+
+@app.get("/api/analytics/slices", response_model=SliceListResponse)
+def analytics_slices(
+    settings: SettingsDependency, project_root: ProjectRootDependency
+) -> SliceListResponse:
+    return SliceListResponse(slices=list_slices(project_root / settings.slices_dir))
 
 
 @app.get("/api/analytics/summary", response_model=AnalyticsSummary)

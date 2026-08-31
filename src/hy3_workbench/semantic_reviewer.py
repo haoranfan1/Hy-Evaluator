@@ -141,7 +141,23 @@ class SemanticReviewer:
         raw_paths: list[str] = []
 
         for attempt in range(1, MAX_SEMANTIC_ATTEMPTS + 1):
-            response = self.judge.complete_json(messages)
+            try:
+                response = self.judge.complete_json(messages)
+            except Exception as error:
+                # A transport-level judge failure (timeout, connection, HTTP
+                # error) consumes one bounded attempt and then degrades to an
+                # honest unavailable result instead of crashing the evaluation.
+                failure_reasons.append(
+                    f"attempt {attempt}: judge request failed: {type(error).__name__}: {error}"
+                )
+                if attempt == MAX_SEMANTIC_ATTEMPTS:
+                    return SemanticReviewResult(
+                        status="unavailable",
+                        attempts=attempt,
+                        failure_reasons=failure_reasons,
+                        raw_response_paths=raw_paths,
+                    )
+                continue
             errors = self._validate_response(response.content, resolver, trajectory)
             raw_paths.append(self._persist_attempt(run.run_id, attempt, response, errors))
             if not errors:

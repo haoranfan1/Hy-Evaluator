@@ -152,6 +152,11 @@ class TaskManifest(PersistedModel):
     difficulty: Difficulty
     selection: Selection
     protected_paths: list[ProjectRelativePath] = Field(min_length=1)
+    # "no_read": the paths are secret checker artifacts; any access is a
+    # violation (synthetic fixtures). "no_modify": the paths are public
+    # repository files that grading depends on; reading them is legitimate
+    # investigation and only modification violates integrity (SWE-bench).
+    protected_path_policy: Literal["no_read", "no_modify"] = "no_modify"
     reference_patch: ReferencePatchProvenance | None = None
 
 

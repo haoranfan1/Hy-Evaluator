@@ -219,3 +219,40 @@ class TestRenderedJudgeInput:
         assert all(str(step.step_id) in rendered for step in trajectory.steps)
         assert "check-outcome" in rendered
         assert "reference_patch" not in rendered
+
+
+class RaisingJudge:
+    """Judge whose first N calls raise a transport error, then delegates."""
+
+    def __init__(self, raise_count: int, then: FakeJudge | None = None) -> None:
+        self.raise_count = raise_count
+        self.then = then
+        self.calls = 0
+
+    def complete_json(self, messages):
+        self.calls += 1
+        if self.calls <= self.raise_count:
+            raise TimeoutError("simulated judge transport timeout")
+        assert self.then is not None
+        return self.then.complete_json(messages)
+
+
+class TestJudgeTransportFailures:
+    def test_persistent_transport_failure_degrades_to_unavailable(self, reviewer_factory) -> None:
+        reviewer = reviewer_factory(RaisingJudge(raise_count=2))
+
+        result = reviewer.review(*load_review_inputs("valid"))
+
+        assert result.status == "unavailable"
+        assert result.attempts == 2
+        assert all("judge request failed" in reason for reason in result.failure_reasons)
+        assert "TimeoutError" in result.failure_reasons[0]
+
+    def test_single_transport_failure_retries_and_completes(self, reviewer_factory) -> None:
+        judge = RaisingJudge(raise_count=1, then=FakeJudge([valid_response()]))
+        reviewer = reviewer_factory(judge)
+
+        result = reviewer.review(*load_review_inputs("valid"))
+
+        assert result.status == "completed"
+        assert judge.calls == 2

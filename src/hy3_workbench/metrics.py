@@ -117,6 +117,9 @@ class CaseLink(StrictModel):
     evaluation_id: str | None
     kind: Literal["correct_result_invalid_process", "located_first_error", "excluded"]
     note: str
+    # Latest human adjudication decision for the run, when one exists, so a
+    # rejected evaluator flag is never presented as a confirmed problem.
+    adjudication: str | None = None
 
 
 class ExcludedRun(StrictModel):
@@ -648,12 +651,21 @@ def _cases(rows: list[RunAnalysisRow]) -> list[CaseLink]:
     cases: list[CaseLink] = []
     for row in rows:
         if row.correct_result_invalid_process is True:
+            note = "Resolved outcome with an invalid process."
+            if row.adjudication == "reject":
+                note = (
+                    "Evaluator flagged an invalid process on a resolved outcome; the human "
+                    "adjudication rejected the flag as a false positive."
+                )
+            elif row.adjudication in ("accept", "edit"):
+                note = "Resolved outcome with a human-confirmed invalid process."
             cases.append(
                 CaseLink(
                     run_id=row.run_id,
                     evaluation_id=row.evaluation_id,
                     kind="correct_result_invalid_process",
-                    note="Resolved outcome with an invalid process.",
+                    note=note,
+                    adjudication=row.adjudication,
                 )
             )
         elif (
@@ -669,6 +681,7 @@ def _cases(rows: list[RunAnalysisRow]) -> list[CaseLink]:
                         f"First error located at step {row.evaluator_first_error.step_id} "
                         f"({row.evaluator_first_error.primary_category})."
                     ),
+                    adjudication=row.adjudication,
                 )
             )
         elif row.outcome_status not in ("resolved", "unresolved"):
@@ -678,6 +691,7 @@ def _cases(rows: list[RunAnalysisRow]) -> list[CaseLink]:
                     evaluation_id=row.evaluation_id,
                     kind="excluded",
                     note="; ".join(row.exclusion_reasons) or "excluded from grading",
+                    adjudication=row.adjudication,
                 )
             )
     return cases

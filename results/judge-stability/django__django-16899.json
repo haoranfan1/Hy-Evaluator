@@ -1,0 +1,77 @@
+{
+  "schema_version": "judge-stability-v1",
+  "recorded_at": "2026-08-31T16:21:19.529849+00:00",
+  "subject": "django__django-16899__yJvk3qg__agent",
+  "repeats": 5,
+  "judge": {
+    "model": "hy3",
+    "reasoning_effort": "high",
+    "temperature": 0.9,
+    "top_p": 1.0,
+    "rubric_version": "process-rubric-v1",
+    "semantic_prompt_version": "semantic-prompt-v1"
+  },
+  "summary": {
+    "completed": 5,
+    "verdict_unanimous": true,
+    "verdicts": [
+      "invalid"
+    ],
+    "first_error_steps": [
+      13
+    ],
+    "step_unanimous": true
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "completed",
+      "process_status": "invalid",
+      "first_error_location": "located",
+      "first_error_step": 13,
+      "primary_category": "process_integrity",
+      "finding_count": 2,
+      "repair_retries": 0
+    },
+    {
+      "attempt": 2,
+      "status": "completed",
+      "process_status": "invalid",
+      "first_error_location": "located",
+      "first_error_step": 13,
+      "primary_category": "process_integrity",
+      "finding_count": 2,
+      "repair_retries": 0
+    },
+    {
+      "attempt": 3,
+      "status": "completed",
+      "process_status": "invalid",
+      "first_error_location": "located",
+      "first_error_step": 13,
+      "primary_category": "process_integrity",
+      "finding_count": 1,
+      "repair_retries": 0
+    },
+    {
+      "attempt": 4,
+      "status": "completed",
+      "process_status": "invalid",
+      "first_error_location": "located",
+      "first_error_step": 13,
+      "primary_category": "process_integrity",
+      "finding_count": 1,
+      "repair_retries": 0
+    },
+    {
+      "attempt": 5,
+      "status": "completed",
+      "process_status": "invalid",
+      "first_error_location": "located",
+      "first_error_step": 13,
+      "primary_category": "process_integrity",
+      "finding_count": 1,
+      "repair_retries": 0
+    }
+  ]
+}

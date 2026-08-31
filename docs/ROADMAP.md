@@ -183,11 +183,37 @@ Completed:
   semantic context-limit abstention supplied by human adjudication (django-14017), and the
   difficulty inversion (easy tasks 0/3 process-valid, hard tasks 2/2).
 
+- Evaluator v2 (`workbench-evaluator-v2`) fixes the failure modes Day 8 measured, behind a
+  manifest-level `protected_path_policy` (`no_read` for secret fixture artifacts, `no_modify`
+  for public SWE-bench graded files): read-only references now pass with a note,
+  modification evidence anchors the first error at the first successful write (return-code
+  aware, git-revert excluded), transient modify-then-revert edits become an explicit
+  warning for human judgment, and a timed-out judge request degrades to an honest
+  unavailable result after a bounded retry (found live when a judge call timed out
+  mid-regression).
+- The recorded regression card (`results/regression/day9-regression-card.json`) re-evaluated
+  the frozen slice in memory under v2 with the live judge, never touching the reviewed Day 8
+  evidence: against the same frozen human labels, false positives 3/4 → 0/4, detection 4/4
+  preserved, exact localization 0/4 → 3/4 (the remaining miss is a documented relative-path
+  detection gap where v2 honestly reports unlocatable instead of guessing).
+- Judge stability is recorded (`results/judge-stability/`): five repeats on the synthetic
+  oracle fixture and five on real run django-16899 — verdict, step, and category unanimous
+  in all ten sessions (fixture step 3 ×5; real step 13 ×5, matching the human label), zero
+  repair retries, advisory finding count the only variance.
+- `docs/REPORT.md` presents the validated story end to end: headline metrics with
+  provenance, the assignment mapping (定位准确率 / 误报率), four case studies (graded-assertion
+  rewrite, semantic-contradicted false positive, modify-then-revert with harness-awareness
+  narration, honest context-limit abstention), the regression card, judge stability,
+  limitations, and reproduction pointers.
+- Analytics case links now carry the human adjudication outcome (a rejected evaluator flag
+  reads "rejected: false positive", never as a confirmed problem), and
+  `GET /api/analytics/slices` lists committed slices for scope navigation.
+
 Current phase:
 
-- **Day 9 — final analysis, report, case studies, and differentiation.**
-- Days 1–8 are complete: Stage B's recorded validation slice exists with blinded labels,
-  adjudications, and scoped metrics; Stage C's reproducible live path was proven on Day 7.
+- **Day 10 — delivery freeze, clean-environment verification, and the demo recording.**
+- Days 1–9 are complete: validated evidence, the versioned evaluator fix with its regression
+  card, judge-stability records, and the submission report exist.
 
 ## Fixed execution decisions
 
@@ -266,8 +292,8 @@ Only one benchmark, harness, trace format, semantic judge configuration, and loc
 | Complete | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
 | Complete | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |
 | Complete | **8 — Evaluation and validation** | Freeze a small difficulty-covering task slice; run sequentially; label every gradeable incorrect run and audit every resolved-and-flagged run. | Required localization and false-positive evidence exists with explicit numerators, denominators, exclusions, and label provenance. |
-| **Current** | **9 — Analysis and differentiation** | Export final metrics/report/case studies; implement the regression card only if core evidence is complete; finish README and setup documentation. | Submission artifacts tell one coherent task-to-diagnosis-to-analysis story. |
-| Pending | **10 — Delivery freeze** | Perform a clean-environment run, tests/build, requirement/security/reproducibility audits, UI polish, demo rehearsal and recording, and public-repository preparation. | A reviewer can set up the project, inspect evidence, reproduce the documented path, and view a demo under two minutes. |
+| Complete | **9 — Analysis and differentiation** | Export final metrics/report/case studies; implement the regression card only if core evidence is complete; finish README and setup documentation. | Submission artifacts tell one coherent task-to-diagnosis-to-analysis story. |
+| **Current** | **10 — Delivery freeze** | Perform a clean-environment run, tests/build, requirement/security/reproducibility audits, UI polish, demo rehearsal and recording, and public-repository preparation. | A reviewer can set up the project, inspect evidence, reproduce the documented path, and view a demo under two minutes. |
 
 ## Daily control rule
 

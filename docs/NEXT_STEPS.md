@@ -2,55 +2,47 @@
 
 ## Status
 
-**Current gate: Day 9 final analysis, report, case studies, and differentiation.**
+**Current gate: Day 10 delivery freeze and demo.**
 
 Completed prerequisites:
 
-- Days 1–8 are complete. The frozen day8-slice-v1 slice has recorded oracle checks, eight
-  completed sequential runs, blinded initial labels, adjudications for every evaluator-flagged
-  run, and slice-scoped analytics with explicit numerators, denominators, exclusions, and
-  provenance (`results/summary-day8-slice-v1.json`, `results/metrics-day8-slice-v1.csv`).
-- Headline validated findings: final-answer accuracy 8/8 with adjudicated process correctness
-  4/8; confirmed-problem rate 4/7 vs evaluator false-positive rate 3/7 (all three false
-  positives from the protected-path check firing on read-only references); confirmed-invalid
-  localization 0/4 exact because the deterministic lane anchors at the first protected-path
-  reference while humans anchor at the first modification.
+- Days 1–9 are complete: the validated Day 8 slice with blinded labels and adjudications,
+  evaluator v2 with its recorded regression card (false positives 3/4 → 0/4, exact
+  localization 0/4 → 3/4, detection preserved), judge-stability records (verdict and step
+  unanimous across ten sessions), the submission report (`docs/REPORT.md`), and
+  adjudication-aware analytics.
 
 ## Single next action
 
-Turn the recorded evidence into the submission-grade analysis, in this priority order:
+Freeze and package the delivery so a reviewer can verify everything quickly.
 
-1. **Evaluator fix with a regression card.** Rework `check_protected_paths` to separate
-   modification evidence (patch-file intersection, write-command detection) from read-only
-   references (which become an advisory note at most), and anchor the cited first error at
-   the first modifying step. Bump the evaluator version, re-evaluate the slice under the new
-   version WITHOUT touching the reviewed Day 8 evaluations (new evaluations require force and
-   are refused once reviews exist — so record the re-run as a separate versioned comparison,
-   not a replacement), and publish a before/after regression card: false positives 3 → ?,
-   exact localization 0/4 → ?/4 against the same frozen human labels.
-2. **Report and case studies** under `docs/` (or `results/report/`): the validation story
-   (blinded protocol, metrics with provenance), plus three case studies — the graded-assertion
-   rewrite (django-16899), the read-only false positive the semantic judge contradicted
-   (django-15022), and the modify-then-revert with harness-awareness narration
-   (django-14631). Include the difficulty inversion observation and the honest
-   context-limit abstention (django-14017).
-3. **Judge-stability table.** Re-run the semantic review N times on one fixture and one real
-   run (bounded, recorded) and tabulate verdict/step stability across sessions, extending the
-   existing recorded live checks.
-4. **UI polish only after the above**: annotate analytics case links with their adjudication
-   outcome (confirmed vs rejected) so the case list distinguishes them, and surface the
-   scope selector.
+1. **Requirement audit.** Walk `docs/PROJECT_REQUIREMENTS.md` item by item and record where
+   each requirement is satisfied (code, evidence file, report section); fix any gap found.
+2. **Clean-environment verification.** From a fresh clone (no `.local`, no `.env`): backend
+   install + full pytest, frontend install + tests + build, API start with the degraded
+   (judge-unconfigured) health state, fixture import + deterministic evaluation. Record the
+   exact commands and outcomes in `docs/DEVELOPMENT_SETUP.md` if anything differs.
+3. **Security and hygiene audit.** Confirm no secrets, tokens, or absolute host paths in any
+   committed file; confirm `.local/` isolation held; confirm exports and fixtures pass the
+   existing secret-scan tests.
+4. **README final pass.** Lead with what the project is, the headline validated findings,
+   the quickstart, and the evidence map (report, results, slices, environment checks).
+5. **Demo (≤2 minutes).** Script and record: open the run list → open the django-16899 run
+   blinded → save a label → reveal the confirmed diagnosis at step 13 → show the
+   scoped analytics with the false-positive chips → show the regression card numbers in the
+   report. Store the recording path and the script in `docs/`.
+6. **Delivery tag.** Final commit, tag, and push; verify the repository renders correctly on
+   the host (README, report, images).
 
 ## Exit condition
 
-The gate is complete when the submission artifacts — README, report, case studies, the
-regression card, and deterministic exports — tell one coherent story from task selection
-through diagnosis to validated analysis, with every number carrying its provenance and the
-full test suite passing.
+A reviewer starting from the public repository can set up the project, run the offline test
+suite, inspect the validated evidence, reproduce the documented pipeline on a compatible
+host, and watch the demo in under two minutes.
 
 ## Explicitly deferred
 
-- Delivery freeze, clean-environment reproduction run, and the ≤2-minute demo recording:
-  Day 10.
+- Widening the slice beyond Django and adding inter-rater agreement: future work recorded in
+  the report's limitations.
 
 Implementation details are fixed in [ARCHITECTURE.md](ARCHITECTURE.md) and [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md).
