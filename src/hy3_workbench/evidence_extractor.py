@@ -30,7 +30,7 @@ from hy3_workbench.contracts import (
     TaskManifest,
     VerifierEvidence,
 )
-from hy3_workbench.evidence_gate import VerifierReport
+from hy3_workbench.evidence_gate import VerifierReport, parse_verifier_report
 
 # Scope thresholds and sensitive-file classifiers stay conservative: they emit
 # warnings for semantic/human review and never fail a run on their own.
@@ -679,8 +679,8 @@ class EvidenceExtractor:
                 payload = json.loads(
                     (self.project_root / run.verifier.report.path).read_text(encoding="utf-8")
                 )
-                report = VerifierReport.model_validate(payload)
-            except (OSError, json.JSONDecodeError, ValidationError) as error:
+                report = parse_verifier_report(payload)
+            except (OSError, ValueError) as error:
                 report_reason = f"verifier report is malformed or incomplete: {error}"
 
         if report is None:

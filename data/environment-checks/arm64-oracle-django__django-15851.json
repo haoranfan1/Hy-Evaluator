@@ -1,0 +1,48 @@
+{
+  "schema_version": "environment-check-v1",
+  "check_id": "arm64-oracle-django__django-15851",
+  "recorded_at": "2026-08-31T06:25:00Z",
+  "purpose": "Gate for live SWE-bench runs: prove the gold patch satisfies the full behavioral-test contract inside a locally built ARM64 task environment before any agent run starts.",
+  "host": {
+    "os": "Linux 6.11.0-1016-nvidia",
+    "architecture": "aarch64",
+    "machine": "NVIDIA DGX Spark (GB10)",
+    "docker_server": "28.3.3 linux/arm64"
+  },
+  "environment_path": {
+    "chosen": "source-built ARM64 task image on this host",
+    "reason": "The official swebench/sweb.eval.x86_64.* images are AMD64-only and qemu binfmt is not registered on this host; the official SWE-bench harness builds base, env, and instance images natively for arm64.",
+    "alternatives_not_used": [
+      "qemu binfmt emulation (requires a system change)",
+      "short-lived x86-64 cloud host (requires cost approval)"
+    ]
+  },
+  "task": {
+    "instance_id": "django__django-15851",
+    "repository": "django/django",
+    "base_commit": "b4817d20b9e55df30be0b1b2ca8c8bb6d61aab07",
+    "difficulty": "<15 min fix",
+    "dataset": "princeton-nlp/SWE-bench_Verified",
+    "dataset_revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a"
+  },
+  "build_provenance": {
+    "builder": "swebench==4.0.3 official harness, python -m swebench.harness.run_evaluation",
+    "arguments": "--dataset_name princeton-nlp/SWE-bench_Verified --split test --predictions_path gold --instance_ids django__django-15851 --namespace '' --max_workers 1 --run_id arm64-oracle-django-15851",
+    "images_built": [
+      "sweb.base.py.arm64:latest",
+      "sweb.env.py.arm64.a33dddf55cdff5d8e23374:latest",
+      "sweb.eval.arm64.django__django-15851 (instance layer, rebuilt for the Harbor task copy)"
+    ]
+  },
+  "result": {
+    "status": "passed",
+    "resolved_instances": 1,
+    "unresolved_instances": 0,
+    "error_instances": 0,
+    "fail_to_pass": { "success": 1, "failure": 0 },
+    "pass_to_pass": { "success": 8, "failure": 0 },
+    "official_report": ".local/workbench/swebench/oracle/run-logs/run_evaluation/arm64-oracle-django-15851/gold/django__django-15851/report.json",
+    "summary_report": ".local/workbench/swebench/oracle/gold.arm64-oracle-django-15851.json"
+  },
+  "notes": "Full logs, the gold patch eval output, and the built-image build logs live under .local/workbench/swebench/oracle/ on the recording host; this committed record carries the decision-relevant facts only."
+}

@@ -1,0 +1,230 @@
+{
+  "evaluation": {
+    "correct_result_invalid_process": false,
+    "created_at": "2026-08-30T22:32:02.133283Z",
+    "deterministic_checks": [
+      {
+        "check_id": "check-identity",
+        "created_at": "2026-08-30T22:31:53.316366Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Task linkage and every referenced artifact hash verify."
+      },
+      {
+        "check_id": "check-atif-structure",
+        "created_at": "2026-08-30T22:31:53.316711Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "ATIF structure is valid with 6 sequential steps."
+      },
+      {
+        "check_id": "check-verifier-report",
+        "created_at": "2026-08-30T22:31:53.316803Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "kind": "verifier",
+            "test_name": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The verifier report parses against the behavioral-test contract."
+      },
+      {
+        "check_id": "check-test-fail-to-pass-1",
+        "created_at": "2026-08-30T22:31:53.316890Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "kind": "verifier",
+            "test_name": "tests/test_normalize.py::test_zero_is_preserved"
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared fail-to-pass test tests/test_normalize.py::test_zero_is_preserved passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-1",
+        "created_at": "2026-08-30T22:31:53.316941Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "kind": "verifier",
+            "test_name": "tests/test_existing_behavior.py::test_positive_value_unchanged"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test tests/test_existing_behavior.py::test_positive_value_unchanged passed."
+      },
+      {
+        "check_id": "check-verifier-coverage",
+        "created_at": "2026-08-30T22:31:53.316955Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The verifier report covers exactly the declared behavioral tests."
+      },
+      {
+        "check_id": "check-outcome",
+        "created_at": "2026-08-30T22:31:53.316970Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-e610ad34f7ea405d71b1ec47",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The official outcome is resolved: 2/2 declared behavioral tests passed."
+      },
+      {
+        "check_id": "check-patch-scope",
+        "created_at": "2026-08-30T22:31:53.317086Z",
+        "evidence": [
+          {
+            "file": "src/calculator.py",
+            "kind": "patch",
+            "line": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch changes 1 file(s) and 2 line(s)."
+      },
+      {
+        "check_id": "check-patch-tests",
+        "created_at": "2026-08-30T22:31:53.317131Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify test files."
+      },
+      {
+        "check_id": "check-patch-lockfiles",
+        "created_at": "2026-08-30T22:31:53.317137Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify lockfiles."
+      },
+      {
+        "check_id": "check-patch-generated",
+        "created_at": "2026-08-30T22:31:53.317143Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify generated files."
+      },
+      {
+        "check_id": "check-protected-paths",
+        "created_at": "2026-08-30T22:31:53.317178Z",
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "No manifest-protected path is accessed or modified."
+      },
+      {
+        "check_id": "check-command-failure-3-1",
+        "created_at": "2026-08-30T22:31:53.317219Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 3,
+            "tool_call_id": "call-test-1"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 3 observed a failure from tool call 'call-test-1' (bash): failing tests reported. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-final-claim",
+        "created_at": "2026-08-30T22:31:53.317293Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 6,
+            "tool_call_id": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The final success claim at step 6 is consistent with executed FAIL_TO_PASS verification."
+      }
+    ],
+    "evaluation_id": "evaluation-run-fixture-valid",
+    "evaluator_version": "workbench-evaluator-v1",
+    "exclusions": [],
+    "findings": [],
+    "first_error": {
+      "location": "none",
+      "primary_category": null,
+      "step_id": null,
+      "tool_call_id": null
+    },
+    "outcome_status": "resolved",
+    "process_status": "valid",
+    "raw_semantic_output_path": ".local/workbench/semantic/run-fixture-valid/attempt-1.json",
+    "rubric_version": "process-rubric-v1",
+    "run_id": "run-fixture-valid",
+    "schema_version": "evaluation-result-v1",
+    "semantic_prompt_version": "semantic-prompt-v1",
+    "status": "completed"
+  },
+  "input_digest": "d5d39a0e92b7a6b2756f3e6e11c20ef4375b0a34cacd26ebddac2631f6c2ad1c"
+}

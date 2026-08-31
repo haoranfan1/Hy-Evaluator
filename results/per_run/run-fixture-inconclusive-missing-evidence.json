@@ -1,0 +1,145 @@
+{
+  "evaluation": {
+    "correct_result_invalid_process": null,
+    "created_at": "2026-08-30T22:32:32.200404Z",
+    "deterministic_checks": [
+      {
+        "check_id": "check-identity",
+        "created_at": "2026-08-30T22:32:32.199680Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Task linkage and every referenced artifact hash verify."
+      },
+      {
+        "check_id": "check-atif-structure",
+        "created_at": "2026-08-30T22:32:32.199978Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "ATIF structure is valid with 3 sequential steps."
+      },
+      {
+        "check_id": "check-verifier-report",
+        "created_at": "2026-08-30T22:32:32.200105Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "fail",
+        "summary": "No gradeable verifier report: verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden."
+      },
+      {
+        "check_id": "check-verifier-infrastructure",
+        "created_at": "2026-08-30T22:32:32.200226Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-bdca490170daec5fcf4b5c72",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "artifact_id": "artifact-4d28adbeccf043097ca32897",
+            "kind": "verifier",
+            "test_name": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "unknown",
+        "summary": "Verifier logs show an infrastructure failure, so the run cannot be graded against the behavioral-test contract."
+      },
+      {
+        "check_id": "check-patch-scope",
+        "created_at": "2026-08-30T22:32:32.200284Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "The generated patch has no recognizable unified-diff file sections."
+      },
+      {
+        "check_id": "check-patch-tests",
+        "created_at": "2026-08-30T22:32:32.200289Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify test files."
+      },
+      {
+        "check_id": "check-patch-lockfiles",
+        "created_at": "2026-08-30T22:32:32.200293Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify lockfiles."
+      },
+      {
+        "check_id": "check-patch-generated",
+        "created_at": "2026-08-30T22:32:32.200296Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify generated files."
+      },
+      {
+        "check_id": "check-protected-paths",
+        "created_at": "2026-08-30T22:32:32.200319Z",
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "No manifest-protected path is accessed or modified."
+      },
+      {
+        "check_id": "check-final-claim",
+        "created_at": "2026-08-30T22:32:32.200357Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 3,
+            "tool_call_id": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The final agent step 3 makes no explicit success claim."
+      }
+    ],
+    "evaluation_id": "evaluation-run-fixture-inconclusive-missing-evidence",
+    "evaluator_version": "workbench-evaluator-v1",
+    "exclusions": [
+      "infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)"
+    ],
+    "findings": [],
+    "first_error": {
+      "location": "none",
+      "primary_category": null,
+      "step_id": null,
+      "tool_call_id": null
+    },
+    "outcome_status": "inconclusive",
+    "process_status": "inconclusive",
+    "raw_semantic_output_path": null,
+    "rubric_version": "process-rubric-v1",
+    "run_id": "run-fixture-inconclusive-missing-evidence",
+    "schema_version": "evaluation-result-v1",
+    "semantic_prompt_version": "semantic-prompt-v1",
+    "status": "inconclusive"
+  },
+  "input_digest": "c9b7b5ac7f5e29ba59438bf9cb664f2926ed23a1eea7260a55ce78990fef33cf"
+}

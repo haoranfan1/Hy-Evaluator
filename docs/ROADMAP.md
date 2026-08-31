@@ -4,7 +4,7 @@ Research is complete. The fixed direction is a web-based Hy3 coding-agent proces
 
 The schedule is outcome-based. If a day slips, cut optional scope in the documented order rather than cutting evaluator validation, reproducibility, result analysis, or the final delivery window.
 
-## Current checkpoint — 2026-08-30
+## Current checkpoint — 2026-08-31
 
 Completed:
 
@@ -116,11 +116,46 @@ Completed:
   reveal, adjudication, and the analytics page computing 100% exact localization for the
   labeled run with the inconclusive run explicitly excluded.
 
+- The recorded oracle/environment gate passed on the source-built ARM64 path: the official
+  `swebench==4.0.3` harness built base, env, and instance images natively for aarch64 and the
+  gold patch resolved `django__django-15851` (1/1 FAIL_TO_PASS, 8/8 PASS_TO_PASS). The
+  committed record is `data/environment-checks/arm64-oracle-django__django-15851.json`; full
+  logs live under `.local/workbench/swebench/oracle/`.
+- A pinned local Harbor task copy (harbor-datasets commit `8672367`) was prepared by
+  `scripts/prepare_swebench_task.py`: the AMD64-only `FROM` is swapped for the locally built
+  image and the verifier script dumps the agent-authored `git diff` (with intent-to-add for
+  untracked files) to `/logs/verifier/patch.diff` before the official flow resets test files.
+  Both modifications are recorded in `task-provenance.json`, and a Harbor oracle-agent trial
+  through the copy reproduced reward 1 with the patch dump capturing the gold change.
+- The deterministic lane reads the raw official SWE-bench `report.json` unchanged through the
+  versioned `swebench-report-adapter-v1` parser; a report without gradeable `tests_status`
+  stays an honest inconclusive exclusion rather than a fabricated outcome.
+- `HarborImporter` maps one completed trial plus the pinned dataset row into an immutable
+  bundle (hashed trajectory/patch/report/test-output/log artifacts, gold patch stored as
+  adjudication-only reference provenance, protected paths derived from the official test
+  patch) and rejects mismatched task contracts, contradictory resolved flags, uncovered
+  declared tests, invalid ATIF, unusable session ids, and trials that recorded exceptions —
+  the rejection path is demonstrated on a real credentials-failure trial.
+- One real SWE-bench Verified run completed end to end: mini-swe-agent 2.4.6 (pinned
+  in-container) driven by Hy3 through Harbor resolved `django__django-15851` in 4m07s with a
+  36-step ATIF v1.7 trajectory and official verifier artifacts. The agent-phase model
+  credentials must be supplied as `OPENAI_API_KEY`/`OPENAI_BASE_URL` (a host-side
+  `MSWEA_API_KEY` wins Harbor's key resolution but is not forwarded under the openai provider
+  passthrough, which produced one recorded failed trial before the fix).
+- The imported run produced the first real correct-result/invalid-process diagnosis: outcome
+  `resolved` from the official verifier, process `invalid` because the patch also rewrites the
+  graded test file `tests/dbshell/test_postgresql.py` (a manifest-protected path), first error
+  located at step 12 with the exact tool calls cited, confirmed independently by the live Hy3
+  semantic judge, and rendered blinded-first in the debugger with analytics and exports
+  covering the run. The operator's reveal review is marked non-blinded in its notes and must
+  be excluded from blinded-validation metrics.
+
 Current phase:
 
-- **Day 7 — real Hy3/Harbor/SWE-bench integration.**
-- Days 1–6 are complete. Stage A (the controlled offline evaluator) is finished; Stages B and
-  C (real recorded validation data and the reproducible live workflow) remain.
+- **Day 8 — frozen evaluation slice, blinded labels, and validation evidence.**
+- Days 1–7 are complete. Stage A is finished and Stage C's reproducible live path is proven
+  once end to end; Stage B (the difficulty-covering recorded slice with blinded human labels)
+  remains.
 
 ## Fixed execution decisions
 
@@ -197,8 +232,8 @@ Only one benchmark, harness, trace format, semantic judge configuration, and loc
 | Complete | **4 — API and persistence** | Add SQLite indexes, immutable artifact registration, import/evaluate/read/review endpoints, exports, and restart/interruption behavior. | The offline workflow is callable through FastAPI and survives process restart without corrupting evidence. |
 | Complete | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
 | Complete | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
-| **Current** | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |
-| Pending | **8 — Evaluation and validation** | Freeze a small difficulty-covering task slice; run sequentially; label every gradeable incorrect run and audit every resolved-and-flagged run. | Required localization and false-positive evidence exists with explicit numerators, denominators, exclusions, and label provenance. |
+| Complete | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |
+| **Current** | **8 — Evaluation and validation** | Freeze a small difficulty-covering task slice; run sequentially; label every gradeable incorrect run and audit every resolved-and-flagged run. | Required localization and false-positive evidence exists with explicit numerators, denominators, exclusions, and label provenance. |
 | Pending | **9 — Analysis and differentiation** | Export final metrics/report/case studies; implement the regression card only if core evidence is complete; finish README and setup documentation. | Submission artifacts tell one coherent task-to-diagnosis-to-analysis story. |
 | Pending | **10 — Delivery freeze** | Perform a clean-environment run, tests/build, requirement/security/reproducibility audits, UI polish, demo rehearsal and recording, and public-repository preparation. | A reviewer can set up the project, inspect evidence, reproduce the documented path, and view a demo under two minutes. |
 

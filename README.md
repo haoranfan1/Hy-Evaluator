@@ -31,8 +31,13 @@ This repository will implement Project 2 as a web-based workbench for evaluating
   verdict reveal, append-only adjudication versions, and provenance-aware aggregate metrics
   with explicit numerators, denominators, exclusions, and a seeded bootstrap decline test,
   rendered on the analytics page and exported deterministically.
-- The Day 7 real Hy3/Harbor/SWE-bench integration is the active implementation milestone; it is
-  not complete yet.
+- The Day 7 real Hy3/Harbor/SWE-bench integration is complete: a recorded oracle/environment
+  check passed on a source-built ARM64 image, one real SWE-bench Verified task ran end to end
+  through Harbor + mini-SWE-agent + Hy3, and the imported ATIF v1.7 run produced the first
+  real correct-result/invalid-process diagnosis (a rewritten protected test file, localized
+  to its step and confirmed by the live Hy3 judge) in the debugger.
+- The Day 8 frozen difficulty-covering evaluation slice with blinded validation labels is the
+  active milestone; it is not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 
