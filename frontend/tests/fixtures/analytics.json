@@ -1,0 +1,167 @@
+{
+  "schema_version": "analytics-summary-v1",
+  "run_count": 3,
+  "evaluated_count": 3,
+  "reviewed_count": 1,
+  "adjudicated_count": 1,
+  "configuration": {
+    "evaluator_version": "workbench-evaluator-v1",
+    "rubric_version": "process-rubric-v1",
+    "semantic_prompt_version": "semantic-prompt-v1",
+    "bootstrap_seed": 20260830,
+    "bootstrap_resamples": 2000
+  },
+  "metrics": [
+    {
+      "metric_id": "final_answer_accuracy",
+      "value": 0.5,
+      "numerator": 1,
+      "denominator": 2,
+      "provenance": "official",
+      "definition": "Resolved runs over gradeable (resolved plus unresolved) runs, from the official behavioral-test verifier.",
+      "exclusions": [
+        "run-fixture-inconclusive-missing-evidence: infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)"
+      ]
+    },
+    {
+      "metric_id": "predicted_process_correctness_rate",
+      "value": 0.5,
+      "numerator": 1,
+      "denominator": 2,
+      "provenance": "evaluator",
+      "definition": "Evaluator-predicted valid processes over conclusive evaluator process verdicts.",
+      "exclusions": [
+        "run-fixture-inconclusive-missing-evidence: evaluator process status is inconclusive or missing"
+      ]
+    },
+    {
+      "metric_id": "adjudicated_process_correctness_rate",
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 1,
+      "provenance": "human",
+      "definition": "Human-adjudicated valid processes over conclusive adjudicated final labels.",
+      "exclusions": [
+        "run-fixture-inconclusive-missing-evidence: no conclusive adjudicated final label",
+        "run-fixture-valid: no conclusive adjudicated final label"
+      ]
+    },
+    {
+      "metric_id": "incorrect_run_error_detection_accuracy",
+      "value": 1.0,
+      "numerator": 1,
+      "denominator": 1,
+      "provenance": "mixed",
+      "definition": "On human-labeled-invalid unresolved runs, how often the evaluator also judged the process invalid.",
+      "exclusions": []
+    },
+    {
+      "metric_id": "exact_first_error_localization_accuracy",
+      "value": 1.0,
+      "numerator": 1,
+      "denominator": 1,
+      "provenance": "mixed",
+      "definition": "On human-located incorrect runs, evaluator first-error step equals the human step exactly.",
+      "exclusions": []
+    },
+    {
+      "metric_id": "within_one_step_localization_accuracy",
+      "value": 1.0,
+      "numerator": 1,
+      "denominator": 1,
+      "provenance": "mixed",
+      "definition": "On human-located incorrect runs, evaluator first-error step within one step of the human step.",
+      "exclusions": []
+    },
+    {
+      "metric_id": "correct_result_confirmed_problem_rate",
+      "value": null,
+      "numerator": 0,
+      "denominator": 0,
+      "provenance": "human",
+      "definition": "Adjudicated resolved-and-flagged runs confirmed (accepted or edited to invalid) as genuine process problems.",
+      "exclusions": []
+    },
+    {
+      "metric_id": "correct_result_evaluator_false_positive_rate",
+      "value": null,
+      "numerator": 0,
+      "denominator": 0,
+      "provenance": "human",
+      "definition": "Adjudicated resolved-and-flagged runs rejected by the reviewer, so the evaluator flag was a false positive.",
+      "exclusions": []
+    }
+  ],
+  "primary_error_distribution": [
+    {
+      "category": "task_interpretation",
+      "count": 1,
+      "human_count": 1,
+      "evaluator_count": 0
+    }
+  ],
+  "difficulty_table": [
+    {
+      "label": "easy",
+      "total_runs": 3,
+      "gradeable_runs": 2,
+      "resolved_runs": 1,
+      "outcome_rate": 0.5,
+      "process_gradeable_runs": 2,
+      "process_valid_runs": 1,
+      "process_valid_rate": 0.5,
+      "inconclusive_runs": 1,
+      "provenance": "mixed"
+    }
+  ],
+  "quadrant": [
+    {
+      "outcome_status": "inconclusive",
+      "process_status": "inconclusive",
+      "run_ids": [
+        "run-fixture-inconclusive-missing-evidence"
+      ],
+      "provenance": "evaluator"
+    },
+    {
+      "outcome_status": "resolved",
+      "process_status": "valid",
+      "run_ids": [
+        "run-fixture-valid"
+      ],
+      "provenance": "evaluator"
+    },
+    {
+      "outcome_status": "unresolved",
+      "process_status": "invalid",
+      "run_ids": [
+        "run-fixture-invalid-first-error"
+      ],
+      "provenance": "human"
+    }
+  ],
+  "observed_decline_interval": "not_observed",
+  "statistically_supported_decline_interval": "not_established",
+  "excluded_runs": [
+    {
+      "run_id": "run-fixture-inconclusive-missing-evidence",
+      "reasons": [
+        "infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "run_id": "run-fixture-inconclusive-missing-evidence",
+      "evaluation_id": "evaluation-run-fixture-inconclusive-missing-evidence",
+      "kind": "excluded",
+      "note": "infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)"
+    },
+    {
+      "run_id": "run-fixture-invalid-first-error",
+      "evaluation_id": "evaluation-run-fixture-invalid-first-error",
+      "kind": "located_first_error",
+      "note": "First error located at step 3 (task_interpretation)."
+    }
+  ]
+}

@@ -106,7 +106,7 @@
     "reference_patch": null
   },
   "evaluation": {
-    "created_at": "2026-08-30T22:24:36.173197Z",
+    "created_at": "2026-08-31T04:30:21.790529Z",
     "schema_version": "evaluation-result-v1",
     "evaluation_id": "evaluation-run-fixture-valid",
     "run_id": "run-fixture-valid",
@@ -125,7 +125,7 @@
     },
     "deterministic_checks": [
       {
-        "created_at": "2026-08-30T22:24:36.172205Z",
+        "created_at": "2026-08-31T04:30:21.789484Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-identity",
         "status": "pass",
@@ -134,7 +134,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172371Z",
+        "created_at": "2026-08-31T04:30:21.789667Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-atif-structure",
         "status": "pass",
@@ -143,7 +143,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172405Z",
+        "created_at": "2026-08-31T04:30:21.789703Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-verifier-report",
         "status": "pass",
@@ -158,7 +158,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172457Z",
+        "created_at": "2026-08-31T04:30:21.789750Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-test-fail-to-pass-1",
         "status": "pass",
@@ -177,7 +177,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172480Z",
+        "created_at": "2026-08-31T04:30:21.789776Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-test-pass-to-pass-1",
         "status": "pass",
@@ -196,7 +196,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172486Z",
+        "created_at": "2026-08-31T04:30:21.789781Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-verifier-coverage",
         "status": "pass",
@@ -219,7 +219,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172493Z",
+        "created_at": "2026-08-31T04:30:21.789788Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-outcome",
         "status": "pass",
@@ -238,7 +238,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172543Z",
+        "created_at": "2026-08-31T04:30:21.789840Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-patch-scope",
         "status": "pass",
@@ -253,7 +253,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172562Z",
+        "created_at": "2026-08-31T04:30:21.789859Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-patch-tests",
         "status": "pass",
@@ -262,7 +262,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172565Z",
+        "created_at": "2026-08-31T04:30:21.789863Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-patch-lockfiles",
         "status": "pass",
@@ -271,7 +271,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172570Z",
+        "created_at": "2026-08-31T04:30:21.789866Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-patch-generated",
         "status": "pass",
@@ -280,7 +280,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172585Z",
+        "created_at": "2026-08-31T04:30:21.789890Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-protected-paths",
         "status": "pass",
@@ -294,7 +294,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172609Z",
+        "created_at": "2026-08-31T04:30:21.789913Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-command-failure-3-1",
         "status": "warning",
@@ -309,7 +309,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.172716Z",
+        "created_at": "2026-08-31T04:30:21.790015Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-final-claim",
         "status": "pass",
@@ -332,6 +332,7 @@
     "exclusions": [],
     "raw_semantic_output_path": ".local/test-record-fixtures/wb/semantic/run-fixture-valid/attempt-1.json"
   },
+  "reviews": [],
   "artifacts": {
     "patch": "diff --git a/src/calculator.py b/src/calculator.py\n--- a/src/calculator.py\n+++ b/src/calculator.py\n@@ -1,2 +1,2 @@\n def normalize(value, default):\n-    return value if value else default\n+    return value if value is not None else default\n",
     "test_output": "FAIL_TO_PASS\ntests/test_normalize.py::test_zero_is_preserved PASSED\nPASS_TO_PASS\ntests/test_existing_behavior.py::test_positive_value_unchanged PASSED\n",

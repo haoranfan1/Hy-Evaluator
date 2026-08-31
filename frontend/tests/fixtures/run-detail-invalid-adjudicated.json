@@ -351,7 +351,56 @@
     "exclusions": [],
     "raw_semantic_output_path": ".local/test-record-fixtures/wb/semantic/run-fixture-invalid-first-error/attempt-1.json"
   },
-  "reviews": [],
+  "reviews": [
+    {
+      "created_at": "2026-08-31T04:30:21.855428Z",
+      "schema_version": "human-review-v1",
+      "review_id": "review-evaluation-run-fixture-invalid-first-error-v1",
+      "evaluation_id": "evaluation-run-fixture-invalid-first-error",
+      "review_version": 1,
+      "reviewer_alias": "reviewer-1",
+      "rubric_version": "process-rubric-v1",
+      "initial_label": {
+        "process_status": "invalid",
+        "first_error_location": "located",
+        "first_error_step_id": 3,
+        "primary_category": "task_interpretation",
+        "notes": "Zero was grouped with None against the explicit requirement."
+      },
+      "evaluator_revealed_at": null,
+      "adjudication": null,
+      "final_label": null,
+      "finding_decisions": [],
+      "notes": ""
+    },
+    {
+      "created_at": "2026-08-31T04:30:21.870821Z",
+      "schema_version": "human-review-v1",
+      "review_id": "review-evaluation-run-fixture-invalid-first-error-v2",
+      "evaluation_id": "evaluation-run-fixture-invalid-first-error",
+      "review_version": 2,
+      "reviewer_alias": "reviewer-1",
+      "rubric_version": "process-rubric-v1",
+      "initial_label": {
+        "process_status": "invalid",
+        "first_error_location": "located",
+        "first_error_step_id": 3,
+        "primary_category": "task_interpretation",
+        "notes": "Zero was grouped with None against the explicit requirement."
+      },
+      "evaluator_revealed_at": "2026-08-31T04:30:21.870816Z",
+      "adjudication": "accept",
+      "final_label": {
+        "process_status": "invalid",
+        "first_error_location": "located",
+        "first_error_step_id": 3,
+        "primary_category": "task_interpretation",
+        "notes": "Zero was grouped with None against the explicit requirement."
+      },
+      "finding_decisions": [],
+      "notes": ""
+    }
+  ],
   "artifacts": {
     "patch": "diff --git a/src/calculator.py b/src/calculator.py\n--- a/src/calculator.py\n+++ b/src/calculator.py\n@@ -1,2 +1,2 @@\n def normalize(value, default):\n-    return value if value else default\n+    return value if value not in (None, 0) else default\n",
     "test_output": "FAIL_TO_PASS\ntests/test_normalize.py::test_zero_is_preserved FAILED: expected 0, got 7\nPASS_TO_PASS\ntests/test_existing_behavior.py::test_positive_value_unchanged PASSED\n",

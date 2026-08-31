@@ -2,7 +2,7 @@ import { fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 
 import inconclusiveDetail from "./fixtures/run-detail-inconclusive.json";
-import invalidDetail from "./fixtures/run-detail-invalid.json";
+import adjudicatedDetail from "./fixtures/run-detail-invalid-adjudicated.json";
 import inconclusiveTrajectory from "./fixtures/trajectory-inconclusive.json";
 import invalidTrajectory from "./fixtures/trajectory-invalid.json";
 import { HEALTH, mockApi, renderApp } from "./helpers";
@@ -11,11 +11,12 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+// The reviewed (adjudicated) capture keeps the evaluator verdict revealed.
 function mockInvalidRun() {
   mockApi({
     "/api/health": HEALTH,
     "/api/runs/run-fixture-invalid-first-error/trajectory": invalidTrajectory,
-    "/api/runs/run-fixture-invalid-first-error": invalidDetail,
+    "/api/runs/run-fixture-invalid-first-error": adjudicatedDetail,
   });
 }
 
@@ -85,7 +86,7 @@ test("the verifier tab shows per-test results and the patch tab shows the diff",
   expect(diff).toHaveTextContent("return value if value not in (None, 0) else default");
 });
 
-test("an inconclusive run surfaces exclusions instead of a verdict", async () => {
+test("an unreviewed inconclusive run keeps deterministic exclusions visible while blinded", async () => {
   mockApi({
     "/api/health": HEALTH,
     "/api/runs/run-fixture-inconclusive-missing-evidence/trajectory": inconclusiveTrajectory,
@@ -94,7 +95,9 @@ test("an inconclusive run surfaces exclusions instead of a verdict", async () =>
 
   renderApp("/runs/run-fixture-inconclusive-missing-evidence");
 
-  expect(await screen.findByText("No process verdict")).toBeInTheDocument();
+  expect(
+    await screen.findByText("process: hidden until your initial label"),
+  ).toBeInTheDocument();
   expect(screen.queryByRole("note", { name: "First error" })).not.toBeInTheDocument();
 
   fireEvent.click(screen.getByRole("button", { name: "Verifier" }));

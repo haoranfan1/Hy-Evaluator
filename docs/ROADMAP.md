@@ -94,10 +94,33 @@ Completed:
   unsupported step-5 success claim as a second finding), and headless-browser screenshots
   confirmed the debugger renders the first error without raw JSON.
 
+- The blinded review workflow is live in the UI: an unreviewed run hides the evaluator process
+  verdict, first-error banner, and semantic findings while task, trajectory, patch, verifier,
+  and deterministic-check evidence stay visible; saving the initial label reveals the verdict
+  and offers adjudication with per-finding decisions; adjudicated runs show the immutable
+  version history. Recorded initial labels demonstrably precede reveal timestamps.
+- `MetricCalculator` derives every required metric from persisted records only — final-answer
+  accuracy, predicted and adjudicated process-correctness rates, incorrect-run error-detection
+  accuracy, exact and within-one-step localization, correct-result confirmed-problem and
+  false-positive rates, primary-error distribution, and per-difficulty tables — each with an
+  explicit numerator, denominator, exclusion list, and human/evaluator/mixed/official
+  provenance. Empty denominators yield null values, never fabricated zeros.
+- The adjacent-difficulty decline test bootstraps with a fixed recorded seed and reports
+  `not_established` unless the full interval lies below zero; empty bands can never fabricate
+  an interval.
+- `GET /api/analytics/summary` serves the typed summary, `/analytics` renders the quadrant,
+  distribution, difficulty table with denominators, decline statement, exclusions, and case
+  links, and exports now include deterministic `results/summary.json` and
+  `results/metrics.csv`.
+- A live browser check recorded the full flow on real judge data: blinded label at step 3,
+  reveal, adjudication, and the analytics page computing 100% exact localization for the
+  labeled run with the inconclusive run explicitly excluded.
+
 Current phase:
 
-- **Day 6 — human review and analytics.**
-- Days 1–5 are complete. Real benchmark execution remains deliberately deferred.
+- **Day 7 — real Hy3/Harbor/SWE-bench integration.**
+- Days 1–6 are complete. Stage A (the controlled offline evaluator) is finished; Stages B and
+  C (real recorded validation data and the reproducible live workflow) remain.
 
 ## Fixed execution decisions
 
@@ -173,8 +196,8 @@ Only one benchmark, harness, trace format, semantic judge configuration, and loc
 | Complete | **3 — Semantic evaluator** | Implement the versioned rubric, fixed Hy3 judge, evidence-reference validation, one schema-repair retry, and merge policy. | Invalid and valid fixtures produce typed, evidence-linked results; semantic failure remains honest and inspectable. |
 | Complete | **4 — API and persistence** | Add SQLite indexes, immutable artifact registration, import/evaluate/read/review endpoints, exports, and restart/interruption behavior. | The offline workflow is callable through FastAPI and survives process restart without corrupting evidence. |
 | Complete | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
-| **Current** | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
-| Pending | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |
+| Complete | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
+| **Current** | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |
 | Pending | **8 — Evaluation and validation** | Freeze a small difficulty-covering task slice; run sequentially; label every gradeable incorrect run and audit every resolved-and-flagged run. | Required localization and false-positive evidence exists with explicit numerators, denominators, exclusions, and label provenance. |
 | Pending | **9 — Analysis and differentiation** | Export final metrics/report/case studies; implement the regression card only if core evidence is complete; finish README and setup documentation. | Submission artifacts tell one coherent task-to-diagnosis-to-analysis story. |
 | Pending | **10 — Delivery freeze** | Perform a clean-environment run, tests/build, requirement/security/reproducibility audits, UI polish, demo rehearsal and recording, and public-repository preparation. | A reviewer can set up the project, inspect evidence, reproduce the documented path, and view a demo under two minutes. |

@@ -11,6 +11,7 @@ export type Selection =
 type Props = {
   checks: DeterministicCheck[];
   findings: Finding[];
+  findingsHiddenNote?: string;
   selection: Selection;
   selectedStep: number | null;
   onSelect: (selection: Selection) => void;
@@ -93,6 +94,7 @@ function EvidenceChips({
 export function EvidencePanel({
   checks,
   findings,
+  findingsHiddenNote,
   selection,
   selectedStep,
   onSelect,
@@ -109,7 +111,12 @@ export function EvidencePanel({
 
       <section aria-labelledby="findings-lane">
         <h3 id="findings-lane">Findings</h3>
-        {findings.length === 0 && <p className="empty-lane">No findings.</p>}
+        {findingsHiddenNote !== undefined && (
+          <p className="empty-lane">{findingsHiddenNote}</p>
+        )}
+        {findingsHiddenNote === undefined && findings.length === 0 && (
+          <p className="empty-lane">No findings.</p>
+        )}
         {findings.map((finding) => {
           const active = selection?.kind === "finding" && selection.id === finding.finding_id;
           const classes = [

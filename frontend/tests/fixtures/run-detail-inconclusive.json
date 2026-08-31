@@ -106,7 +106,7 @@
     "reference_patch": null
   },
   "evaluation": {
-    "created_at": "2026-08-30T22:24:36.201609Z",
+    "created_at": "2026-08-31T04:30:21.820544Z",
     "schema_version": "evaluation-result-v1",
     "evaluation_id": "evaluation-run-fixture-inconclusive-missing-evidence",
     "run_id": "run-fixture-inconclusive-missing-evidence",
@@ -125,7 +125,7 @@
     },
     "deterministic_checks": [
       {
-        "created_at": "2026-08-30T22:24:36.201373Z",
+        "created_at": "2026-08-31T04:30:21.820301Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-identity",
         "status": "pass",
@@ -134,7 +134,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201464Z",
+        "created_at": "2026-08-31T04:30:21.820398Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-atif-structure",
         "status": "pass",
@@ -143,7 +143,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201500Z",
+        "created_at": "2026-08-31T04:30:21.820435Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-verifier-report",
         "status": "fail",
@@ -152,7 +152,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201538Z",
+        "created_at": "2026-08-31T04:30:21.820473Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-verifier-infrastructure",
         "status": "unknown",
@@ -172,7 +172,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201557Z",
+        "created_at": "2026-08-31T04:30:21.820492Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-patch-scope",
         "status": "warning",
@@ -181,7 +181,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201559Z",
+        "created_at": "2026-08-31T04:30:21.820494Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-patch-tests",
         "status": "pass",
@@ -190,7 +190,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201560Z",
+        "created_at": "2026-08-31T04:30:21.820496Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-patch-lockfiles",
         "status": "pass",
@@ -199,7 +199,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201562Z",
+        "created_at": "2026-08-31T04:30:21.820497Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-patch-generated",
         "status": "pass",
@@ -208,7 +208,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201570Z",
+        "created_at": "2026-08-31T04:30:21.820506Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-protected-paths",
         "status": "pass",
@@ -222,7 +222,7 @@
         "hard_process_failure": false
       },
       {
-        "created_at": "2026-08-30T22:24:36.201589Z",
+        "created_at": "2026-08-31T04:30:21.820524Z",
         "schema_version": "deterministic-check-v1",
         "check_id": "check-final-claim",
         "status": "pass",
@@ -247,6 +247,7 @@
     ],
     "raw_semantic_output_path": null
   },
+  "reviews": [],
   "artifacts": {
     "patch": "# No patch was recoverable after the worker connection was lost.\n",
     "test_output": "ERROR worker connection lost\nNo reliable test exit status or PASS_TO_PASS results were captured.\n",

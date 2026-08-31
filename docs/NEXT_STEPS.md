@@ -2,73 +2,67 @@
 
 ## Status
 
-**Current gate: Day 6 human review and analytics.**
+**Current gate: Day 7 real Hy3/Harbor/SWE-bench integration.**
 
 Completed prerequisites:
 
-- Days 1–4: contracts, fixtures, the deterministic lane, the fixed Hy3 semantic judge and merge
-  policy, SQLite persistence, and the restart-safe FastAPI workflow with blinded review
-  endpoints and byte-stable exports.
-- Day 5: the evidence-debugger UI — filterable run list, ordered step timeline with the marked
-  first-error step, findings/checks lanes with two-way step cross-highlighting, evidence chips
-  navigating to patch/verifier/task views, and honest inconclusive rendering — verified
-  end-to-end against the live API with recorded screenshots.
-- 85 backend tests, 9 frontend tests, Ruff, typecheck, and the production build pass.
+- Stage A is finished: contracts, fixtures, the deterministic lane, the fixed Hy3 judge with
+  merge policy, SQLite persistence, the FastAPI workflow, the evidence-debugger UI, the blinded
+  review flow, and provenance-aware analytics with deterministic exports.
+- 94 backend tests, 14 frontend tests, Ruff, typecheck, and both builds pass; live checks
+  reproduced the fixture oracles with the real Hy3 judge and exercised the blinded review and
+  analytics pages end to end.
+- Recorded environment facts: Harbor 0.22.0 passed a native ARM64 lifecycle smoke test; the
+  official SWE-bench smoke image is AMD64-only; qemu binfmt is not registered on this host.
 
 ## Single next action
 
-Implement the human-review workflow in the UI and the provenance-aware analytics lane, using
-the three persisted fixture evaluations as data. No real benchmark execution.
+Produce one real SWE-bench Verified run end to end, gated behind a passing oracle check.
 
 ```text
-run detail (review mode)
-    -> blinded initial label (semantic verdict hidden, deterministic evidence visible)
-    -> reveal -> adjudication + finding decisions (new immutable version)
-persisted evaluations + reviews
-    -> MetricCalculator (numerator, denominator, exclusions, provenance per metric)
-    -> GET /api/analytics/summary -> /analytics page
-    -> exports: metrics.csv + summary.json
+select one SWE-bench Verified task (prefer a source-buildable ARM64 candidate)
+    -> oracle/environment check: gold patch satisfies FAIL_TO_PASS + PASS_TO_PASS
+    -> Harbor + mini-SWE-agent + Hy3 run (sequential, concurrency 1)
+    -> ATIF v1.7 trajectory + generated patch + official verifier artifacts
+    -> HarborImporter: dataset row + trial -> manifest/run bundle under .local
+    -> workbench import -> deterministic + semantic evaluation -> debugger diagnosis
 ```
 
 Required behavior:
 
-1. Review mode on the run detail page: until an initial review exists, the semantic verdict,
-   findings lane, and first-error banner stay hidden while task, trajectory, patch, and
-   verifier evidence remain visible; the reviewer records the initial label from that state.
-2. After the initial label is saved, the evaluator output is revealed and an adjudication form
-   appends a new immutable review version with accept/edit/reject/needs-more-evidence,
-   per-finding decisions, and a final label.
-3. A backend `MetricCalculator` derives the required metric set from persisted records only:
-   final-answer accuracy, predicted and adjudicated process-correctness rates, incorrect-run
-   error-detection accuracy, exact and within-one-step localization accuracy,
-   correct-result confirmed-problem and false-positive rates, primary-error distribution, and
-   per-difficulty tables. Every metric carries numerator, denominator, exclusions, and label
-   provenance (`human` versus `evaluator`).
-4. The adjacent-difficulty decline test uses a fixed recorded seed and reports
-   `not_established` when the bootstrap interval does not lie fully below zero; it must never
-   fabricate an interval from empty difficulty bands.
-5. `GET /api/analytics/summary` returns the typed metrics; `POST /api/exports` additionally
-   writes `results/metrics.csv` and `results/summary.json` deterministically.
-6. The `/analytics` page renders the outcome-versus-process quadrant, primary-error
-   distribution, difficulty table with explicit denominators, decline-interval statement,
-   excluded/inconclusive runs, and links to the underlying runs, marking each aggregate as
-   human- or evaluator-provenance.
-7. Backend unit tests cover the metric definitions (including empty and single-run
-   denominators) and blinding enforcement; frontend tests cover the blinded review flow and
-   the analytics rendering from recorded responses.
+1. No live benchmark run starts before one oracle/environment check passes and is recorded
+   (task id, image or build provenance, host, and the check output). Environment paths in
+   preference order: a source-built ARM64 task image on this host; qemu binfmt emulation
+   (requires a user-approved system change); a short-lived x86-64 host with artifacts copied
+   back into `.local/` (requires user-approved cost).
+2. Run the selected task through Harbor with mini-SWE-agent and the configured Hy3 model,
+   sequentially, with project-scoped names and paths; never store benchmark data outside the
+   repository's configured `.local/` locations.
+3. Implement `HarborImporter`: build the `TaskManifest` from the pinned dataset row
+   (behavioral-test contract, official difficulty label, problem statement, source links,
+   protected paths) and the `RunRecord` from the completed trial (ATIF trajectory, generated
+   patch, verifier report and logs, hashed artifact identities); reject trials whose ATIF or
+   artifacts fail validation.
+4. Map the official verifier output into the report contract the deterministic lane reads, or
+   extend the lane with a clearly versioned adapter — without weakening the
+   inconclusive-before-model-call policy.
+5. Import and evaluate the run through the existing API and inspect it in the debugger; the
+   semantic review runs against live Hy3 with the recorded judge configuration.
+6. Record the full reproduction path (commands, versions, digests, configuration) so the run
+   can be repeated on a compatible host.
 
 ## Exit condition
 
-The gate is complete when a reviewer can label the invalid fixture run before seeing the
-evaluator verdict, adjudicate after the reveal, and then open `/analytics` and read every
-required metric with explicit numerators, denominators, exclusions, and provenance — all
-produced from persisted fixture data; blinded initial labels are demonstrably recorded before
-reveal timestamps; and the backend suite, frontend tests, Ruff, and both builds pass.
+The gate is complete when one real SWE-bench Verified task has a recorded passing oracle
+check, a completed Hy3 agent run with an ATIF v1.7 trajectory, generated patch, and official
+verifier artifacts stored under `.local/`, and the imported run produces a full workbench
+diagnosis (deterministic checks, semantic review, merged result) visible in the debugger —
+with the reproduction path documented and the entire test suite still passing.
 
 ## Explicitly deferred
 
-- Real Hy3/Harbor/SWE-bench execution and the job manager: Day 7.
-- The final difficulty-covering evaluation slice and its human labels: Day 8.
-- Report/case-study exports and the regression card: Days 9+, only after mandatory evidence.
+- The frozen difficulty-covering evaluation slice and its blinded human labels: Day 8.
+- Final metrics/report/case-study exports and differentiation features: Day 9.
+- Delivery freeze, clean-environment run, and demo recording: Day 10.
 
 Implementation details are fixed in [ARCHITECTURE.md](ARCHITECTURE.md) and [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md).

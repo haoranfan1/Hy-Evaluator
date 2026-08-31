@@ -88,11 +88,87 @@ export type ArtifactTexts = {
   run_log: string | null;
 };
 
+export type HumanLabel = {
+  process_status: ProcessStatus;
+  first_error_location: "located" | "none" | "unlocatable";
+  first_error_step_id: number | null;
+  primary_category: string | null;
+  notes: string;
+};
+
+export type FindingDecision = {
+  finding_id: string;
+  decision: "accept" | "edit" | "reject" | "needs_more_evidence";
+  notes: string;
+};
+
+export type HumanReview = {
+  review_id: string;
+  evaluation_id: string;
+  review_version: number;
+  reviewer_alias: string;
+  rubric_version: string;
+  initial_label: HumanLabel;
+  evaluator_revealed_at: string | null;
+  adjudication: "accept" | "edit" | "reject" | "needs_more_evidence" | null;
+  final_label: HumanLabel | null;
+  finding_decisions: FindingDecision[];
+  notes: string;
+};
+
 export type RunDetail = {
   run: RunRecordSummary;
   task: TaskDetail;
   evaluation: Evaluation | null;
+  reviews: HumanReview[];
   artifacts: ArtifactTexts;
+};
+
+export type MetricValue = {
+  metric_id: string;
+  value: number | null;
+  numerator: number;
+  denominator: number;
+  provenance: string;
+  definition: string;
+  exclusions: string[];
+};
+
+export type AnalyticsSummary = {
+  run_count: number;
+  evaluated_count: number;
+  reviewed_count: number;
+  adjudicated_count: number;
+  configuration: Record<string, string | number>;
+  metrics: MetricValue[];
+  primary_error_distribution: {
+    category: string;
+    count: number;
+    human_count: number;
+    evaluator_count: number;
+  }[];
+  difficulty_table: {
+    label: string;
+    total_runs: number;
+    gradeable_runs: number;
+    resolved_runs: number;
+    outcome_rate: number | null;
+    process_gradeable_runs: number;
+    process_valid_runs: number;
+    process_valid_rate: number | null;
+    inconclusive_runs: number;
+    provenance: string;
+  }[];
+  quadrant: {
+    outcome_status: string;
+    process_status: string;
+    run_ids: string[];
+    provenance: string;
+  }[];
+  observed_decline_interval: string;
+  statistically_supported_decline_interval: string;
+  excluded_runs: { run_id: string; reasons: string[] }[];
+  cases: { run_id: string; evaluation_id: string | null; kind: string; note: string }[];
 };
 
 export type ToolCall = {
@@ -139,6 +215,57 @@ export function fetchRunDetail(runId: string): Promise<RunDetail> {
 
 export function fetchTrajectory(runId: string): Promise<Trajectory> {
   return getJson(`/api/runs/${encodeURIComponent(runId)}/trajectory`);
+}
+
+export function fetchAnalytics(): Promise<AnalyticsSummary> {
+  return getJson("/api/analytics/summary");
+}
+
+async function postJson<T>(url: string, body: unknown): Promise<T> {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    let detail = `${response.status}`;
+    try {
+      const payload = (await response.json()) as { detail?: unknown };
+      if (payload.detail) {
+        detail = typeof payload.detail === "string" ? payload.detail : JSON.stringify(payload.detail);
+      }
+    } catch {
+      // keep the status code as the message
+    }
+    throw new Error(detail);
+  }
+  return response.json() as Promise<T>;
+}
+
+export function postInitialReview(
+  evaluationId: string,
+  body: {
+    reviewer_alias: string;
+    rubric_version: string;
+    initial_label: HumanLabel;
+    notes?: string;
+  },
+): Promise<HumanReview> {
+  return postJson(`/api/evaluations/${encodeURIComponent(evaluationId)}/initial-review`, body);
+}
+
+export function postAdjudication(
+  evaluationId: string,
+  body: {
+    reviewer_alias: string;
+    rubric_version: string;
+    adjudication: "accept" | "edit" | "reject" | "needs_more_evidence";
+    final_label: HumanLabel;
+    finding_decisions?: FindingDecision[];
+    notes?: string;
+  },
+): Promise<HumanReview> {
+  return postJson(`/api/evaluations/${encodeURIComponent(evaluationId)}/adjudications`, body);
 }
 
 export function textOf(value: string | unknown[] | null | undefined): string {

@@ -22,6 +22,7 @@ from hy3_workbench.contracts import (
     utc_now,
 )
 from hy3_workbench.evaluator import EVALUATOR_VERSION, ProcessEvaluator
+from hy3_workbench.metrics import MetricCalculator
 from hy3_workbench.rubric import RUBRIC_VERSION, SEMANTIC_PROMPT_VERSION
 from hy3_workbench.semantic_reviewer import SemanticJudge
 from hy3_workbench.storage import StoredRun, WorkbenchRepository
@@ -236,4 +237,26 @@ class WorkbenchService:
         ]
         reviews_path.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
         written.append(reviews_path.relative_to(self.project_root).as_posix())
+
+        summary = MetricCalculator(self.repository).summarize()
+        summary_path = results_root / "summary.json"
+        summary_payload = summary.model_dump(mode="json")
+        summary_path.write_text(
+            json.dumps(summary_payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        written.append(summary_path.relative_to(self.project_root).as_posix())
+
+        metrics_path = results_root / "metrics.csv"
+        header = "metric_id,value,numerator,denominator,provenance,exclusions"
+        csv_lines = [header]
+        for metric in summary.metrics:
+            value = "" if metric.value is None else f"{metric.value:.6f}"
+            exclusions = "; ".join(metric.exclusions).replace('"', "'")
+            csv_lines.append(
+                f"{metric.metric_id},{value},{metric.numerator},{metric.denominator},"
+                f'{metric.provenance},"{exclusions}"'
+            )
+        metrics_path.write_text("\n".join(csv_lines) + "\n", encoding="utf-8")
+        written.append(metrics_path.relative_to(self.project_root).as_posix())
         return written

@@ -23,6 +23,7 @@ from hy3_workbench.contracts import (
     TaskManifest,
 )
 from hy3_workbench.hy3_client import Hy3Client
+from hy3_workbench.metrics import AnalyticsSummary, MetricCalculator
 from hy3_workbench.semantic_reviewer import SemanticJudge
 from hy3_workbench.storage import (
     RepositoryConflictError,
@@ -100,6 +101,7 @@ class RunDetailResponse(BaseModel):
     run: RunRecord
     task: TaskManifest
     evaluation: EvaluationResult | None
+    reviews: list[HumanReview]
     artifacts: ArtifactTexts
 
 
@@ -304,6 +306,7 @@ def run_detail(
         run=stored.run,
         task=task,
         evaluation=evaluation.result if evaluation else None,
+        reviews=(repository.list_reviews(evaluation.result.evaluation_id) if evaluation else []),
         artifacts=ArtifactTexts(
             patch=verified_text(stored.run.patch),
             test_output=verified_text(stored.run.verifier.test_output),
@@ -383,6 +386,11 @@ def create_adjudication(
         )
     except (WorkflowError, RepositoryConflictError, RepositoryNotFoundError) as error:
         raise _http_error(error) from error
+
+
+@app.get("/api/analytics/summary", response_model=AnalyticsSummary)
+def analytics_summary(repository: RepositoryDependency) -> AnalyticsSummary:
+    return MetricCalculator(repository).summarize()
 
 
 @app.post("/api/exports", response_model=ExportResponse)

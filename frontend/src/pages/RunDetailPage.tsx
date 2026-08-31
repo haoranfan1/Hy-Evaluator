@@ -6,6 +6,7 @@ import { citedStepIds, fetchRunDetail, fetchTrajectory } from "../api";
 import { PatchView, TaskView, VerifierView } from "../components/ArtifactViews";
 import type { Selection, TabName } from "../components/EvidencePanel";
 import { EvidencePanel } from "../components/EvidencePanel";
+import { ReviewPanel } from "../components/ReviewPanel";
 import { StepTimeline } from "../components/StepTimeline";
 
 const TABS: { id: TabName; label: string }[] = [
@@ -58,8 +59,9 @@ export function RunDetailPage() {
     return <p role="alert">This run could not be loaded from the local API.</p>;
   }
 
-  const { run, task, artifacts } = detail.data;
-  const firstError = evaluation?.first_error ?? null;
+  const { run, task, artifacts, reviews } = detail.data;
+  const blinded = evaluation !== null && reviews.length === 0;
+  const firstError = blinded ? null : (evaluation?.first_error ?? null);
   const firstErrorFindings = (evaluation?.findings ?? []).filter(
     (finding) =>
       firstError?.location === "located" &&
@@ -84,10 +86,14 @@ export function RunDetailPage() {
           <span className={`chip chip-${evaluation?.outcome_status ?? "pending"}`}>
             outcome: {evaluation?.outcome_status ?? "not evaluated"}
           </span>
-          <span className={`chip chip-${evaluation?.process_status ?? "pending"}`}>
-            process: {evaluation?.process_status ?? "not evaluated"}
-          </span>
-          {evaluation?.correct_result_invalid_process === true && (
+          {blinded ? (
+            <span className="chip chip-pending">process: hidden until your initial label</span>
+          ) : (
+            <span className={`chip chip-${evaluation?.process_status ?? "pending"}`}>
+              process: {evaluation?.process_status ?? "not evaluated"}
+            </span>
+          )}
+          {!blinded && evaluation?.correct_result_invalid_process === true && (
             <span className="chip chip-critical">correct result, invalid process</span>
           )}
         </div>
@@ -116,7 +122,7 @@ export function RunDetailPage() {
           <p>Primary category: {firstError.primary_category}</p>
         </div>
       )}
-      {evaluation && evaluation.process_status === "inconclusive" && (
+      {evaluation && !blinded && evaluation.process_status === "inconclusive" && (
         <div className="inconclusive-banner" role="note">
           <h3>No process verdict</h3>
           <p>
@@ -168,15 +174,30 @@ export function RunDetailPage() {
           {tab === "task" && <TaskView task={task} />}
         </div>
 
-        <EvidencePanel
-          checks={evaluation?.deterministic_checks ?? []}
-          findings={evaluation?.findings ?? []}
-          selection={selection}
-          selectedStep={selectedStep}
-          onSelect={setSelection}
-          onOpenTab={setTab}
-          onSelectStep={setSelectedStep}
-        />
+        <div className="detail-side">
+          {evaluation && (
+            <ReviewPanel
+              runId={run.run_id}
+              evaluationId={evaluation.evaluation_id}
+              reviews={reviews}
+              findings={evaluation.findings}
+            />
+          )}
+          <EvidencePanel
+            checks={evaluation?.deterministic_checks ?? []}
+            findings={blinded ? [] : (evaluation?.findings ?? [])}
+            findingsHiddenNote={
+              blinded
+                ? "Semantic findings are hidden until your blinded initial label is saved."
+                : undefined
+            }
+            selection={selection}
+            selectedStep={selectedStep}
+            onSelect={setSelection}
+            onOpenTab={setTab}
+            onSelectStep={setSelectedStep}
+          />
+        </div>
       </div>
     </section>
   );

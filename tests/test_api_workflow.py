@@ -116,13 +116,24 @@ async def test_full_offline_workflow_via_the_api(client: AsyncClient, judge: Fak
         stored = (await client.get(f"/api/evaluations/{evaluation_id}")).json()
         assert [review["review_version"] for review in stored["reviews"]] == [1, 2]
 
+        analytics = (await client.get("/api/analytics/summary")).json()
+        assert analytics["run_count"] == 3
+        assert analytics["adjudicated_count"] == 1
+        assert any(
+            entry["metric_id"] == "exact_first_error_localization_accuracy"
+            and entry["numerator"] == 1
+            for entry in analytics["metrics"]
+        )
+
         exported = (await client.post("/api/exports")).json()["files"]
         assert f"{DATA_DIR.as_posix()}/results/human_reviews.jsonl" in exported
+        assert f"{DATA_DIR.as_posix()}/results/summary.json" in exported
+        assert f"{DATA_DIR.as_posix()}/results/metrics.csv" in exported
         first_bytes = [(PROJECT_ROOT / name).read_bytes() for name in sorted(exported)]
         again = (await client.post("/api/exports")).json()["files"]
         second_bytes = [(PROJECT_ROOT / name).read_bytes() for name in sorted(again)]
         assert first_bytes == second_bytes
-        assert len(exported) == 4  # three per-run files plus the reviews export
+        assert len(exported) == 6  # per-run files plus reviews, summary, and metrics
 
 
 async def test_evaluate_is_idempotent_and_force_respects_reviews(

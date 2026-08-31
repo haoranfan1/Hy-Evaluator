@@ -27,8 +27,12 @@ This repository will implement Project 2 as a web-based workbench for evaluating
   the step timeline, marked first error, evidence lanes with two-way cross-highlighting, patch
   and verifier views, and honest inconclusive rendering — verified live against the API with a
   real Hy3 judge.
-- The Day 6 human-review workflow and analytics are the active implementation milestone; they
-  are not complete yet.
+- The Day 6 human-review workflow and analytics are complete: blinded initial labels before any
+  verdict reveal, append-only adjudication versions, and provenance-aware aggregate metrics
+  with explicit numerators, denominators, exclusions, and a seeded bootstrap decline test,
+  rendered on the analytics page and exported deterministically.
+- The Day 7 real Hy3/Harbor/SWE-bench integration is the active implementation milestone; it is
+  not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 
