@@ -9,6 +9,8 @@ from hy3_workbench.contracts import FirstError, HumanLabel
 from hy3_workbench.metrics import (
     MetricCalculator,
     RunAnalysisRow,
+    list_slices,
+    load_slice,
     summarize_rows,
 )
 
@@ -25,6 +27,7 @@ def clean_state():
 
 def make_row(
     run_id: str,
+    task_id: str | None = None,
     difficulty: str = "easy",
     outcome: str | None = "unresolved",
     evaluator_process: str | None = "invalid",
@@ -61,6 +64,7 @@ def make_row(
         )
     return RunAnalysisRow(
         run_id=run_id,
+        task_id=task_id or f"task-{run_id}",
         evaluation_id=f"evaluation-{run_id}" if outcome is not None else None,
         difficulty=difficulty,
         outcome_status=outcome,  # type: ignore[arg-type]
@@ -304,3 +308,128 @@ class TestSyntheticRows:
         assert entry.evaluator_count == 1
         band = summary.difficulty_table[0]
         assert band.provenance == "mixed"
+
+
+class TestSliceScope:
+    SLICES_DIR = PROJECT_ROOT / "data" / "evaluation-slices"
+
+    def test_committed_day8_slice_loads_with_eight_unique_tasks(self) -> None:
+        scope = load_slice(self.SLICES_DIR, "day8-slice-v1")
+        assert scope.slice_id == "day8-slice-v1"
+        assert len(scope.task_ids) == 8
+        assert scope.task_ids == sorted(set(scope.task_ids))
+        assert all(task.startswith("django__django-") for task in scope.task_ids)
+        assert "django__django-15851" not in scope.task_ids
+        assert "day8-slice-v1" in list_slices(self.SLICES_DIR)
+
+    def test_load_slice_rejects_unknown_and_unsafe_ids(self) -> None:
+        with pytest.raises(ValueError, match="unknown evaluation slice"):
+            load_slice(self.SLICES_DIR, "no-such-slice")
+        with pytest.raises(ValueError, match="invalid slice id"):
+            load_slice(self.SLICES_DIR, "../day8-slice-v1")
+        with pytest.raises(ValueError, match="invalid slice id"):
+            load_slice(self.SLICES_DIR, "Day8")
+
+    def test_scoped_summary_filters_rows_and_records_coverage(self, tmp_path) -> None:
+        slices_dir = tmp_path / "slices"
+        slices_dir.mkdir()
+        (slices_dir / "mini-slice.json").write_text(
+            """
+            {
+              "slice_id": "mini-slice",
+              "strata": {
+                "easy": {"selected": [{"instance_id": "task-in-1"}]},
+                "hard": {"selected": [{"instance_id": "task-in-2"}]}
+              }
+            }
+            """,
+            encoding="utf-8",
+        )
+        scope = load_slice(slices_dir, "mini-slice")
+        rows = [
+            make_row(
+                "run-a",
+                task_id="task-in-1",
+                outcome="resolved",
+                evaluator_process="valid",
+                evaluator_step=None,
+            ),
+            make_row("run-b", task_id="task-out", outcome="unresolved"),
+        ]
+        summary = summarize_rows(rows, scope=scope)
+        assert summary.run_count == 1
+        assert summary.configuration["scope"] == "mini-slice"
+        assert summary.configuration["scope_task_count"] == 2
+        assert summary.configuration["scope_out_of_scope_runs"] == 1
+        assert summary.configuration["scope_tasks_without_runs"] == "task-in-2"
+        assert all("run-b" not in cell.run_ids for cell in summary.quadrant)
+
+    def test_unscoped_summary_declares_scope_all(self) -> None:
+        summary = summarize_rows([make_row("run-a")])
+        assert summary.configuration["scope"] == "all"
+        assert "scope_task_count" not in summary.configuration
+
+
+class TestConfirmedInvalidLocalization:
+    def test_counts_human_located_invalid_runs_regardless_of_outcome(self) -> None:
+        rows = [
+            # Resolved but human-confirmed invalid: evaluator exact match.
+            make_row(
+                "run-a",
+                outcome="resolved",
+                evaluator_step=5,
+                human_step=5,
+                human_process="invalid",
+                final=True,
+                adjudication="edit",
+            ),
+            # Resolved, human step 28 vs evaluator step 16: miss.
+            make_row(
+                "run-b",
+                outcome="resolved",
+                evaluator_step=16,
+                human_step=28,
+                human_process="invalid",
+                final=True,
+                adjudication="edit",
+            ),
+            # Unresolved with within-one localization.
+            make_row(
+                "run-c",
+                outcome="unresolved",
+                evaluator_step=4,
+                human_step=3,
+                human_process="invalid",
+            ),
+            # Human-valid run contributes nothing.
+            make_row(
+                "run-d",
+                outcome="resolved",
+                evaluator_process="valid",
+                evaluator_step=None,
+                human_process="valid",
+                final=True,
+                adjudication="reject",
+            ),
+        ]
+        summary = summarize_rows(rows)
+        exact = metric(summary, "confirmed_invalid_exact_localization_accuracy")
+        assert (exact.numerator, exact.denominator) == (1, 3)
+        within = metric(summary, "confirmed_invalid_within_one_step_localization_accuracy")
+        assert (within.numerator, within.denominator) == (2, 3)
+
+    def test_unlocatable_human_labels_are_listed_as_exclusions(self) -> None:
+        rows = [
+            make_row(
+                "run-a",
+                outcome="resolved",
+                evaluator_step=None,
+                human_process="invalid",
+                final=True,
+                adjudication="edit",
+            ),
+        ]
+        summary = summarize_rows(rows)
+        exact = metric(summary, "confirmed_invalid_exact_localization_accuracy")
+        assert exact.denominator == 0 and exact.value is None
+        assert any("without a locatable step" in reason for reason in exact.exclusions)

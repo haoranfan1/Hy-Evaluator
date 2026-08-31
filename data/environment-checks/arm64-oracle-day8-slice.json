@@ -1,0 +1,46 @@
+{
+  "schema_version": "environment-check-v1",
+  "check_id": "arm64-oracle-day8-slice",
+  "recorded_at": "2026-08-31T14:05:00Z",
+  "purpose": "Per-task gold-patch oracle gate for every task in the frozen day8-slice-v1 evaluation slice, run before each task's agent run.",
+  "host": {
+    "os": "Linux 6.11.0-1016-nvidia",
+    "architecture": "aarch64",
+    "machine": "NVIDIA DGX Spark (GB10)",
+    "docker_server": "28.3.3 linux/arm64"
+  },
+  "environment_path": {
+    "chosen": "source-built ARM64 task images on this host",
+    "reason": "Same recorded path as arm64-oracle-django__django-15851: official swebench==4.0.3 harness builds base, env, and instance images natively for aarch64."
+  },
+  "slice": "data/evaluation-slices/day8-slice-v1.json",
+  "dataset": {
+    "name": "princeton-nlp/SWE-bench_Verified",
+    "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a"
+  },
+  "build_provenance": {
+    "builder": "swebench==4.0.3 official harness, python -m swebench.harness.run_evaluation",
+    "batch_arguments": "--dataset_name princeton-nlp/SWE-bench_Verified --split test --predictions_path gold --instance_ids <8 slice ids> --namespace '' --max_workers 2 --cache_level instance --run_id arm64-oracle-day8-slice",
+    "retry_arguments": "--instance_ids django__django-14017 django__django-14631 --max_workers 1 --cache_level instance --run_id arm64-oracle-day8-retry"
+  },
+  "results": {
+    "batch": {
+      "resolved": [
+        "django__django-15022",
+        "django__django-15278",
+        "django__django-15503",
+        "django__django-16429",
+        "django__django-16801",
+        "django__django-16899"
+      ],
+      "errors": ["django__django-14017", "django__django-14631"],
+      "error_cause": "The shared Python 3.8 env image build failed on a transient conda-forge connection error (CondaHTTPError: HTTP 000 CONNECTION FAILED fetching repodata.json); classified as transient infrastructure, not an environment incompatibility, so the frozen substitution rule was not triggered."
+    },
+    "retry": {
+      "resolved": ["django__django-14017", "django__django-14631"],
+      "errors": []
+    },
+    "conclusion": "All 8 slice tasks pass the gold-patch oracle in locally built ARM64 images (8/8 resolved, no substitutions used).",
+    "official_reports": ".local/workbench/swebench/oracle/ on the recording host (gold.arm64-oracle-day8-slice.json, gold.arm64-oracle-day8-retry.json, and per-instance run logs)"
+  }
+}

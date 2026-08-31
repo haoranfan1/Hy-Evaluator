@@ -217,8 +217,9 @@ export function fetchTrajectory(runId: string): Promise<Trajectory> {
   return getJson(`/api/runs/${encodeURIComponent(runId)}/trajectory`);
 }
 
-export function fetchAnalytics(): Promise<AnalyticsSummary> {
-  return getJson("/api/analytics/summary");
+export function fetchAnalytics(scope?: string): Promise<AnalyticsSummary> {
+  const query = scope ? `?scope=${encodeURIComponent(scope)}` : "";
+  return getJson(`/api/analytics/summary${query}`);
 }
 
 async function postJson<T>(url: string, body: unknown): Promise<T> {

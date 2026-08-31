@@ -1,15 +1,17 @@
 metric_id,value,numerator,denominator,provenance,exclusions
-final_answer_accuracy,0.666667,2,3,official,"run-fixture-inconclusive-missing-evidence: infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport
+final_answer_accuracy,0.909091,10,11,official,"run-fixture-inconclusive-missing-evidence: infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport
 pass_to_pass
   Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.13/v/missing
 exclusion_reason
   Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]
     For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)"
-predicted_process_correctness_rate,0.333333,1,3,evaluator,"run-fixture-inconclusive-missing-evidence: evaluator process status is inconclusive or missing"
-adjudicated_process_correctness_rate,0.000000,0,1,human,"django__django-15851__TDyDpF3__agent: no conclusive adjudicated final label; run-fixture-inconclusive-missing-evidence: no conclusive adjudicated final label; run-fixture-valid: no conclusive adjudicated final label"
+predicted_process_correctness_rate,0.100000,1,10,evaluator,"django__django-14017__n7sw8mU__agent: evaluator process status is inconclusive or missing; run-fixture-inconclusive-missing-evidence: evaluator process status is inconclusive or missing"
+adjudicated_process_correctness_rate,0.444444,4,9,human,"django__django-15851__TDyDpF3__agent: no conclusive adjudicated final label; run-fixture-inconclusive-missing-evidence: no conclusive adjudicated final label; run-fixture-valid: no conclusive adjudicated final label"
 incorrect_run_error_detection_accuracy,1.000000,1,1,mixed,""
 exact_first_error_localization_accuracy,1.000000,1,1,mixed,""
 within_one_step_localization_accuracy,1.000000,1,1,mixed,""
-correct_result_confirmed_problem_rate,,0,0,human,"django__django-15851__TDyDpF3__agent: resolved-and-flagged run awaits adjudication"
-correct_result_evaluator_false_positive_rate,,0,0,human,"django__django-15851__TDyDpF3__agent: resolved-and-flagged run awaits adjudication"
+confirmed_invalid_exact_localization_accuracy,0.333333,2,6,mixed,""
+confirmed_invalid_within_one_step_localization_accuracy,0.333333,2,6,mixed,""
+correct_result_confirmed_problem_rate,0.571429,4,7,human,"django__django-15851__TDyDpF3__agent: resolved-and-flagged run awaits adjudication"
+correct_result_evaluator_false_positive_rate,0.428571,3,7,human,"django__django-15851__TDyDpF3__agent: resolved-and-flagged run awaits adjudication"

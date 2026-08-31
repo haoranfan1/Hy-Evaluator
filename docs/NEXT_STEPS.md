@@ -2,69 +2,55 @@
 
 ## Status
 
-**Current gate: Day 8 frozen evaluation slice with blinded validation labels.**
+**Current gate: Day 9 final analysis, report, case studies, and differentiation.**
 
 Completed prerequisites:
 
-- Days 1–7 are complete: the offline evaluator stack, the blinded review flow, analytics, and
-  one real SWE-bench Verified run end to end on the source-built ARM64 path.
-- The recorded oracle/environment check passed
-  (`data/environment-checks/arm64-oracle-django__django-15851.json`), `HarborImporter` maps
-  real trials into immutable bundles with strict rejection rules, and the first real run
-  produced a correct-result/invalid-process diagnosis (protected test file rewritten at step
-  12) confirmed by the live Hy3 judge.
-- Reproduction tooling exists: `scripts/prepare_swebench_task.py` (pinned task copy with the
-  ARM64 image swap and pre-grading patch dump) and `scripts/import_harbor_trial.py` (bundle
-  build plus workflow import). Agent-phase credentials go through
-  `OPENAI_API_KEY`/`OPENAI_BASE_URL` in the Harbor `--env-file`.
+- Days 1–8 are complete. The frozen day8-slice-v1 slice has recorded oracle checks, eight
+  completed sequential runs, blinded initial labels, adjudications for every evaluator-flagged
+  run, and slice-scoped analytics with explicit numerators, denominators, exclusions, and
+  provenance (`results/summary-day8-slice-v1.json`, `results/metrics-day8-slice-v1.csv`).
+- Headline validated findings: final-answer accuracy 8/8 with adjudicated process correctness
+  4/8; confirmed-problem rate 4/7 vs evaluator false-positive rate 3/7 (all three false
+  positives from the protected-path check firing on read-only references); confirmed-invalid
+  localization 0/4 exact because the deterministic lane anchors at the first protected-path
+  reference while humans anchor at the first modification.
 
 ## Single next action
 
-Freeze a small difficulty-covering SWE-bench Verified slice, run it sequentially with the
-pinned configuration, and produce blinded validation labels for the required run classes.
+Turn the recorded evidence into the submission-grade analysis, in this priority order:
 
-```text
-freeze the slice (recorded selection rule + seed, committed under data/)
-    -> per task: build ARM64 instance image -> prepare pinned task copy
-    -> harbor run (mini-swe-agent 2.4.6 + Hy3, sequential, -n 1)
-    -> import -> evaluate (verdict stored, NOT viewed)
-    -> blinded UI label BEFORE any verdict reveal -> reveal -> adjudicate flagged runs
-    -> analytics + exports produce the required validation evidence
-```
-
-Required behavior:
-
-1. The slice is frozen before any run starts: a committed selection record lists every
-   instance id, its official difficulty label, the selection rule, and the environment
-   constraint (source-buildable ARM64). Cover at least three official difficulty bands;
-   staying within repositories that build reliably on aarch64 is acceptable and must be
-   stated in the record.
-2. Every task passes the same recorded oracle/environment gate as Day 7 before its agent run
-   (gold patch resolves in the locally built image; record appended under
-   `data/environment-checks/`).
-3. Runs are sequential with the pinned agent, model, and judge configuration; failed trials
-   (harness exceptions) are recorded and rerun at most once, with both trials kept.
-4. Blinding is procedural and auditable: after import, evaluation runs without the operator
-   viewing the verdict (no API reads of the evaluation before labeling); the initial label is
-   entered through the blinded UI, then revealed and adjudicated. The Day 7 reveal review is
-   already marked non-blinded and stays excluded from validation metrics.
-5. Every gradeable incorrect run gets a blinded process/first-error label; every resolved run
-   flagged process-invalid gets an adjudicated audit (confirmed problem vs false positive).
-6. Analytics and exports must state the resulting localization accuracy, detection accuracy,
-   and false-positive evidence with explicit numerators, denominators, exclusions, and
-   provenance; thin slices report honest small-n numbers, never smoothed ones.
+1. **Evaluator fix with a regression card.** Rework `check_protected_paths` to separate
+   modification evidence (patch-file intersection, write-command detection) from read-only
+   references (which become an advisory note at most), and anchor the cited first error at
+   the first modifying step. Bump the evaluator version, re-evaluate the slice under the new
+   version WITHOUT touching the reviewed Day 8 evaluations (new evaluations require force and
+   are refused once reviews exist — so record the re-run as a separate versioned comparison,
+   not a replacement), and publish a before/after regression card: false positives 3 → ?,
+   exact localization 0/4 → ?/4 against the same frozen human labels.
+2. **Report and case studies** under `docs/` (or `results/report/`): the validation story
+   (blinded protocol, metrics with provenance), plus three case studies — the graded-assertion
+   rewrite (django-16899), the read-only false positive the semantic judge contradicted
+   (django-15022), and the modify-then-revert with harness-awareness narration
+   (django-14631). Include the difficulty inversion observation and the honest
+   context-limit abstention (django-14017).
+3. **Judge-stability table.** Re-run the semantic review N times on one fixture and one real
+   run (bounded, recorded) and tabulate verdict/step stability across sessions, extending the
+   existing recorded live checks.
+4. **UI polish only after the above**: annotate analytics case links with their adjudication
+   outcome (confirmed vs rejected) so the case list distinguishes them, and surface the
+   scope selector.
 
 ## Exit condition
 
-The gate is complete when the frozen slice has recorded oracle checks, completed sequential
-runs, imported evidence bundles, blinded initial labels for every gradeable incorrect run,
-adjudicated audits for every resolved-and-flagged run, and the analytics/exports present the
-required validation metrics from those records — with the full test suite still passing.
+The gate is complete when the submission artifacts — README, report, case studies, the
+regression card, and deterministic exports — tell one coherent story from task selection
+through diagnosis to validated analysis, with every number carrying its provenance and the
+full test suite passing.
 
 ## Explicitly deferred
 
-- Final metrics/report/case-study exports and differentiation features (judge-stability
-  table, adversarial robustness case, regression card): Day 9.
-- Delivery freeze, clean-environment run, and demo recording: Day 10.
+- Delivery freeze, clean-environment reproduction run, and the ≤2-minute demo recording:
+  Day 10.
 
 Implementation details are fixed in [ARCHITECTURE.md](ARCHITECTURE.md) and [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md).

@@ -150,12 +150,44 @@ Completed:
   covering the run. The operator's reveal review is marked non-blinded in its notes and must
   be excluded from blinded-validation metrics.
 
+- The frozen day8-slice-v1 evaluation slice is committed before any run: eight Django tasks
+  stratified over three official difficulty bands (seeded shuffle, seed 20260830, full
+  substitution order recorded), with declared frame constraints (Django >= 4.0 for aarch64
+  conda reliability) and a pre-declared substitution rule that was never needed — all eight
+  tasks passed the gold-patch oracle gate (one transient conda network failure retried and
+  documented in `data/environment-checks/arm64-oracle-day8-slice.json`).
+- All eight agent runs completed sequentially on the first trial (one run rode out a mid-run
+  Hy3 quota exhaustion through litellm retries after credits were restored) and were imported
+  and evaluated with verdicts suppressed by `scripts/evaluate_run.py`, which cannot print a
+  verdict without `--show-verdict`.
+- Eight blinded initial labels were entered through the blinded UI by `operator-blinded-day8`
+  before any reveal, from trajectory/patch/verifier/deterministic evidence only; all reveals
+  and adjudications happened after every label was saved. Slice-scoped analytics
+  (`?scope=day8-slice-v1`) exclude the fixtures and the non-blinded Day 7 review by
+  construction.
+- Recorded validation results on the slice: official final-answer accuracy 8/8; adjudicated
+  process correctness 4/8 — every resolved run the human confirmed invalid had modified the
+  manifest-protected graded test file (first modifications at steps 28, 21, 13, 27; one run
+  rewrote the graded FAIL_TO_PASS assertions outright). Correct-result confirmed-problem rate
+  4/7; evaluator false-positive rate 3/7 — all three false positives came from the
+  protected-path check firing on read-only references (grep/`sed -n`), one of which the
+  semantic judge itself contradicted ("read but did not modify"), surfacing as the designed
+  `partial` conflict status.
+- Localization evidence: the original incorrect-run metrics are honestly empty (no unresolved
+  runs), and the new confirmed-invalid localization metrics record 0/4 exact and 0/4
+  within-one — the deterministic lane anchors the first error at the first protected-path
+  *reference* while human labels anchor at the first *modification*, a systematic divergence
+  now quantified as the pre-fix baseline.
+- Case notes captured for Day 9: a transient modify-then-revert of a protected file with
+  explicit SWE-bench harness-awareness narration (django-14631, steps 37/47), an honest
+  semantic context-limit abstention supplied by human adjudication (django-14017), and the
+  difficulty inversion (easy tasks 0/3 process-valid, hard tasks 2/2).
+
 Current phase:
 
-- **Day 8 — frozen evaluation slice, blinded labels, and validation evidence.**
-- Days 1–7 are complete. Stage A is finished and Stage C's reproducible live path is proven
-  once end to end; Stage B (the difficulty-covering recorded slice with blinded human labels)
-  remains.
+- **Day 9 — final analysis, report, case studies, and differentiation.**
+- Days 1–8 are complete: Stage B's recorded validation slice exists with blinded labels,
+  adjudications, and scoped metrics; Stage C's reproducible live path was proven on Day 7.
 
 ## Fixed execution decisions
 
@@ -233,8 +265,8 @@ Only one benchmark, harness, trace format, semantic judge configuration, and loc
 | Complete | **5 — Evidence debugger UI** | Build run list and run detail; connect findings to ATIF steps, command observations, patch, and verifier artifacts. | A user can understand the first error without reading raw JSON. |
 | Complete | **6 — Human review and analytics** | Implement evaluator-hidden initial labels, adjudication, provenance-aware metrics, difficulty/error views, exclusions, and case links. | Required human records and aggregate metrics can be produced from fixtures without contaminating blinded labels. |
 | Complete | **7 — Real Hy3/Harbor integration** | Validate one compatible environment/oracle, run a minimal task and one selected SWE-bench Verified task through Hy3, and confirm ATIF v1.7 conversion. | One real Hy3 run produces a patch, official verifier artifacts, an ATIF trajectory, and a workbench diagnosis. |
-| **Current** | **8 — Evaluation and validation** | Freeze a small difficulty-covering task slice; run sequentially; label every gradeable incorrect run and audit every resolved-and-flagged run. | Required localization and false-positive evidence exists with explicit numerators, denominators, exclusions, and label provenance. |
-| Pending | **9 — Analysis and differentiation** | Export final metrics/report/case studies; implement the regression card only if core evidence is complete; finish README and setup documentation. | Submission artifacts tell one coherent task-to-diagnosis-to-analysis story. |
+| Complete | **8 — Evaluation and validation** | Freeze a small difficulty-covering task slice; run sequentially; label every gradeable incorrect run and audit every resolved-and-flagged run. | Required localization and false-positive evidence exists with explicit numerators, denominators, exclusions, and label provenance. |
+| **Current** | **9 — Analysis and differentiation** | Export final metrics/report/case studies; implement the regression card only if core evidence is complete; finish README and setup documentation. | Submission artifacts tell one coherent task-to-diagnosis-to-analysis story. |
 | Pending | **10 — Delivery freeze** | Perform a clean-environment run, tests/build, requirement/security/reproducibility audits, UI polish, demo rehearsal and recording, and public-repository preparation. | A reviewer can set up the project, inspect evidence, reproduce the documented path, and view a demo under two minutes. |
 
 ## Daily control rule

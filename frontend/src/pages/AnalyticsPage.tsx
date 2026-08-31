@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 import { fetchAnalytics } from "../api";
 
@@ -11,9 +11,11 @@ const OUTCOME_ORDER = ["resolved", "unresolved", "inconclusive", "not_evaluated"
 const PROCESS_ORDER = ["valid", "invalid", "inconclusive", "not_evaluated"];
 
 export function AnalyticsPage() {
+  const [searchParams] = useSearchParams();
+  const scope = searchParams.get("scope") ?? undefined;
   const analytics = useQuery({
-    queryKey: ["analytics"],
-    queryFn: fetchAnalytics,
+    queryKey: ["analytics", scope ?? "all"],
+    queryFn: () => fetchAnalytics(scope),
     retry: false,
   });
 
@@ -52,6 +54,16 @@ export function AnalyticsPage() {
             <span className="chip chip-mixed">mixed</span>{" "}
             <span className="chip chip-official">official</span>
           </p>
+          {scope ? (
+            <p className="page-lede">
+              Scope: <span className="chip chip-official">{scope}</span> — frozen evaluation
+              slice with {summary.configuration.scope_task_count} tasks
+              {summary.configuration.scope_tasks_without_runs !== "none"
+                ? ` (no runs yet: ${summary.configuration.scope_tasks_without_runs})`
+                : ""}
+              . <Link to="/analytics">View all runs</Link>
+            </p>
+          ) : null}
         </div>
       </header>
 

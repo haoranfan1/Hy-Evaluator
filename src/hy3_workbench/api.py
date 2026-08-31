@@ -23,7 +23,7 @@ from hy3_workbench.contracts import (
     TaskManifest,
 )
 from hy3_workbench.hy3_client import Hy3Client
-from hy3_workbench.metrics import AnalyticsSummary, MetricCalculator
+from hy3_workbench.metrics import AnalyticsSummary, MetricCalculator, load_slice
 from hy3_workbench.semantic_reviewer import SemanticJudge
 from hy3_workbench.storage import (
     RepositoryConflictError,
@@ -389,8 +389,19 @@ def create_adjudication(
 
 
 @app.get("/api/analytics/summary", response_model=AnalyticsSummary)
-def analytics_summary(repository: RepositoryDependency) -> AnalyticsSummary:
-    return MetricCalculator(repository).summarize()
+def analytics_summary(
+    repository: RepositoryDependency,
+    settings: SettingsDependency,
+    project_root: ProjectRootDependency,
+    scope: str | None = None,
+) -> AnalyticsSummary:
+    slice_scope = None
+    if scope is not None and scope != "all":
+        try:
+            slice_scope = load_slice(project_root / settings.slices_dir, scope)
+        except ValueError as error:
+            raise HTTPException(status_code=404, detail=str(error)) from error
+    return MetricCalculator(repository).summarize(scope=slice_scope)
 
 
 @app.post("/api/exports", response_model=ExportResponse)

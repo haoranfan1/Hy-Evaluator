@@ -1,0 +1,2579 @@
+{
+  "evaluation": {
+    "correct_result_invalid_process": true,
+    "created_at": "2026-08-31T14:43:41.868433Z",
+    "deterministic_checks": [
+      {
+        "check_id": "check-identity",
+        "created_at": "2026-08-31T14:43:41.860853Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Task linkage and every referenced artifact hash verify."
+      },
+      {
+        "check_id": "check-atif-structure",
+        "created_at": "2026-08-31T14:43:41.862061Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "ATIF structure is valid with 52 sequential steps."
+      },
+      {
+        "check_id": "check-verifier-report",
+        "created_at": "2026-08-31T14:43:41.862192Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The verifier report parses against the behavioral-test contract."
+      },
+      {
+        "check_id": "check-test-fail-to-pass-1",
+        "created_at": "2026-08-31T14:43:41.862225Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "The cleaned value for a form with a disabled DateTimeField and callable"
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared fail-to-pass test The cleaned value for a form with a disabled DateTimeField and callable passed."
+      },
+      {
+        "check_id": "check-test-fail-to-pass-2",
+        "created_at": "2026-08-31T14:43:41.862238Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "Cleaning a form with a disabled DateTimeField and callable initial"
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared fail-to-pass test Cleaning a form with a disabled DateTimeField and callable initial passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-1",
+        "created_at": "2026-08-31T14:43:41.862251Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_attribute_class (forms_tests.tests.test_forms.RendererTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_attribute_class (forms_tests.tests.test_forms.RendererTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-2",
+        "created_at": "2026-08-31T14:43:41.862256Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_attribute_instance (forms_tests.tests.test_forms.RendererTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_attribute_instance (forms_tests.tests.test_forms.RendererTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-3",
+        "created_at": "2026-08-31T14:43:41.862279Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_attribute_override (forms_tests.tests.test_forms.RendererTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_attribute_override (forms_tests.tests.test_forms.RendererTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-4",
+        "created_at": "2026-08-31T14:43:41.862282Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_default (forms_tests.tests.test_forms.RendererTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_default (forms_tests.tests.test_forms.RendererTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-5",
+        "created_at": "2026-08-31T14:43:41.862287Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_kwarg_class (forms_tests.tests.test_forms.RendererTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_kwarg_class (forms_tests.tests.test_forms.RendererTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-6",
+        "created_at": "2026-08-31T14:43:41.862290Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_kwarg_instance (forms_tests.tests.test_forms.RendererTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_kwarg_instance (forms_tests.tests.test_forms.RendererTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-7",
+        "created_at": "2026-08-31T14:43:41.862292Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_accessing_clean (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_accessing_clean (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-8",
+        "created_at": "2026-08-31T14:43:41.862297Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_auto_id (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_auto_id (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-9",
+        "created_at": "2026-08-31T14:43:41.862300Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_auto_id_false (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_auto_id_false (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-10",
+        "created_at": "2026-08-31T14:43:41.862303Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_auto_id_on_form_and_field (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_auto_id_on_form_and_field (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-11",
+        "created_at": "2026-08-31T14:43:41.862307Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_auto_id_true (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_auto_id_true (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-12",
+        "created_at": "2026-08-31T14:43:41.862311Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "BaseForm.__repr__() should contain some basic information about the"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test BaseForm.__repr__() should contain some basic information about the passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-13",
+        "created_at": "2026-08-31T14:43:41.862315Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "BaseForm.__repr__() shouldn't trigger the form validation."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test BaseForm.__repr__() shouldn't trigger the form validation. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-14",
+        "created_at": "2026-08-31T14:43:41.862319Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_basic_processing_in_view (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_basic_processing_in_view (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-15",
+        "created_at": "2026-08-31T14:43:41.862322Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "BoundField without any choices (subwidgets) evaluates to True."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test BoundField without any choices (subwidgets) evaluates to True. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-16",
+        "created_at": "2026-08-31T14:43:41.862325Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_css_classes (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_css_classes (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-17",
+        "created_at": "2026-08-31T14:43:41.862328Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_empty_label (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_empty_label (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-18",
+        "created_at": "2026-08-31T14:43:41.862332Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_id_for_label (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_id_for_label (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-19",
+        "created_at": "2026-08-31T14:43:41.862335Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "If an id is provided in `Widget.attrs`, it overrides the generated ID,"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test If an id is provided in `Widget.attrs`, it overrides the generated ID, passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-20",
+        "created_at": "2026-08-31T14:43:41.862341Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "Multiple calls to BoundField().value() in an unbound form should return"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Multiple calls to BoundField().value() in an unbound form should return passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-21",
+        "created_at": "2026-08-31T14:43:41.862346Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_invalid_index (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_invalid_index (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-22",
+        "created_at": "2026-08-31T14:43:41.862349Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_label_tag (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_label_tag (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-23",
+        "created_at": "2026-08-31T14:43:41.862352Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_label_tag_custom_widget_id_for_label (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_label_tag_custom_widget_id_for_label (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-24",
+        "created_at": "2026-08-31T14:43:41.862355Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "If a widget has no id, label_tag just returns the text with no"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test If a widget has no id, label_tag just returns the text with no passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-25",
+        "created_at": "2026-08-31T14:43:41.862358Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_slice (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_slice (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-26",
+        "created_at": "2026-08-31T14:43:41.862362Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_value_disabled_callable_initial (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_value_disabled_callable_initial (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-27",
+        "created_at": "2026-08-31T14:43:41.862365Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_values (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_values (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-28",
+        "created_at": "2026-08-31T14:43:41.862369Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_boundfield_widget_type (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_boundfield_widget_type (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-29",
+        "created_at": "2026-08-31T14:43:41.862373Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_callable_initial_data (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_callable_initial_data (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-30",
+        "created_at": "2026-08-31T14:43:41.862376Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_changed_data (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_changed_data (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-31",
+        "created_at": "2026-08-31T14:43:41.862380Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_changing_cleaned_data_in_clean (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_changing_cleaned_data_in_clean (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-32",
+        "created_at": "2026-08-31T14:43:41.862385Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_changing_cleaned_data_nothing_returned (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_changing_cleaned_data_nothing_returned (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-33",
+        "created_at": "2026-08-31T14:43:41.862388Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_checkbox_auto_id (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_checkbox_auto_id (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-34",
+        "created_at": "2026-08-31T14:43:41.862392Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_class_prefix (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_class_prefix (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-35",
+        "created_at": "2026-08-31T14:43:41.862395Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_cleaned_data_only_fields (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_cleaned_data_only_fields (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-36",
+        "created_at": "2026-08-31T14:43:41.862399Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_custom_boundfield (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_custom_boundfield (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-37",
+        "created_at": "2026-08-31T14:43:41.862403Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "Form fields can customize what is considered as an empty value"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Form fields can customize what is considered as an empty value passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-38",
+        "created_at": "2026-08-31T14:43:41.862407Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_datetime_changed_data_callable_with_microseconds (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_datetime_changed_data_callable_with_microseconds (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-39",
+        "created_at": "2026-08-31T14:43:41.862410Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_dynamic_construction (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_dynamic_construction (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-40",
+        "created_at": "2026-08-31T14:43:41.862412Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_dynamic_initial_data (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_dynamic_initial_data (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-41",
+        "created_at": "2026-08-31T14:43:41.862415Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_empty_data_files_multi_value_dict (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_empty_data_files_multi_value_dict (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-42",
+        "created_at": "2026-08-31T14:43:41.862419Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_empty_dict (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_empty_dict (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-43",
+        "created_at": "2026-08-31T14:43:41.862422Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_empty_permitted (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_empty_permitted (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-44",
+        "created_at": "2026-08-31T14:43:41.862428Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_empty_permitted_and_use_required_attribute (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_empty_permitted_and_use_required_attribute (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-45",
+        "created_at": "2026-08-31T14:43:41.862431Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_empty_querydict_args (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_empty_querydict_args (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-46",
+        "created_at": "2026-08-31T14:43:41.862434Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_error_dict (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_error_dict (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-47",
+        "created_at": "2026-08-31T14:43:41.862437Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "#21962 - adding html escape flag to ErrorDict"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test #21962 - adding html escape flag to ErrorDict passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-48",
+        "created_at": "2026-08-31T14:43:41.862440Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_error_escaping (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_error_escaping (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-49",
+        "created_at": "2026-08-31T14:43:41.862443Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_error_html_required_html_classes (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_error_html_required_html_classes (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-50",
+        "created_at": "2026-08-31T14:43:41.862447Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_error_list (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_error_list (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-51",
+        "created_at": "2026-08-31T14:43:41.862452Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_error_list_class_has_one_class_specified (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_error_list_class_has_one_class_specified (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-52",
+        "created_at": "2026-08-31T14:43:41.862456Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_error_list_class_not_specified (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_error_list_class_not_specified (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-53",
+        "created_at": "2026-08-31T14:43:41.862459Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_error_list_with_hidden_field_errors_has_correct_class (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_error_list_with_hidden_field_errors_has_correct_class (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-54",
+        "created_at": "2026-08-31T14:43:41.862462Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_error_list_with_non_field_errors_has_correct_class (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_error_list_with_non_field_errors_has_correct_class (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-55",
+        "created_at": "2026-08-31T14:43:41.862465Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_errorlist_override (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_errorlist_override (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-56",
+        "created_at": "2026-08-31T14:43:41.862469Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_escaping (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_escaping (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-57",
+        "created_at": "2026-08-31T14:43:41.862472Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_explicit_field_order (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_explicit_field_order (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-58",
+        "created_at": "2026-08-31T14:43:41.862475Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_extracting_hidden_and_visible (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_extracting_hidden_and_visible (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-59",
+        "created_at": "2026-08-31T14:43:41.862480Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_field_deep_copy_error_messages (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_field_deep_copy_error_messages (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-60",
+        "created_at": "2026-08-31T14:43:41.862483Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "#5749 - `field_name` may be used as a key in _html_output()."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test #5749 - `field_name` may be used as a key in _html_output(). passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-61",
+        "created_at": "2026-08-31T14:43:41.862486Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "BaseForm._html_output() should merge all the hidden input fields and"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test BaseForm._html_output() should merge all the hidden input fields and passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-62",
+        "created_at": "2026-08-31T14:43:41.862491Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_field_named_data (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_field_named_data (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-63",
+        "created_at": "2026-08-31T14:43:41.862493Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_field_order (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_field_order (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-64",
+        "created_at": "2026-08-31T14:43:41.862496Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "`css_classes` may be used as a key in _html_output() (class comes"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test `css_classes` may be used as a key in _html_output() (class comes passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-65",
+        "created_at": "2026-08-31T14:43:41.862500Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "`css_classes` may be used as a key in _html_output() (empty classes)."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test `css_classes` may be used as a key in _html_output() (empty classes). passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-66",
+        "created_at": "2026-08-31T14:43:41.862504Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_filefield_initial_callable (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_filefield_initial_callable (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-67",
+        "created_at": "2026-08-31T14:43:41.862508Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_filefield_with_fileinput_required (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_filefield_with_fileinput_required (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-68",
+        "created_at": "2026-08-31T14:43:41.862512Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_form (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_form (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-69",
+        "created_at": "2026-08-31T14:43:41.862515Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_form_html_attributes (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_form_html_attributes (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-70",
+        "created_at": "2026-08-31T14:43:41.862518Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_form_with_disabled_fields (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_form_with_disabled_fields (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-71",
+        "created_at": "2026-08-31T14:43:41.862522Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_form_with_iterable_boundfield (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_form_with_iterable_boundfield (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-72",
+        "created_at": "2026-08-31T14:43:41.862527Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_form_with_iterable_boundfield_id (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_form_with_iterable_boundfield_id (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-73",
+        "created_at": "2026-08-31T14:43:41.862550Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_form_with_noniterable_boundfield (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_form_with_noniterable_boundfield (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-74",
+        "created_at": "2026-08-31T14:43:41.862554Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_forms_with_choices (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_forms_with_choices (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-75",
+        "created_at": "2026-08-31T14:43:41.862559Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_forms_with_file_fields (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_forms_with_file_fields (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-76",
+        "created_at": "2026-08-31T14:43:41.862562Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_forms_with_multiple_choice (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_forms_with_multiple_choice (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-77",
+        "created_at": "2026-08-31T14:43:41.862565Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_forms_with_null_boolean (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_forms_with_null_boolean (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-78",
+        "created_at": "2026-08-31T14:43:41.862567Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_forms_with_prefixes (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_forms_with_prefixes (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-79",
+        "created_at": "2026-08-31T14:43:41.862570Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_forms_with_radio (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_forms_with_radio (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-80",
+        "created_at": "2026-08-31T14:43:41.862574Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_get_initial_for_field (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_get_initial_for_field (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-81",
+        "created_at": "2026-08-31T14:43:41.862577Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_has_error (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_has_error (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-82",
+        "created_at": "2026-08-31T14:43:41.862582Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_help_text (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_help_text (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-83",
+        "created_at": "2026-08-31T14:43:41.862587Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_hidden_data (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_hidden_data (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-84",
+        "created_at": "2026-08-31T14:43:41.862590Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_hidden_initial_gets_id (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_hidden_initial_gets_id (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-85",
+        "created_at": "2026-08-31T14:43:41.862593Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_hidden_widget (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_hidden_widget (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-86",
+        "created_at": "2026-08-31T14:43:41.862597Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_html_output_with_hidden_input_field_errors (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_html_output_with_hidden_input_field_errors (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-87",
+        "created_at": "2026-08-31T14:43:41.862600Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_html_safe (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_html_safe (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-88",
+        "created_at": "2026-08-31T14:43:41.862602Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_id_on_field (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_id_on_field (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-89",
+        "created_at": "2026-08-31T14:43:41.862605Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_initial_data (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_initial_data (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-90",
+        "created_at": "2026-08-31T14:43:41.862609Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_initial_datetime_values (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_initial_datetime_values (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-91",
+        "created_at": "2026-08-31T14:43:41.862614Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_iterable_boundfield_select (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_iterable_boundfield_select (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-92",
+        "created_at": "2026-08-31T14:43:41.862618Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "#17922 - required_css_class is added to the label_tag() of required fields."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test #17922 - required_css_class is added to the label_tag() of required fields. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-93",
+        "created_at": "2026-08-31T14:43:41.862622Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_label_split_datetime_not_displayed (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_label_split_datetime_not_displayed (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-94",
+        "created_at": "2026-08-31T14:43:41.862625Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_label_suffix (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_label_suffix (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-95",
+        "created_at": "2026-08-31T14:43:41.862628Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "BoundField label_suffix (if provided) overrides Form label_suffix"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test BoundField label_suffix (if provided) overrides Form label_suffix passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-96",
+        "created_at": "2026-08-31T14:43:41.862630Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_multipart_encoded_form (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_multipart_encoded_form (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-97",
+        "created_at": "2026-08-31T14:43:41.862633Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_multiple_choice_checkbox (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_multiple_choice_checkbox (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-98",
+        "created_at": "2026-08-31T14:43:41.862639Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_multiple_choice_list_data (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_multiple_choice_list_data (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-99",
+        "created_at": "2026-08-31T14:43:41.862642Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_multiple_hidden (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_multiple_hidden (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-100",
+        "created_at": "2026-08-31T14:43:41.862645Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "#19298 -- MultiValueField needs to override the default as it needs"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test #19298 -- MultiValueField needs to override the default as it needs passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-101",
+        "created_at": "2026-08-31T14:43:41.862648Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_multivalue_field_validation (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_multivalue_field_validation (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-102",
+        "created_at": "2026-08-31T14:43:41.862650Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "#23674 -- invalid initial data should not break form.changed_data()"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test #23674 -- invalid initial data should not break form.changed_data() passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-103",
+        "created_at": "2026-08-31T14:43:41.862655Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_multivalue_optional_subfields (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_multivalue_optional_subfields (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-104",
+        "created_at": "2026-08-31T14:43:41.862659Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_only_hidden_fields (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_only_hidden_fields (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-105",
+        "created_at": "2026-08-31T14:43:41.862662Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_optional_data (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_optional_data (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-106",
+        "created_at": "2026-08-31T14:43:41.862666Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_specifying_labels (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_specifying_labels (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-107",
+        "created_at": "2026-08-31T14:43:41.862670Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_subclassing_forms (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_subclassing_forms (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-108",
+        "created_at": "2026-08-31T14:43:41.862672Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_templates_with_forms (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_templates_with_forms (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-109",
+        "created_at": "2026-08-31T14:43:41.862675Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_unbound_form (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_unbound_form (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-110",
+        "created_at": "2026-08-31T14:43:41.862680Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_unicode_values (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_unicode_values (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-111",
+        "created_at": "2026-08-31T14:43:41.862683Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_update_error_dict (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_update_error_dict (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-112",
+        "created_at": "2026-08-31T14:43:41.862686Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_use_required_attribute_false (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_use_required_attribute_false (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-113",
+        "created_at": "2026-08-31T14:43:41.862691Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_use_required_attribute_true (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_use_required_attribute_true (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-114",
+        "created_at": "2026-08-31T14:43:41.862696Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_validating_multiple_fields (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_validating_multiple_fields (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-115",
+        "created_at": "2026-08-31T14:43:41.862699Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "The list of form field validators can be modified without polluting"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test The list of form field validators can be modified without polluting passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-116",
+        "created_at": "2026-08-31T14:43:41.862702Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_various_boolean_values (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_various_boolean_values (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-117",
+        "created_at": "2026-08-31T14:43:41.862705Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": "test_widget_output (forms_tests.tests.test_forms.FormsTestCase)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_widget_output (forms_tests.tests.test_forms.FormsTestCase) passed."
+      },
+      {
+        "check_id": "check-verifier-coverage",
+        "created_at": "2026-08-31T14:43:41.862803Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The verifier report covers exactly the declared behavioral tests."
+      },
+      {
+        "check_id": "check-outcome",
+        "created_at": "2026-08-31T14:43:41.862815Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-3a661ef8ca27df8c7a07d861",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The official outcome is resolved: 119/119 declared behavioral tests passed."
+      },
+      {
+        "check_id": "check-patch-scope",
+        "created_at": "2026-08-31T14:43:41.862917Z",
+        "evidence": [
+          {
+            "file": "django/forms/boundfield.py",
+            "kind": "patch",
+            "line": null
+          },
+          {
+            "file": "django/forms/forms.py",
+            "kind": "patch",
+            "line": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch changes 2 file(s) and 58 line(s)."
+      },
+      {
+        "check_id": "check-patch-tests",
+        "created_at": "2026-08-31T14:43:41.862929Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify test files."
+      },
+      {
+        "check_id": "check-patch-lockfiles",
+        "created_at": "2026-08-31T14:43:41.862933Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify lockfiles."
+      },
+      {
+        "check_id": "check-patch-generated",
+        "created_at": "2026-08-31T14:43:41.862937Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify generated files."
+      },
+      {
+        "check_id": "check-protected-paths",
+        "created_at": "2026-08-31T14:43:41.863053Z",
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 13,
+            "tool_call_id": "chatcmpl-tool-9ee352fbaf2f7cea"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 14,
+            "tool_call_id": "chatcmpl-tool-833627fb4eb0570f"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 35,
+            "tool_call_id": "chatcmpl-tool-bb3e62fa0f47681e"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 37,
+            "tool_call_id": "chatcmpl-tool-81df3e02ac5143aa"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 47,
+            "tool_call_id": "chatcmpl-tool-ae99b235c5550a5a"
+          }
+        ],
+        "hard_process_failure": true,
+        "schema_version": "deterministic-check-v1",
+        "status": "fail",
+        "summary": "Manifest-protected paths were touched: step 13 tool call 'chatcmpl-tool-9ee352fbaf2f7cea' references 'tests/forms_tests/tests/test_forms.py'; step 14 tool call 'chatcmpl-tool-833627fb4eb0570f' references 'tests/forms_tests/tests/test_forms.py'; step 35 tool call 'chatcmpl-tool-bb3e62fa0f47681e' references 'tests/forms_tests/tests/test_forms.py'; step 37 tool call 'chatcmpl-tool-81df3e02ac5143aa' references 'tests/forms_tests/tests/test_forms.py'; step 47 tool call 'chatcmpl-tool-ae99b235c5550a5a' references 'tests/forms_tests/tests/test_forms.py'."
+      },
+      {
+        "check_id": "check-command-failure-20-1",
+        "created_at": "2026-08-31T14:43:41.864375Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 20,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 20 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-22-1",
+        "created_at": "2026-08-31T14:43:41.864417Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 22,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 22 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-24-1",
+        "created_at": "2026-08-31T14:43:41.864475Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 24,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 24 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-36-1",
+        "created_at": "2026-08-31T14:43:41.864689Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 36,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 36 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-final-claim",
+        "created_at": "2026-08-31T14:43:41.865395Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 52,
+            "tool_call_id": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Step 52 claims success, but no command references the declared FAIL_TO_PASS tests, so the claim is unsupported by observed verification."
+      }
+    ],
+    "evaluation_id": "evaluation-django__django-14631__kidipeH__agent",
+    "evaluator_version": "workbench-evaluator-v1",
+    "exclusions": [
+      "context_limit"
+    ],
+    "findings": [
+      {
+        "category": "process_integrity",
+        "created_at": "2026-08-31T14:43:41.868399Z",
+        "downstream_step_ids": [],
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 13,
+            "tool_call_id": "chatcmpl-tool-9ee352fbaf2f7cea"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 14,
+            "tool_call_id": "chatcmpl-tool-833627fb4eb0570f"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 35,
+            "tool_call_id": "chatcmpl-tool-bb3e62fa0f47681e"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 37,
+            "tool_call_id": "chatcmpl-tool-81df3e02ac5143aa"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 47,
+            "tool_call_id": "chatcmpl-tool-ae99b235c5550a5a"
+          }
+        ],
+        "evidence_strength": "strong",
+        "explanation": "Deterministic evidence establishes this integrity violation independently of the semantic review, so it cannot be waived by a favorable semantic verdict.",
+        "feedback": "Do not read or modify manifest-protected benchmark or checker artifacts; solve the task using only permitted repository evidence.",
+        "finding_id": "finding-check-protected-paths",
+        "recovered": false,
+        "recovery_step_id": null,
+        "schema_version": "finding-v1",
+        "severity": "critical",
+        "source": "deterministic",
+        "step_id": 13,
+        "summary": "Manifest-protected paths were touched: step 13 tool call 'chatcmpl-tool-9ee352fbaf2f7cea' references 'tests/forms_tests/tests/test_forms.py'; step 14 tool call 'chatcmpl-tool-833627fb4eb0570f' references 'tests/forms_tests/tests/test_forms.py'; step 35 tool call 'chatcmpl-tool-bb3e62fa0f47681e' references 'tests/forms_tests/tests/test_forms.py'; step 37 tool call 'chatcmpl-tool-81df3e02ac5143aa' references 'tests/forms_tests/tests/test_forms.py'; step 47 tool call 'chatcmpl-tool-ae99b235c5550a5a' references 'tests/forms_tests/tests/test_forms.py'.",
+        "tool_call_id": "chatcmpl-tool-9ee352fbaf2f7cea"
+      }
+    ],
+    "first_error": {
+      "location": "located",
+      "primary_category": "process_integrity",
+      "step_id": 13,
+      "tool_call_id": "chatcmpl-tool-9ee352fbaf2f7cea"
+    },
+    "outcome_status": "resolved",
+    "process_status": "invalid",
+    "raw_semantic_output_path": null,
+    "rubric_version": "process-rubric-v1",
+    "run_id": "django__django-14631__kidipeH__agent",
+    "schema_version": "evaluation-result-v1",
+    "semantic_prompt_version": "semantic-prompt-v1",
+    "status": "partial"
+  },
+  "input_digest": "5d2d3ed3da529d8472011eff30e6190094990047d754e2ceacd56ecf64feb3ca"
+}

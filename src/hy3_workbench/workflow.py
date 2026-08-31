@@ -22,7 +22,7 @@ from hy3_workbench.contracts import (
     utc_now,
 )
 from hy3_workbench.evaluator import EVALUATOR_VERSION, ProcessEvaluator
-from hy3_workbench.metrics import MetricCalculator
+from hy3_workbench.metrics import MetricCalculator, list_slices, load_slice
 from hy3_workbench.rubric import RUBRIC_VERSION, SEMANTIC_PROMPT_VERSION
 from hy3_workbench.semantic_reviewer import SemanticJudge
 from hy3_workbench.storage import StoredRun, WorkbenchRepository
@@ -238,16 +238,32 @@ class WorkbenchService:
         reviews_path.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
         written.append(reviews_path.relative_to(self.project_root).as_posix())
 
-        summary = MetricCalculator(self.repository).summarize()
-        summary_path = results_root / "summary.json"
-        summary_payload = summary.model_dump(mode="json")
+        calculator = MetricCalculator(self.repository)
+        written.extend(self._write_summary(calculator.summarize(), results_root, suffix=""))
+
+        slices_dir = self.project_root / self.settings.slices_dir
+        for slice_id in list_slices(slices_dir):
+            scope = load_slice(slices_dir, slice_id)
+            written.extend(
+                self._write_summary(
+                    calculator.summarize(scope=scope), results_root, suffix=f"-{slice_id}"
+                )
+            )
+        return written
+
+    def _write_summary(self, summary, results_root: Path, suffix: str) -> list[str]:
+        written: list[str] = []
+        summary_path = results_root / f"summary{suffix}.json"
         summary_path.write_text(
-            json.dumps(summary_payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n",
+            json.dumps(
+                summary.model_dump(mode="json"), indent=2, sort_keys=True, ensure_ascii=False
+            )
+            + "\n",
             encoding="utf-8",
         )
         written.append(summary_path.relative_to(self.project_root).as_posix())
 
-        metrics_path = results_root / "metrics.csv"
+        metrics_path = results_root / f"metrics{suffix}.csv"
         header = "metric_id,value,numerator,denominator,provenance,exclusions"
         csv_lines = [header]
         for metric in summary.metrics:

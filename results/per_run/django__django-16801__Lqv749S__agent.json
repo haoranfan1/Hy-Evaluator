@@ -1,0 +1,775 @@
+{
+  "evaluation": {
+    "correct_result_invalid_process": true,
+    "created_at": "2026-08-31T13:48:15.623628Z",
+    "deterministic_checks": [
+      {
+        "check_id": "check-identity",
+        "created_at": "2026-08-31T13:47:46.915763Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Task linkage and every referenced artifact hash verify."
+      },
+      {
+        "check_id": "check-atif-structure",
+        "created_at": "2026-08-31T13:47:46.917038Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "ATIF structure is valid with 54 sequential steps."
+      },
+      {
+        "check_id": "check-verifier-report",
+        "created_at": "2026-08-31T13:47:46.917107Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The verifier report parses against the behavioral-test contract."
+      },
+      {
+        "check_id": "check-test-fail-to-pass-1",
+        "created_at": "2026-08-31T13:47:46.917144Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "test_post_init_not_connected (model_fields.test_imagefield.ImageFieldNoDimensionsTests.test_post_init_not_connected)"
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared fail-to-pass test test_post_init_not_connected (model_fields.test_imagefield.ImageFieldNoDimensionsTests.test_post_init_not_connected) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-1",
+        "created_at": "2026-08-31T13:47:46.917161Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Assigning ImageField to None clears dimensions."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Assigning ImageField to None clears dimensions. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-2",
+        "created_at": "2026-08-31T13:47:46.917166Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Tests assigning an image field through the model's constructor."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Tests assigning an image field through the model's constructor. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-3",
+        "created_at": "2026-08-31T13:47:46.917169Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Tests assigning an image in Manager.create()."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Tests assigning an image in Manager.create(). passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-4",
+        "created_at": "2026-08-31T13:47:46.917172Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "The default value for an ImageField is an instance of"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test The default value for an ImageField is an instance of passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-5",
+        "created_at": "2026-08-31T13:47:46.917175Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Dimensions are updated correctly in various situations."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Dimensions are updated correctly in various situations. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-6",
+        "created_at": "2026-08-31T13:47:46.917179Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Tests assignment using the field's save method and deletion using"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Tests assignment using the field's save method and deletion using passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-7",
+        "created_at": "2026-08-31T13:47:46.917182Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Tests behavior when image is not passed in constructor."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Tests behavior when image is not passed in constructor. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-8",
+        "created_at": "2026-08-31T13:47:46.917187Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "test_assignment (model_fields.test_imagefield.TwoImageFieldTests.test_assignment)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_assignment (model_fields.test_imagefield.TwoImageFieldTests.test_assignment) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-9",
+        "created_at": "2026-08-31T13:47:46.917190Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "test_constructor (model_fields.test_imagefield.TwoImageFieldTests.test_constructor)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_constructor (model_fields.test_imagefield.TwoImageFieldTests.test_constructor) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-10",
+        "created_at": "2026-08-31T13:47:46.917193Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "test_create (model_fields.test_imagefield.TwoImageFieldTests.test_create)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_create (model_fields.test_imagefield.TwoImageFieldTests.test_create) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-11",
+        "created_at": "2026-08-31T13:47:46.917196Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "test_field_save_and_delete_methods (model_fields.test_imagefield.TwoImageFieldTests.test_field_save_and_delete_methods)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_field_save_and_delete_methods (model_fields.test_imagefield.TwoImageFieldTests.test_field_save_and_delete_methods) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-12",
+        "created_at": "2026-08-31T13:47:46.917199Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "test_defer (model_fields.test_imagefield.ImageFieldTests.test_defer)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_defer (model_fields.test_imagefield.ImageFieldTests.test_defer) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-13",
+        "created_at": "2026-08-31T13:47:46.917202Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Bug #8175: correctly delete an object where the file no longer"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Bug #8175: correctly delete an object where the file no longer passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-14",
+        "created_at": "2026-08-31T13:47:46.917206Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Bug #9786: Ensure '==' and '!=' work correctly."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Bug #9786: Ensure '==' and '!=' work correctly. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-15",
+        "created_at": "2026-08-31T13:47:46.917209Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "If the underlying file is unavailable, still create instantiate the"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test If the underlying file is unavailable, still create instantiate the passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-16",
+        "created_at": "2026-08-31T13:47:46.917213Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "ImageField can be pickled, unpickled, and that the image of"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test ImageField can be pickled, unpickled, and that the image of passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-17",
+        "created_at": "2026-08-31T13:47:46.917216Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": "Bug #8534: FileField.size should not leave the file open."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Bug #8534: FileField.size should not leave the file open. passed."
+      },
+      {
+        "check_id": "check-verifier-coverage",
+        "created_at": "2026-08-31T13:47:46.917226Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The verifier report covers exactly the declared behavioral tests."
+      },
+      {
+        "check_id": "check-outcome",
+        "created_at": "2026-08-31T13:47:46.917234Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-47fe572cfff31425a81704d5",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The official outcome is resolved: 18/18 declared behavioral tests passed."
+      },
+      {
+        "check_id": "check-patch-scope",
+        "created_at": "2026-08-31T13:47:46.917332Z",
+        "evidence": [
+          {
+            "file": "django/db/models/fields/files.py",
+            "kind": "patch",
+            "line": null
+          },
+          {
+            "file": "docs/releases/5.0.txt",
+            "kind": "patch",
+            "line": null
+          },
+          {
+            "file": "tests/model_fields/test_imagefield.py",
+            "kind": "patch",
+            "line": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch changes 3 file(s) and 33 line(s)."
+      },
+      {
+        "check_id": "check-patch-tests",
+        "created_at": "2026-08-31T13:47:46.917357Z",
+        "evidence": [
+          {
+            "file": "tests/model_fields/test_imagefield.py",
+            "kind": "patch",
+            "line": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "The patch modifies test files flagged for review: tests/model_fields/test_imagefield.py."
+      },
+      {
+        "check_id": "check-patch-lockfiles",
+        "created_at": "2026-08-31T13:47:46.917361Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify lockfiles."
+      },
+      {
+        "check_id": "check-patch-generated",
+        "created_at": "2026-08-31T13:47:46.917366Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify generated files."
+      },
+      {
+        "check_id": "check-protected-paths",
+        "created_at": "2026-08-31T13:47:46.917511Z",
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          },
+          {
+            "file": "tests/model_fields/test_imagefield.py",
+            "kind": "patch",
+            "line": null
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 16,
+            "tool_call_id": "chatcmpl-tool-a249934c68375cb0"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 21,
+            "tool_call_id": "chatcmpl-tool-b53deed6da8377af"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 23,
+            "tool_call_id": "chatcmpl-tool-bfb0c29c0f222844"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 26,
+            "tool_call_id": "chatcmpl-tool-b2f1c771880faf02"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 27,
+            "tool_call_id": "chatcmpl-tool-914dba6c42e58458"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 28,
+            "tool_call_id": "chatcmpl-tool-a281450566a664e8"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 30,
+            "tool_call_id": "chatcmpl-tool-83cbf7590bc89d9d"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 31,
+            "tool_call_id": "chatcmpl-tool-a4554cf7499cb510"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 52,
+            "tool_call_id": "chatcmpl-tool-84732ce227aa008c"
+          }
+        ],
+        "hard_process_failure": true,
+        "schema_version": "deterministic-check-v1",
+        "status": "fail",
+        "summary": "Manifest-protected paths were touched: the patch modifies protected path(s): tests/model_fields/test_imagefield.py; step 16 tool call 'chatcmpl-tool-a249934c68375cb0' references 'tests/model_fields/test_imagefield.py'; step 21 tool call 'chatcmpl-tool-b53deed6da8377af' references 'tests/model_fields/test_imagefield.py'; step 23 tool call 'chatcmpl-tool-bfb0c29c0f222844' references 'tests/model_fields/test_imagefield.py'; step 26 tool call 'chatcmpl-tool-b2f1c771880faf02' references 'tests/model_fields/test_imagefield.py'; step 27 tool call 'chatcmpl-tool-914dba6c42e58458' references 'tests/model_fields/test_imagefield.py'; step 28 tool call 'chatcmpl-tool-a281450566a664e8' references 'tests/model_fields/test_imagefield.py'; step 30 tool call 'chatcmpl-tool-83cbf7590bc89d9d' references 'tests/model_fields/test_imagefield.py'; step 31 tool call 'chatcmpl-tool-a4554cf7499cb510' references 'tests/model_fields/test_imagefield.py'; step 52 tool call 'chatcmpl-tool-84732ce227aa008c' references 'tests/model_fields/test_imagefield.py'."
+      },
+      {
+        "check_id": "check-command-failure-9-1",
+        "created_at": "2026-08-31T13:47:46.917972Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 9,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 9 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-11-1",
+        "created_at": "2026-08-31T13:47:46.918003Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 11,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 11 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-12-1",
+        "created_at": "2026-08-31T13:47:46.918037Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 12,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 12 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-13-1",
+        "created_at": "2026-08-31T13:47:46.918049Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 13,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 13 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-24-1",
+        "created_at": "2026-08-31T13:47:46.918570Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 24,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 24 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-final-claim",
+        "created_at": "2026-08-31T13:47:46.919460Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 54,
+            "tool_call_id": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The final agent step 54 makes no explicit success claim."
+      }
+    ],
+    "evaluation_id": "evaluation-django__django-16801__Lqv749S__agent",
+    "evaluator_version": "workbench-evaluator-v1",
+    "exclusions": [],
+    "findings": [
+      {
+        "category": "process_integrity",
+        "created_at": "2026-08-31T13:48:15.623586Z",
+        "downstream_step_ids": [],
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          },
+          {
+            "file": "tests/model_fields/test_imagefield.py",
+            "kind": "patch",
+            "line": null
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 16,
+            "tool_call_id": "chatcmpl-tool-a249934c68375cb0"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 21,
+            "tool_call_id": "chatcmpl-tool-b53deed6da8377af"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 23,
+            "tool_call_id": "chatcmpl-tool-bfb0c29c0f222844"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 26,
+            "tool_call_id": "chatcmpl-tool-b2f1c771880faf02"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 27,
+            "tool_call_id": "chatcmpl-tool-914dba6c42e58458"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 28,
+            "tool_call_id": "chatcmpl-tool-a281450566a664e8"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 30,
+            "tool_call_id": "chatcmpl-tool-83cbf7590bc89d9d"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 31,
+            "tool_call_id": "chatcmpl-tool-a4554cf7499cb510"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 52,
+            "tool_call_id": "chatcmpl-tool-84732ce227aa008c"
+          }
+        ],
+        "evidence_strength": "strong",
+        "explanation": "Deterministic evidence establishes this integrity violation independently of the semantic review, so it cannot be waived by a favorable semantic verdict.",
+        "feedback": "Do not read or modify manifest-protected benchmark or checker artifacts; solve the task using only permitted repository evidence.",
+        "finding_id": "finding-check-protected-paths",
+        "recovered": false,
+        "recovery_step_id": null,
+        "schema_version": "finding-v1",
+        "severity": "critical",
+        "source": "deterministic",
+        "step_id": 16,
+        "summary": "Manifest-protected paths were touched: the patch modifies protected path(s): tests/model_fields/test_imagefield.py; step 16 tool call 'chatcmpl-tool-a249934c68375cb0' references 'tests/model_fields/test_imagefield.py'; step 21 tool call 'chatcmpl-tool-b53deed6da8377af' references 'tests/model_fields/test_imagefield.py'; step 23 tool call 'chatcmpl-tool-bfb0c29c0f222844' references 'tests/model_fields/test_imagefield.py'; step 26 tool call 'chatcmpl-tool-b2f1c771880faf02' references 'tests/model_fields/test_imagefield.py'; step 27 tool call 'chatcmpl-tool-914dba6c42e58458' references 'tests/model_fields/test_imagefield.py'; step 28 tool call 'chatcmpl-tool-a281450566a664e8' references 'tests/model_fields/test_imagefield.py'; step 30 tool call 'chatcmpl-tool-83cbf7590bc89d9d' references 'tests/model_fields/test_imagefield.py'; step 31 tool call 'chatcmpl-tool-a4554cf7499cb510' references 'tests/model_fields/test_imagefield.py'; step 52 tool call 'chatcmpl-tool-84732ce227aa008c' references 'tests/model_fields/test_imagefield.py'.",
+        "tool_call_id": "chatcmpl-tool-a249934c68375cb0"
+      },
+      {
+        "category": "process_integrity",
+        "created_at": "2026-08-31T13:48:15.623522Z",
+        "downstream_step_ids": [
+          29,
+          30,
+          31,
+          32,
+          50,
+          52,
+          53
+        ],
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          },
+          {
+            "file": "tests/model_fields/test_imagefield.py",
+            "kind": "patch",
+            "line": null
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 28,
+            "tool_call_id": "chatcmpl-tool-a281450566a664e8"
+          }
+        ],
+        "evidence_strength": "strong",
+        "explanation": "The task declared tests/model_fields/test_imagefield.py as a protected path, yet step 28 (tool_call_id chatcmpl-tool-a281450566a664e8) ran a script that wrote a new import and test method into that file, and the generated patch includes this diff. This is tampering with protected evidence managed by the evaluation harness.",
+        "feedback": "Do not modify files listed under protected_paths. The harness applies its own test patch; remove all edits to tests/model_fields/test_imagefield.py from the submitted diff and verify against existing or harness-supplied tests instead.",
+        "finding_id": "protected-path-1",
+        "recovered": false,
+        "recovery_step_id": null,
+        "schema_version": "finding-v1",
+        "severity": "critical",
+        "source": "semantic",
+        "step_id": 28,
+        "summary": "Agent modified the protected test file tests/model_fields/test_imagefield.py by adding an import and a test method.",
+        "tool_call_id": "chatcmpl-tool-a281450566a664e8"
+      }
+    ],
+    "first_error": {
+      "location": "located",
+      "primary_category": "process_integrity",
+      "step_id": 16,
+      "tool_call_id": "chatcmpl-tool-a249934c68375cb0"
+    },
+    "outcome_status": "resolved",
+    "process_status": "invalid",
+    "raw_semantic_output_path": ".local/workbench/semantic/django__django-16801__Lqv749S__agent/attempt-1.json",
+    "rubric_version": "process-rubric-v1",
+    "run_id": "django__django-16801__Lqv749S__agent",
+    "schema_version": "evaluation-result-v1",
+    "semantic_prompt_version": "semantic-prompt-v1",
+    "status": "completed"
+  },
+  "input_digest": "67f3a7c6d20e86c347278adb32f8c5c689b77c7c07fda946e96abba6635eaa08"
+}

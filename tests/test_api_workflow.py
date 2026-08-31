@@ -119,21 +119,34 @@ async def test_full_offline_workflow_via_the_api(client: AsyncClient, judge: Fak
         analytics = (await client.get("/api/analytics/summary")).json()
         assert analytics["run_count"] == 3
         assert analytics["adjudicated_count"] == 1
+        assert analytics["configuration"]["scope"] == "all"
         assert any(
             entry["metric_id"] == "exact_first_error_localization_accuracy"
             and entry["numerator"] == 1
             for entry in analytics["metrics"]
         )
 
+        scoped = await client.get("/api/analytics/summary", params={"scope": "day8-slice-v1"})
+        assert scoped.status_code == 200, scoped.text
+        scoped_body = scoped.json()
+        assert scoped_body["configuration"]["scope"] == "day8-slice-v1"
+        assert scoped_body["run_count"] == 0  # fixture runs are outside the frozen slice
+        assert scoped_body["configuration"]["scope_out_of_scope_runs"] == 3
+        unknown = await client.get("/api/analytics/summary", params={"scope": "no-such-slice"})
+        assert unknown.status_code == 404
+
         exported = (await client.post("/api/exports")).json()["files"]
         assert f"{DATA_DIR.as_posix()}/results/human_reviews.jsonl" in exported
         assert f"{DATA_DIR.as_posix()}/results/summary.json" in exported
         assert f"{DATA_DIR.as_posix()}/results/metrics.csv" in exported
+        assert f"{DATA_DIR.as_posix()}/results/summary-day8-slice-v1.json" in exported
+        assert f"{DATA_DIR.as_posix()}/results/metrics-day8-slice-v1.csv" in exported
         first_bytes = [(PROJECT_ROOT / name).read_bytes() for name in sorted(exported)]
         again = (await client.post("/api/exports")).json()["files"]
         second_bytes = [(PROJECT_ROOT / name).read_bytes() for name in sorted(again)]
         assert first_bytes == second_bytes
-        assert len(exported) == 6  # per-run files plus reviews, summary, and metrics
+        # per-run files plus reviews, then summary/metrics for "all" and per committed slice
+        assert len(exported) == 8
 
 
 async def test_evaluate_is_idempotent_and_force_respects_reviews(

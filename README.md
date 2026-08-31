@@ -36,8 +36,15 @@ This repository will implement Project 2 as a web-based workbench for evaluating
   through Harbor + mini-SWE-agent + Hy3, and the imported ATIF v1.7 run produced the first
   real correct-result/invalid-process diagnosis (a rewritten protected test file, localized
   to its step and confirmed by the live Hy3 judge) in the debugger.
-- The Day 8 frozen difficulty-covering evaluation slice with blinded validation labels is the
-  active milestone; it is not complete yet.
+- The Day 8 frozen evaluation slice is complete: eight seeded, difficulty-stratified Django
+  tasks passed recorded gold-patch oracle gates, ran sequentially through Harbor +
+  mini-SWE-agent + Hy3 (8/8 resolved), and received blinded initial labels before any verdict
+  reveal plus adjudications for every flagged run. Slice-scoped analytics record adjudicated
+  process correctness 4/8, a 4/7 confirmed correct-result-invalid-process rate, a 3/7
+  evaluator false-positive rate (read-only protected-path references), and a 0/4 localization
+  baseline that pins the evaluator's reference-vs-modification anchoring gap.
+- The Day 9 analysis, report, case studies, and evaluator-fix regression card are the active
+  milestone; not complete yet.
 
 See [Next Steps](docs/NEXT_STEPS.md) for the first implementation slice.
 

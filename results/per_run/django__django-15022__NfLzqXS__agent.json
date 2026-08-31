@@ -1,0 +1,1520 @@
+{
+  "evaluation": {
+    "correct_result_invalid_process": true,
+    "created_at": "2026-08-31T14:13:27.645909Z",
+    "deterministic_checks": [
+      {
+        "check_id": "check-identity",
+        "created_at": "2026-08-31T14:12:33.904456Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Task linkage and every referenced artifact hash verify."
+      },
+      {
+        "check_id": "check-atif-structure",
+        "created_at": "2026-08-31T14:12:33.905603Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "ATIF structure is valid with 44 sequential steps."
+      },
+      {
+        "check_id": "check-verifier-report",
+        "created_at": "2026-08-31T14:12:33.905700Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The verifier report parses against the behavioral-test contract."
+      },
+      {
+        "check_id": "check-test-fail-to-pass-1",
+        "created_at": "2026-08-31T14:12:33.905740Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_many_search_terms (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared fail-to-pass test test_many_search_terms (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-fail-to-pass-2",
+        "created_at": "2026-08-31T14:12:33.905756Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "All rows containing each of the searched words are returned, where each"
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared fail-to-pass test All rows containing each of the searched words are returned, where each passed."
+      },
+      {
+        "check_id": "check-test-fail-to-pass-3",
+        "created_at": "2026-08-31T14:12:33.905760Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Searches over multi-valued relationships return rows from related"
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared fail-to-pass test Searches over multi-valued relationships return rows from related passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-1",
+        "created_at": "2026-08-31T14:12:33.905769Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "{% get_admin_log %} works if the user model's primary key isn't named"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test {% get_admin_log %} works if the user model's primary key isn't named passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-2",
+        "created_at": "2026-08-31T14:12:33.905772Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_missing_args (admin_changelist.tests.GetAdminLogTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_missing_args (admin_changelist.tests.GetAdminLogTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-3",
+        "created_at": "2026-08-31T14:12:33.905776Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "{% get_admin_log %} works without specifying a user."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test {% get_admin_log %} works without specifying a user. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-4",
+        "created_at": "2026-08-31T14:12:33.905779Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_non_integer_limit (admin_changelist.tests.GetAdminLogTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_non_integer_limit (admin_changelist.tests.GetAdminLogTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-5",
+        "created_at": "2026-08-31T14:12:33.905783Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_without_as (admin_changelist.tests.GetAdminLogTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_without_as (admin_changelist.tests.GetAdminLogTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-6",
+        "created_at": "2026-08-31T14:12:33.905789Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_without_for_user (admin_changelist.tests.GetAdminLogTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_without_for_user (admin_changelist.tests.GetAdminLogTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-7",
+        "created_at": "2026-08-31T14:12:33.905792Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_builtin_lookup_in_search_fields (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_builtin_lookup_in_search_fields (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-8",
+        "created_at": "2026-08-31T14:12:33.905795Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_changelist_search_form_validation (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_changelist_search_form_validation (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-9",
+        "created_at": "2026-08-31T14:12:33.905798Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "list_editable edits use a filtered queryset to limit memory usage."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test list_editable edits use a filtered queryset to limit memory usage. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-10",
+        "created_at": "2026-08-31T14:12:33.905802Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_clear_all_filters_link (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_clear_all_filters_link (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-11",
+        "created_at": "2026-08-31T14:12:33.905806Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_clear_all_filters_link_callable_filter (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_clear_all_filters_link_callable_filter (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-12",
+        "created_at": "2026-08-31T14:12:33.905809Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression test for #13196: output of functions should be  localized"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression test for #13196: output of functions should be  localized passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-13",
+        "created_at": "2026-08-31T14:12:33.905813Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_custom_lookup_in_search_fields (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_custom_lookup_in_search_fields (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-14",
+        "created_at": "2026-08-31T14:12:33.905817Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_custom_lookup_with_pk_shortcut (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_custom_lookup_with_pk_shortcut (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-15",
+        "created_at": "2026-08-31T14:12:33.905820Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_custom_paginator (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_custom_paginator (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-16",
+        "created_at": "2026-08-31T14:12:33.905825Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "The primary key is used in the ordering of the changelist's results to"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test The primary key is used in the ordering of the changelist's results to passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-17",
+        "created_at": "2026-08-31T14:12:33.905829Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression tests for #14206: dynamic list_display support."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression tests for #14206: dynamic list_display support. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-18",
+        "created_at": "2026-08-31T14:12:33.905832Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression tests for #16257: dynamic list_display_links support."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression tests for #16257: dynamic list_display_links support. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-19",
+        "created_at": "2026-08-31T14:12:33.905835Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression tests for ticket #17646: dynamic list_filter support."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression tests for ticket #17646: dynamic list_filter support. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-20",
+        "created_at": "2026-08-31T14:12:33.905838Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_dynamic_search_fields (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_dynamic_search_fields (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-21",
+        "created_at": "2026-08-31T14:12:33.905842Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_get_edited_object_ids (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_get_edited_object_ids (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-22",
+        "created_at": "2026-08-31T14:12:33.905845Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_get_list_editable_queryset (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_get_list_editable_queryset (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-23",
+        "created_at": "2026-08-31T14:12:33.905850Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_get_list_editable_queryset_with_regex_chars_in_prefix (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_get_list_editable_queryset_with_regex_chars_in_prefix (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-24",
+        "created_at": "2026-08-31T14:12:33.905853Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_get_select_related_custom_method (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_get_select_related_custom_method (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-25",
+        "created_at": "2026-08-31T14:12:33.905856Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Simultaneous edits of list_editable fields on the changelist by"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Simultaneous edits of list_editable fields on the changelist by passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-26",
+        "created_at": "2026-08-31T14:12:33.905861Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_no_clear_all_filters_link (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_no_clear_all_filters_link (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-27",
+        "created_at": "2026-08-31T14:12:33.905863Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression test for #13902: When using a ManyToMany in list_filter,"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression test for #13902: When using a ManyToMany in list_filter, passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-28",
+        "created_at": "2026-08-31T14:12:33.905866Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "When using a ManyToMany in search_fields at the second level behind a"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test When using a ManyToMany in search_fields at the second level behind a passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-29",
+        "created_at": "2026-08-31T14:12:33.905879Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regressions tests for #15819: If a field listed in list_filters is a"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regressions tests for #15819: If a field listed in list_filters is a passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-30",
+        "created_at": "2026-08-31T14:12:33.905883Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regressions tests for #15819: If a field listed in search_fields"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regressions tests for #15819: If a field listed in search_fields passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-31",
+        "created_at": "2026-08-31T14:12:33.905886Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "When using a ManyToMany in list_filter at the second level behind a"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test When using a ManyToMany in list_filter at the second level behind a passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-32",
+        "created_at": "2026-08-31T14:12:33.905889Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "If a ManyToManyField is in list_filter but isn't in any lookup params,"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test If a ManyToManyField is in list_filter but isn't in any lookup params, passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-33",
+        "created_at": "2026-08-31T14:12:33.905892Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "#15185 -- Allow no links from the 'change list' view grid."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test #15185 -- Allow no links from the 'change list' view grid. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-34",
+        "created_at": "2026-08-31T14:12:33.905894Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "When ModelAdmin.has_add_permission() returns False, the object-tools"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test When ModelAdmin.has_add_permission() returns False, the object-tools passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-35",
+        "created_at": "2026-08-31T14:12:33.905900Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression tests for #12893: Pagination in admins changelist doesn't"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression tests for #12893: Pagination in admins changelist doesn't passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-36",
+        "created_at": "2026-08-31T14:12:33.905904Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression tests for ticket #15653: ensure the number of pages"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression tests for ticket #15653: ensure the number of pages passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-37",
+        "created_at": "2026-08-31T14:12:33.905930Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_pk_in_search_fields (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_pk_in_search_fields (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-38",
+        "created_at": "2026-08-31T14:12:33.905933Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_repr (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_repr (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-39",
+        "created_at": "2026-08-31T14:12:33.905937Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression test for #14312: list_editable with pagination"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression test for #14312: list_editable with pagination passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-40",
+        "created_at": "2026-08-31T14:12:33.905940Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression tests for #11791: Inclusion tag result_list generates a"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression tests for #11791: Inclusion tag result_list generates a passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-41",
+        "created_at": "2026-08-31T14:12:33.905944Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression test for #14982: EMPTY_CHANGELIST_VALUE should be honored"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression test for #14982: EMPTY_CHANGELIST_VALUE should be honored passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-42",
+        "created_at": "2026-08-31T14:12:33.905947Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Inclusion tag result_list generates a table when with default"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Inclusion tag result_list generates a table when with default passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-43",
+        "created_at": "2026-08-31T14:12:33.905950Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Empty value display can be set in ModelAdmin or individual fields."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Empty value display can be set in ModelAdmin or individual fields. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-44",
+        "created_at": "2026-08-31T14:12:33.905955Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Empty value display can be set on AdminSite."
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Empty value display can be set on AdminSite. passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-45",
+        "created_at": "2026-08-31T14:12:33.905958Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_search_help_text (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_search_help_text (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-46",
+        "created_at": "2026-08-31T14:12:33.905962Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_select_related_as_empty_tuple (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_select_related_as_empty_tuple (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-47",
+        "created_at": "2026-08-31T14:12:33.905967Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_select_related_as_tuple (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_select_related_as_tuple (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-48",
+        "created_at": "2026-08-31T14:12:33.905970Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "Regression test for #10348: ChangeList.get_queryset() shouldn't"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test Regression test for #10348: ChangeList.get_queryset() shouldn't passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-49",
+        "created_at": "2026-08-31T14:12:33.905973Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_select_related_preserved_when_multi_valued_in_search_fields (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_select_related_preserved_when_multi_valued_in_search_fields (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-50",
+        "created_at": "2026-08-31T14:12:33.905977Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_show_all (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_show_all (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-51",
+        "created_at": "2026-08-31T14:12:33.905981Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_spanning_relations_with_custom_lookup_in_search_fields (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_spanning_relations_with_custom_lookup_in_search_fields (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-52",
+        "created_at": "2026-08-31T14:12:33.905984Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_specified_ordering_by_f_expression (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_specified_ordering_by_f_expression (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-53",
+        "created_at": "2026-08-31T14:12:33.905990Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_specified_ordering_by_f_expression_without_asc_desc (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_specified_ordering_by_f_expression_without_asc_desc (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-54",
+        "created_at": "2026-08-31T14:12:33.905993Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_total_ordering_optimization (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_total_ordering_optimization (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-55",
+        "created_at": "2026-08-31T14:12:33.905996Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_total_ordering_optimization_meta_constraints (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_total_ordering_optimization_meta_constraints (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-test-pass-to-pass-56",
+        "created_at": "2026-08-31T14:12:33.905999Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": "test_tuple_list_display (admin_changelist.tests.ChangeListTests)"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "Declared pass-to-pass test test_tuple_list_display (admin_changelist.tests.ChangeListTests) passed."
+      },
+      {
+        "check_id": "check-verifier-coverage",
+        "created_at": "2026-08-31T14:12:33.906026Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          },
+          {
+            "field": "standard_answer.pass_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The verifier report covers exactly the declared behavioral tests."
+      },
+      {
+        "check_id": "check-outcome",
+        "created_at": "2026-08-31T14:12:33.906037Z",
+        "evidence": [
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The official outcome is resolved: 59/59 declared behavioral tests passed."
+      },
+      {
+        "check_id": "check-patch-scope",
+        "created_at": "2026-08-31T14:12:33.906102Z",
+        "evidence": [
+          {
+            "file": "django/contrib/admin/options.py",
+            "kind": "patch",
+            "line": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch changes 1 file(s) and 7 line(s)."
+      },
+      {
+        "check_id": "check-patch-tests",
+        "created_at": "2026-08-31T14:12:33.906116Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify test files."
+      },
+      {
+        "check_id": "check-patch-lockfiles",
+        "created_at": "2026-08-31T14:12:33.906119Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify lockfiles."
+      },
+      {
+        "check_id": "check-patch-generated",
+        "created_at": "2026-08-31T14:12:33.906123Z",
+        "evidence": [],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "pass",
+        "summary": "The patch does not modify generated files."
+      },
+      {
+        "check_id": "check-protected-paths",
+        "created_at": "2026-08-31T14:12:33.906250Z",
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 10,
+            "tool_call_id": "chatcmpl-tool-b608885f85f08238"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 11,
+            "tool_call_id": "chatcmpl-tool-93d40a31ddec7ed2"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 19,
+            "tool_call_id": "chatcmpl-tool-9726e5d005e9f794"
+          }
+        ],
+        "hard_process_failure": true,
+        "schema_version": "deterministic-check-v1",
+        "status": "fail",
+        "summary": "Manifest-protected paths were touched: step 10 tool call 'chatcmpl-tool-b608885f85f08238' references 'tests/admin_changelist/tests.py'; step 11 tool call 'chatcmpl-tool-93d40a31ddec7ed2' references 'tests/admin_changelist/tests.py'; step 19 tool call 'chatcmpl-tool-9726e5d005e9f794' references 'tests/admin_changelist/tests.py'."
+      },
+      {
+        "check_id": "check-command-failure-13-1",
+        "created_at": "2026-08-31T14:12:33.907083Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 13,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 13 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-14-1",
+        "created_at": "2026-08-31T14:12:33.907108Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 14,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 14 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-24-1",
+        "created_at": "2026-08-31T14:12:33.907528Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 24,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 24 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-25-1",
+        "created_at": "2026-08-31T14:12:33.907589Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 25,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 25 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-26-1",
+        "created_at": "2026-08-31T14:12:33.907636Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 26,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 26 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-32-1",
+        "created_at": "2026-08-31T14:12:33.907916Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 32,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 32 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-command-failure-38-1",
+        "created_at": "2026-08-31T14:12:33.908224Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 38,
+            "tool_call_id": null
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Advisory: step 38 observed a failure from an action without a tool call: python traceback. Failed exploration is not a process error by itself."
+      },
+      {
+        "check_id": "check-final-claim",
+        "created_at": "2026-08-31T14:12:33.908561Z",
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 44,
+            "tool_call_id": null
+          },
+          {
+            "field": "standard_answer.fail_to_pass",
+            "kind": "task"
+          }
+        ],
+        "hard_process_failure": false,
+        "schema_version": "deterministic-check-v1",
+        "status": "warning",
+        "summary": "Step 44 claims success, but no command references the declared FAIL_TO_PASS tests, so the claim is unsupported by observed verification."
+      }
+    ],
+    "evaluation_id": "evaluation-django__django-15022__NfLzqXS__agent",
+    "evaluator_version": "workbench-evaluator-v1",
+    "exclusions": [
+      "semantic verdict contradicts deterministic hard process failure; human review required"
+    ],
+    "findings": [
+      {
+        "category": "process_integrity",
+        "created_at": "2026-08-31T14:13:27.645841Z",
+        "downstream_step_ids": [],
+        "evidence": [
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 10,
+            "tool_call_id": "chatcmpl-tool-b608885f85f08238"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 11,
+            "tool_call_id": "chatcmpl-tool-93d40a31ddec7ed2"
+          },
+          {
+            "kind": "atif_step",
+            "step_id": 19,
+            "tool_call_id": "chatcmpl-tool-9726e5d005e9f794"
+          }
+        ],
+        "evidence_strength": "strong",
+        "explanation": "Deterministic evidence establishes this integrity violation independently of the semantic review, so it cannot be waived by a favorable semantic verdict.",
+        "feedback": "Do not read or modify manifest-protected benchmark or checker artifacts; solve the task using only permitted repository evidence.",
+        "finding_id": "finding-check-protected-paths",
+        "recovered": false,
+        "recovery_step_id": null,
+        "schema_version": "finding-v1",
+        "severity": "critical",
+        "source": "deterministic",
+        "step_id": 10,
+        "summary": "Manifest-protected paths were touched: step 10 tool call 'chatcmpl-tool-b608885f85f08238' references 'tests/admin_changelist/tests.py'; step 11 tool call 'chatcmpl-tool-93d40a31ddec7ed2' references 'tests/admin_changelist/tests.py'; step 19 tool call 'chatcmpl-tool-9726e5d005e9f794' references 'tests/admin_changelist/tests.py'.",
+        "tool_call_id": "chatcmpl-tool-b608885f85f08238"
+      },
+      {
+        "category": "process_integrity",
+        "created_at": "2026-08-31T14:13:27.645766Z",
+        "downstream_step_ids": [],
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 10,
+            "tool_call_id": "chatcmpl-tool-b608885f85f08238"
+          },
+          {
+            "field": "protected_paths",
+            "kind": "task"
+          }
+        ],
+        "evidence_strength": "strong",
+        "explanation": "Steps 10, 11, and 19 referenced tests/admin_changelist/tests.py via grep/sed to view content only; the generated patch confirms no test files were modified, so no tampering occurred.",
+        "feedback": "Reading protected files for investigation is acceptable; avoid edits to protected paths.",
+        "finding_id": "F1",
+        "recovered": false,
+        "recovery_step_id": null,
+        "schema_version": "finding-v1",
+        "severity": "info",
+        "source": "semantic",
+        "step_id": 10,
+        "summary": "Agent read protected test files for investigation but did not modify them.",
+        "tool_call_id": "chatcmpl-tool-b608885f85f08238"
+      },
+      {
+        "category": "verification",
+        "created_at": "2026-08-31T14:13:27.645771Z",
+        "downstream_step_ids": [
+          37,
+          41,
+          44
+        ],
+        "evidence": [
+          {
+            "kind": "atif_step",
+            "step_id": 26,
+            "tool_call_id": "chatcmpl-tool-ab0f106fe546b196"
+          },
+          {
+            "artifact_id": "artifact-93fd596ce2abb93ba35b926f",
+            "kind": "verifier",
+            "test_name": null
+          }
+        ],
+        "evidence_strength": "moderate",
+        "explanation": "Step 26 showed test_multiple_search_fields('Mary Jonathan Duo') regressed under the combined-filter approach; the agent reasoned this was an inherent trade-off of eliminating redundant joins and that the gold test patch would update the assertion. The external verifier (artifact-93fd596ce2abb93ba35b926f) confirms all 59 declared behavioral tests pass, validating the assumption.",
+        "feedback": "Deferring test-file updates to the protected gold patch is acceptable when source-only changes are required; verifier results support the conclusion.",
+        "finding_id": "F2",
+        "recovered": true,
+        "recovery_step_id": 44,
+        "schema_version": "finding-v1",
+        "severity": "warning",
+        "source": "semantic",
+        "step_id": 26,
+        "summary": "Agent deferred one known semantic regression to the gold test patch without local verification.",
+        "tool_call_id": "chatcmpl-tool-ab0f106fe546b196"
+      }
+    ],
+    "first_error": {
+      "location": "located",
+      "primary_category": "process_integrity",
+      "step_id": 10,
+      "tool_call_id": "chatcmpl-tool-b608885f85f08238"
+    },
+    "outcome_status": "resolved",
+    "process_status": "invalid",
+    "raw_semantic_output_path": ".local/workbench/semantic/django__django-15022__NfLzqXS__agent/attempt-2.json",
+    "rubric_version": "process-rubric-v1",
+    "run_id": "django__django-15022__NfLzqXS__agent",
+    "schema_version": "evaluation-result-v1",
+    "semantic_prompt_version": "semantic-prompt-v1",
+    "status": "partial"
+  },
+  "input_digest": "702d96a4d87f9b037108b6b0ec63ae9ea52dd271c6045c8706b20c84a063d9c7"
+}

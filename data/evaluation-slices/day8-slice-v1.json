@@ -1,0 +1,212 @@
+{
+  "schema_version": "evaluation-slice-v1",
+  "slice_id": "day8-slice-v1",
+  "created_at": "2026-08-31T07:05:00Z",
+  "status": "frozen",
+  "purpose": "Difficulty-covering blinded-validation slice for the Day 8 gate. Frozen before any environment build, oracle check, or agent run for these tasks.",
+  "dataset": {
+    "name": "princeton-nlp/SWE-bench_Verified",
+    "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+    "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified"
+  },
+  "sampling": {
+    "method": "stratified seeded shuffle per official difficulty band; the slice takes the first selected_count ids of each seeded_candidate_order",
+    "seed": 20260830,
+    "frame": "repo == django/django AND version >= 4.0 AND instance_id != django__django-15851; strata are the official SWE-bench Verified difficulty labels",
+    "frame_constraints_reasons": [
+      "django/django is the family with a recorded passing ARM64 source-build oracle check (Day 7); staying inside it keeps the environment risk bounded and is stated openly as a scope limit.",
+      "version >= 4.0 pins conda environments to Python >= 3.8, which are reliable on aarch64; Django 3.x maps to Python 3.6, which is not dependable in aarch64 conda.",
+      "django__django-15851 is excluded because it was already run on Day 7 and its reveal review is recorded as non-blinded.",
+      "The >4 hours band is absent from django/django (3 instances exist benchmark-wide, none in the frame); the slice therefore covers the three available official bands and says so rather than borrowing an out-of-frame task."
+    ]
+  },
+  "substitution_rule": "If a selected instance fails its environment build or its gold-patch oracle check on this host, record the failure in data/environment-checks/ and replace it with the next id in the same stratum seeded_candidate_order. Agent-phase failures are NOT substitution grounds: a harness exception is recorded and rerun at most once (both trials kept); if both fail, the instance stays in the slice as an unimportable trial and is reported as excluded with its reason.",
+  "run_configuration": {
+    "harness": "harbor 0.22.0, sequential (-n 1), default timeout multipliers",
+    "agent": "mini-swe-agent 2.4.6 pinned in-container (--ak version=2.4.6)",
+    "agent_model": "the Hy3 endpoint model configured in the ignored .env, passed as openai/<HY3_MODEL> with OPENAI_API_KEY/OPENAI_BASE_URL via --env-file",
+    "judge": "the fixed Hy3 judge configuration recorded in each evaluation (semantic-prompt-v1, process-rubric-v1)",
+    "environment": "locally built ARM64 instance images from the official swebench==4.0.3 harness; task copies prepared by scripts/prepare_swebench_task.py from harbor-datasets commit 86723674f04e4209ac479d0fb75d9d9f44b4377e"
+  },
+  "blinding_protocol": [
+    "After import, evaluation runs with the response verdict suppressed: the operator terminal displays only completion status, never process_status, findings, or first_error.",
+    "All initial labels are entered through the blinded UI, one run after another, before any revealed verdict is inspected.",
+    "Reveals and adjudications happen only after every initial label in the slice is saved.",
+    "Reviewer alias operator-blinded-day8; each review notes the protocol. The Day 7 review (operator-day7) remains non-blinded and excluded from validation metrics via slice scoping."
+  ],
+  "strata": {
+    "<15 min fix": {
+      "frame_size": 46,
+      "selected_count": 3,
+      "selected": [
+        {
+          "instance_id": "django__django-16801",
+          "version": "5.0"
+        },
+        {
+          "instance_id": "django__django-16429",
+          "version": "4.2"
+        },
+        {
+          "instance_id": "django__django-16899",
+          "version": "5.0"
+        }
+      ],
+      "seeded_candidate_order": [
+        "django__django-16801",
+        "django__django-16429",
+        "django__django-16899",
+        "django__django-14539",
+        "django__django-14765",
+        "django__django-14915",
+        "django__django-17029",
+        "django__django-17087",
+        "django__django-16642",
+        "django__django-14855",
+        "django__django-13933",
+        "django__django-16116",
+        "django__django-16145",
+        "django__django-15499",
+        "django__django-16569",
+        "django__django-15368",
+        "django__django-15127",
+        "django__django-15380",
+        "django__django-14608",
+        "django__django-14534",
+        "django__django-15741",
+        "django__django-16100",
+        "django__django-15569",
+        "django__django-15930",
+        "django__django-14404",
+        "django__django-15467",
+        "django__django-15315",
+        "django__django-14376",
+        "django__django-14580",
+        "django__django-14999",
+        "django__django-15572",
+        "django__django-14752",
+        "django__django-16255",
+        "django__django-15987",
+        "django__django-14787",
+        "django__django-14089",
+        "django__django-15277",
+        "django__django-16595",
+        "django__django-15104",
+        "django__django-16333",
+        "django__django-16139",
+        "django__django-14315",
+        "django__django-14493",
+        "django__django-15863",
+        "django__django-14792",
+        "django__django-14373"
+      ]
+    },
+    "15 min - 1 hour": {
+      "frame_size": 60,
+      "selected_count": 3,
+      "selected": [
+        {
+          "instance_id": "django__django-14017",
+          "version": "4.0"
+        },
+        {
+          "instance_id": "django__django-15022",
+          "version": "4.1"
+        },
+        {
+          "instance_id": "django__django-15278",
+          "version": "4.1"
+        }
+      ],
+      "seeded_candidate_order": [
+        "django__django-14017",
+        "django__django-15022",
+        "django__django-15278",
+        "django__django-16454",
+        "django__django-14053",
+        "django__django-14140",
+        "django__django-15554",
+        "django__django-14434",
+        "django__django-15695",
+        "django__django-16493",
+        "django__django-14170",
+        "django__django-16662",
+        "django__django-14311",
+        "django__django-16661",
+        "django__django-15525",
+        "django__django-16256",
+        "django__django-15037",
+        "django__django-14672",
+        "django__django-15814",
+        "django__django-16527",
+        "django__django-16032",
+        "django__django-17084",
+        "django__django-16136",
+        "django__django-16315",
+        "django__django-15973",
+        "django__django-15161",
+        "django__django-16950",
+        "django__django-15098",
+        "django__django-16819",
+        "django__django-15280",
+        "django__django-16667",
+        "django__django-15563",
+        "django__django-14500",
+        "django__django-13964",
+        "django__django-14351",
+        "django__django-14122",
+        "django__django-16938",
+        "django__django-16901",
+        "django__django-15916",
+        "django__django-14238",
+        "django__django-16082",
+        "django__django-14725",
+        "django__django-14559",
+        "django__django-14349",
+        "django__django-16485",
+        "django__django-16502",
+        "django__django-13809",
+        "django__django-15731",
+        "django__django-14155",
+        "django__django-15382",
+        "django__django-15561",
+        "django__django-13925",
+        "django__django-14771",
+        "django__django-16877",
+        "django__django-14034",
+        "django__django-16612",
+        "django__django-15732",
+        "django__django-15103",
+        "django__django-15252",
+        "django__django-15375"
+      ]
+    },
+    "1-4 hours": {
+      "frame_size": 11,
+      "selected_count": 2,
+      "selected": [
+        {
+          "instance_id": "django__django-15503",
+          "version": "4.1"
+        },
+        {
+          "instance_id": "django__django-14631",
+          "version": "4.0"
+        }
+      ],
+      "seeded_candidate_order": [
+        "django__django-15503",
+        "django__django-14631",
+        "django__django-15957",
+        "django__django-14011",
+        "django__django-15629",
+        "django__django-16263",
+        "django__django-16560",
+        "django__django-16631",
+        "django__django-15128",
+        "django__django-14007",
+        "django__django-15268"
+      ]
+    }
+  }
+}

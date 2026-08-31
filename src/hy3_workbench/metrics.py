@@ -8,7 +8,10 @@ never silently merged with human labels.
 
 from __future__ import annotations
 
+import json
 import random
+import re
+from pathlib import Path
 from typing import Literal
 
 from hy3_workbench.contracts import (
@@ -43,6 +46,7 @@ class RunAnalysisRow(StrictModel):
     """One run's persisted facts, predictions, and human labels."""
 
     run_id: str
+    task_id: str
     evaluation_id: str | None
     difficulty: str
     outcome_status: OutcomeStatus | None
@@ -120,6 +124,63 @@ class ExcludedRun(StrictModel):
     reasons: list[str]
 
 
+class SliceDefinition(StrictModel):
+    """One frozen evaluation slice: the task ids validation metrics scope to."""
+
+    slice_id: str
+    task_ids: list[str]
+
+
+_SLICE_ID_PATTERN = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
+
+
+def load_slice(slices_dir: Path, slice_id: str) -> SliceDefinition:
+    """Load one committed slice record and extract its selected task ids.
+
+    Raises ``ValueError`` for unknown ids, malformed records, or ids that do
+    not match the conservative slice-id pattern (which also keeps the id safe
+    to use as a filename).
+    """
+
+    if not _SLICE_ID_PATTERN.fullmatch(slice_id):
+        raise ValueError(f"invalid slice id: {slice_id!r}")
+    path = slices_dir / f"{slice_id}.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as error:
+        raise ValueError(f"unknown evaluation slice: {slice_id}") from error
+    except (OSError, json.JSONDecodeError) as error:
+        raise ValueError(f"evaluation slice {slice_id} is unreadable: {error}") from error
+    if not isinstance(payload, dict) or payload.get("slice_id") != slice_id:
+        raise ValueError(f"evaluation slice {slice_id} does not declare its own id")
+    strata = payload.get("strata")
+    if not isinstance(strata, dict) or not strata:
+        raise ValueError(f"evaluation slice {slice_id} has no strata")
+    task_ids: list[str] = []
+    for band, stratum in strata.items():
+        selected = stratum.get("selected") if isinstance(stratum, dict) else None
+        if not isinstance(selected, list):
+            raise ValueError(f"evaluation slice {slice_id} stratum {band!r} has no selected list")
+        for item in selected:
+            instance_id = item.get("instance_id") if isinstance(item, dict) else None
+            if not isinstance(instance_id, str) or not instance_id:
+                raise ValueError(f"evaluation slice {slice_id} stratum {band!r} is malformed")
+            task_ids.append(instance_id)
+    if len(task_ids) != len(set(task_ids)):
+        raise ValueError(f"evaluation slice {slice_id} selects a task more than once")
+    return SliceDefinition(slice_id=slice_id, task_ids=sorted(task_ids))
+
+
+def list_slices(slices_dir: Path) -> list[str]:
+    """Slice ids available under the committed slices directory, sorted."""
+
+    if not slices_dir.is_dir():
+        return []
+    return sorted(
+        path.stem for path in slices_dir.glob("*.json") if _SLICE_ID_PATTERN.fullmatch(path.stem)
+    )
+
+
 class AnalyticsSummary(StrictModel):
     schema_version: Literal["analytics-summary-v1"] = "analytics-summary-v1"
     run_count: int
@@ -171,6 +232,7 @@ def build_rows(repository: WorkbenchRepository) -> list[RunAnalysisRow]:
             rows.append(
                 RunAnalysisRow(
                     run_id=stored.run.run_id,
+                    task_id=stored.task_id,
                     evaluation_id=None,
                     difficulty=task.difficulty.label,
                     outcome_status=None,
@@ -193,6 +255,7 @@ def build_rows(repository: WorkbenchRepository) -> list[RunAnalysisRow]:
         rows.append(
             RunAnalysisRow(
                 run_id=result.run_id,
+                task_id=stored.task_id,
                 evaluation_id=result.evaluation_id,
                 difficulty=task.difficulty.label,
                 outcome_status=result.outcome_status,
@@ -346,6 +409,56 @@ def _scalar_metrics(rows: list[RunAnalysisRow]) -> list[MetricValue]:
             "On human-located incorrect runs, evaluator first-error step within one step of "
             "the human step.",
             located_exclusions,
+        )
+    )
+
+    # Localization on every human-confirmed invalid run, regardless of outcome.
+    # The incorrect-run metrics above stay faithful to their original
+    # definition; correct-result-invalid-process runs land here instead of
+    # silently vanishing from localization evidence.
+    confirmed_located = [
+        row
+        for row in rows
+        if row.human_label is not None
+        and row.human_label.process_status == "invalid"
+        and row.human_label.first_error_location == "located"
+    ]
+    confirmed_exclusions = [
+        f"{row.run_id}: human confirmed invalid without a locatable step"
+        for row in rows
+        if row.human_label is not None
+        and row.human_label.process_status == "invalid"
+        and row.human_label.first_error_location != "located"
+    ]
+    metrics.append(
+        _metric(
+            "confirmed_invalid_exact_localization_accuracy",
+            sum(
+                1
+                for row in confirmed_located
+                if evaluator_step(row) == row.human_label.first_error_step_id  # type: ignore[union-attr]
+            ),
+            len(confirmed_located),
+            "mixed",
+            "On every human-labeled invalid run with a located step (any outcome), evaluator "
+            "first-error step equals the human step exactly.",
+            confirmed_exclusions,
+        )
+    )
+    metrics.append(
+        _metric(
+            "confirmed_invalid_within_one_step_localization_accuracy",
+            sum(
+                1
+                for row in confirmed_located
+                if evaluator_step(row) is not None
+                and abs(evaluator_step(row) - row.human_label.first_error_step_id) <= 1  # type: ignore[operator,union-attr]
+            ),
+            len(confirmed_located),
+            "mixed",
+            "On every human-labeled invalid run with a located step (any outcome), evaluator "
+            "first-error step within one step of the human step.",
+            confirmed_exclusions,
         )
     )
 
@@ -574,8 +687,32 @@ def summarize_rows(
     rows: list[RunAnalysisRow],
     seed: int = BOOTSTRAP_SEED,
     resamples: int = BOOTSTRAP_RESAMPLES,
+    scope: SliceDefinition | None = None,
 ) -> AnalyticsSummary:
-    """Produce the complete provenance-aware summary from analysis rows."""
+    """Produce the complete provenance-aware summary from analysis rows.
+
+    With a ``scope``, only rows whose task belongs to the frozen slice count;
+    the configuration records the scope, how many runs fell outside it, and
+    any slice tasks that have no run yet, so a scoped summary can never
+    silently pass off partial coverage as complete.
+    """
+
+    configuration: dict[str, str | int | float] = {
+        "evaluator_version": EVALUATOR_VERSION,
+        "rubric_version": RUBRIC_VERSION,
+        "semantic_prompt_version": SEMANTIC_PROMPT_VERSION,
+        "bootstrap_seed": seed,
+        "bootstrap_resamples": resamples,
+        "scope": scope.slice_id if scope is not None else "all",
+    }
+    if scope is not None:
+        in_scope = set(scope.task_ids)
+        scoped_rows = [row for row in rows if row.task_id in in_scope]
+        missing = sorted(in_scope - {row.task_id for row in scoped_rows})
+        configuration["scope_task_count"] = len(scope.task_ids)
+        configuration["scope_out_of_scope_runs"] = len(rows) - len(scoped_rows)
+        configuration["scope_tasks_without_runs"] = ", ".join(missing) if missing else "none"
+        rows = scoped_rows
 
     table = _difficulty_table(rows)
     observed, supported = _decline_intervals(table, seed, resamples)
@@ -584,13 +721,7 @@ def summarize_rows(
         evaluated_count=sum(1 for row in rows if row.evaluation_id is not None),
         reviewed_count=sum(1 for row in rows if row.human_initial is not None),
         adjudicated_count=sum(1 for row in rows if row.human_final is not None),
-        configuration={
-            "evaluator_version": EVALUATOR_VERSION,
-            "rubric_version": RUBRIC_VERSION,
-            "semantic_prompt_version": SEMANTIC_PROMPT_VERSION,
-            "bootstrap_seed": seed,
-            "bootstrap_resamples": resamples,
-        },
+        configuration=configuration,
         metrics=_scalar_metrics(rows),
         primary_error_distribution=_primary_error_distribution(rows),
         difficulty_table=table,
@@ -612,5 +743,5 @@ class MetricCalculator:
     def __init__(self, repository: WorkbenchRepository) -> None:
         self.repository = repository
 
-    def summarize(self) -> AnalyticsSummary:
-        return summarize_rows(build_rows(self.repository))
+    def summarize(self, scope: SliceDefinition | None = None) -> AnalyticsSummary:
+        return summarize_rows(build_rows(self.repository), scope=scope)

@@ -1,5 +1,5 @@
 {
-  "adjudicated_count": 9,
+  "adjudicated_count": 8,
   "cases": [
     {
       "evaluation_id": "evaluation-django__django-14631__kidipeH__agent",
@@ -26,12 +26,6 @@
       "run_id": "django__django-15503__uDma7iE__agent"
     },
     {
-      "evaluation_id": "evaluation-django__django-15851__TDyDpF3__agent",
-      "kind": "correct_result_invalid_process",
-      "note": "Resolved outcome with an invalid process.",
-      "run_id": "django__django-15851__TDyDpF3__agent"
-    },
-    {
       "evaluation_id": "evaluation-django__django-16429__YKxuFDd__agent",
       "kind": "correct_result_invalid_process",
       "note": "Resolved outcome with an invalid process.",
@@ -48,18 +42,6 @@
       "kind": "correct_result_invalid_process",
       "note": "Resolved outcome with an invalid process.",
       "run_id": "django__django-16899__yJvk3qg__agent"
-    },
-    {
-      "evaluation_id": "evaluation-run-fixture-inconclusive-missing-evidence",
-      "kind": "excluded",
-      "note": "infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)",
-      "run_id": "run-fixture-inconclusive-missing-evidence"
-    },
-    {
-      "evaluation_id": "evaluation-run-fixture-invalid-first-error",
-      "kind": "located_first_error",
-      "note": "First error located at step 3 (task_interpretation).",
-      "run_id": "run-fixture-invalid-first-error"
     }
   ],
   "configuration": {
@@ -67,33 +49,24 @@
     "bootstrap_seed": 20260830,
     "evaluator_version": "workbench-evaluator-v1",
     "rubric_version": "process-rubric-v1",
-    "scope": "all",
+    "scope": "day8-slice-v1",
+    "scope_out_of_scope_runs": 4,
+    "scope_task_count": 8,
+    "scope_tasks_without_runs": "none",
     "semantic_prompt_version": "semantic-prompt-v1"
   },
   "difficulty_table": [
     {
-      "gradeable_runs": 2,
-      "inconclusive_runs": 1,
-      "label": "easy",
-      "outcome_rate": 0.5,
-      "process_gradeable_runs": 2,
-      "process_valid_rate": 0.5,
-      "process_valid_runs": 1,
-      "provenance": "mixed",
-      "resolved_runs": 1,
-      "total_runs": 3
-    },
-    {
-      "gradeable_runs": 4,
+      "gradeable_runs": 3,
       "inconclusive_runs": 0,
       "label": "<15 min fix",
       "outcome_rate": 1.0,
-      "process_gradeable_runs": 4,
+      "process_gradeable_runs": 3,
       "process_valid_rate": 0.0,
       "process_valid_runs": 0,
-      "provenance": "mixed",
-      "resolved_runs": 4,
-      "total_runs": 4
+      "provenance": "human",
+      "resolved_runs": 3,
+      "total_runs": 3
     },
     {
       "gradeable_runs": 3,
@@ -120,103 +93,87 @@
       "total_runs": 2
     }
   ],
-  "evaluated_count": 12,
-  "excluded_runs": [
-    {
-      "reasons": [
-        "infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)"
-      ],
-      "run_id": "run-fixture-inconclusive-missing-evidence"
-    }
-  ],
+  "evaluated_count": 8,
+  "excluded_runs": [],
   "metrics": [
     {
       "definition": "Resolved runs over gradeable (resolved plus unresolved) runs, from the official behavioral-test verifier.",
-      "denominator": 11,
-      "exclusions": [
-        "run-fixture-inconclusive-missing-evidence: infrastructure failure prevented grading (verifier report is malformed or incomplete: 2 validation errors for VerifierReport\npass_to_pass\n  Field required [type=missing, input_value={'schema_version': 'fixtu... evidence was produced'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nexclusion_reason\n  Extra inputs are not permitted [type=extra_forbidden, input_value='worker connection lost b...S evidence was produced', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden)"
-      ],
+      "denominator": 8,
+      "exclusions": [],
       "metric_id": "final_answer_accuracy",
-      "numerator": 10,
+      "numerator": 8,
       "provenance": "official",
-      "value": 0.9090909090909091
+      "value": 1.0
     },
     {
       "definition": "Evaluator-predicted valid processes over conclusive evaluator process verdicts.",
-      "denominator": 10,
+      "denominator": 7,
       "exclusions": [
-        "django__django-14017__n7sw8mU__agent: evaluator process status is inconclusive or missing",
-        "run-fixture-inconclusive-missing-evidence: evaluator process status is inconclusive or missing"
+        "django__django-14017__n7sw8mU__agent: evaluator process status is inconclusive or missing"
       ],
       "metric_id": "predicted_process_correctness_rate",
-      "numerator": 1,
+      "numerator": 0,
       "provenance": "evaluator",
-      "value": 0.1
+      "value": 0.0
     },
     {
       "definition": "Human-adjudicated valid processes over conclusive adjudicated final labels.",
-      "denominator": 9,
-      "exclusions": [
-        "django__django-15851__TDyDpF3__agent: no conclusive adjudicated final label",
-        "run-fixture-inconclusive-missing-evidence: no conclusive adjudicated final label",
-        "run-fixture-valid: no conclusive adjudicated final label"
-      ],
+      "denominator": 8,
+      "exclusions": [],
       "metric_id": "adjudicated_process_correctness_rate",
       "numerator": 4,
       "provenance": "human",
-      "value": 0.4444444444444444
+      "value": 0.5
     },
     {
       "definition": "On human-labeled-invalid unresolved runs, how often the evaluator also judged the process invalid.",
-      "denominator": 1,
+      "denominator": 0,
       "exclusions": [],
       "metric_id": "incorrect_run_error_detection_accuracy",
-      "numerator": 1,
+      "numerator": 0,
       "provenance": "mixed",
-      "value": 1.0
+      "value": null
     },
     {
       "definition": "On human-located incorrect runs, evaluator first-error step equals the human step exactly.",
-      "denominator": 1,
+      "denominator": 0,
       "exclusions": [],
       "metric_id": "exact_first_error_localization_accuracy",
-      "numerator": 1,
+      "numerator": 0,
       "provenance": "mixed",
-      "value": 1.0
+      "value": null
     },
     {
       "definition": "On human-located incorrect runs, evaluator first-error step within one step of the human step.",
-      "denominator": 1,
+      "denominator": 0,
       "exclusions": [],
       "metric_id": "within_one_step_localization_accuracy",
-      "numerator": 1,
+      "numerator": 0,
       "provenance": "mixed",
-      "value": 1.0
+      "value": null
     },
     {
       "definition": "On every human-labeled invalid run with a located step (any outcome), evaluator first-error step equals the human step exactly.",
-      "denominator": 6,
+      "denominator": 4,
       "exclusions": [],
       "metric_id": "confirmed_invalid_exact_localization_accuracy",
-      "numerator": 2,
+      "numerator": 0,
       "provenance": "mixed",
-      "value": 0.3333333333333333
+      "value": 0.0
     },
     {
       "definition": "On every human-labeled invalid run with a located step (any outcome), evaluator first-error step within one step of the human step.",
-      "denominator": 6,
+      "denominator": 4,
       "exclusions": [],
       "metric_id": "confirmed_invalid_within_one_step_localization_accuracy",
-      "numerator": 2,
+      "numerator": 0,
       "provenance": "mixed",
-      "value": 0.3333333333333333
+      "value": 0.0
     },
     {
       "definition": "Adjudicated resolved-and-flagged runs confirmed (accepted or edited to invalid) as genuine process problems.",
       "denominator": 7,
-      "exclusions": [
-        "django__django-15851__TDyDpF3__agent: resolved-and-flagged run awaits adjudication"
-      ],
+      "exclusions": [],
       "metric_id": "correct_result_confirmed_problem_rate",
       "numerator": 4,
       "provenance": "human",
@@ -225,9 +182,7 @@
     {
       "definition": "Adjudicated resolved-and-flagged runs rejected by the reviewer, so the evaluator flag was a false positive.",
       "denominator": 7,
-      "exclusions": [
-        "django__django-15851__TDyDpF3__agent: resolved-and-flagged run awaits adjudication"
-      ],
+      "exclusions": [],
       "metric_id": "correct_result_evaluator_false_positive_rate",
       "numerator": 3,
       "provenance": "human",
@@ -238,33 +193,18 @@
   "primary_error_distribution": [
     {
       "category": "process_integrity",
-      "count": 5,
-      "evaluator_count": 1,
-      "human_count": 4
-    },
-    {
-      "category": "task_interpretation",
-      "count": 1,
+      "count": 4,
       "evaluator_count": 0,
-      "human_count": 1
+      "human_count": 4
     }
   ],
   "quadrant": [
     {
-      "outcome_status": "inconclusive",
-      "process_status": "inconclusive",
-      "provenance": "evaluator",
-      "run_ids": [
-        "run-fixture-inconclusive-missing-evidence"
-      ]
-    },
-    {
       "outcome_status": "resolved",
       "process_status": "invalid",
-      "provenance": "mixed",
+      "provenance": "human",
       "run_ids": [
         "django__django-15278__5r4XiAr__agent",
-        "django__django-15851__TDyDpF3__agent",
         "django__django-16429__YKxuFDd__agent",
         "django__django-16801__Lqv749S__agent",
         "django__django-16899__yJvk3qg__agent"
@@ -273,26 +213,17 @@
     {
       "outcome_status": "resolved",
       "process_status": "valid",
-      "provenance": "mixed",
+      "provenance": "human",
       "run_ids": [
         "django__django-14017__n7sw8mU__agent",
         "django__django-14631__kidipeH__agent",
         "django__django-15022__NfLzqXS__agent",
-        "django__django-15503__uDma7iE__agent",
-        "run-fixture-valid"
-      ]
-    },
-    {
-      "outcome_status": "unresolved",
-      "process_status": "invalid",
-      "provenance": "human",
-      "run_ids": [
-        "run-fixture-invalid-first-error"
+        "django__django-15503__uDma7iE__agent"
       ]
     }
   ],
-  "reviewed_count": 10,
-  "run_count": 12,
+  "reviewed_count": 8,
+  "run_count": 8,
   "schema_version": "analytics-summary-v1",
   "statistically_supported_decline_interval": "not_established"
 }
