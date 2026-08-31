@@ -46,6 +46,8 @@ temp/
 .cache/
 logs/
 *.log
+# Fixture bundles are versioned evidence; their run logs must stay tracked.
+!data/fixtures/**/run.log
 outputs/
 artifacts/
 
