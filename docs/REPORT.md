@@ -8,6 +8,26 @@ numerator, denominator, exclusion list, and provenance
 (official / evaluator / human / mixed), and every run, label, and adjudication is
 reproducible from committed records plus the documented pipeline.
 
+## 摘要（中文）
+
+本报告呈现 Hy3 过程评估工作台的已验证结果：一个"确定性证据 + Hy3 语义评审 + 盲评人工"
+的混合系统，用于判断混元（Hy3）编码智能体解题**过程**的有效性、定位第一处错误、并以冻结
+人工标注度量评估器自身的可靠性。语义评审采用固定配置，且永不知晓被评模型身份与参考补丁；
+人工标注通过强制盲评界面录入（保存初始标注前不显示评估器结论）；下文每个数字都带有分子、
+分母、排除项与来源标注，全部可由仓库内冻结记录复现。
+
+冻结八任务切片（`day8-slice-v1`）上的结论：
+
+- 官方验证器判定 **8/8 结果通过**，但已裁定人工标注仅 **4/8 过程有效**；四例"结果对、
+  过程有问题"的运行全部在过程中修改了受保护的评分测试文件。
+- 行为随难度分层：易任务 0/3 过程有效（随意修改评分测试），难任务 2/2（不碰）——
+  仅看结果的评测（此处 100% 通过）对这类行为完全失明。
+- 评估器两轮修复（v1 → v2 → v3）均以对照冻结人工标注的回归卡验证：**误报率 3/4 → 0/4，
+  第一处错误精确定位 0/4 → 4/4，检出率 4/4 保持，语义覆盖 4/8 → 8/8**（超长轨迹经有界
+  压缩后全部可评；压缩只摘录真实产物，诚实弃权仍是兜底）。
+- 固定评审配置稳定：三个输入 × 五次实时重复共 **十五次会话结论全部一致**（含一条压缩后
+  的超长轨迹），并独立与人工标注的错误步骤一致。
+
 ## 1. Headline results
 
 On the frozen eight-task evaluation slice (`day8-slice-v1`, SWE-bench Verified,
@@ -21,6 +41,7 @@ three official difficulty bands):
 | 误报率 (evaluator false-positive rate, v1) | **3/7 flagged runs rejected by adjudication** — all triggered by read-only references | same |
 | 定位准确率 (first-error localization, v1) | **0/4 exact** — evaluator anchored at first *reference*, humans at first *modification* | same |
 | After the evaluator fix (v2, regression card) | **False positives 3/4 → 0/4; exact localization 0/4 → 3/4; detection 4/4 preserved** | `results/regression/day9-regression-card.json` |
+| After the second fix round (v3, regression card) | **Exact localization 4/4; false positives 0/4 and detection 4/4 preserved; semantic coverage 8/8** via bounded input condensation | `results/regression/day11-regression-card-v3.json` |
 
 The single most important qualitative finding: **on easy tasks the agent freely
 edits the graded test files (0/3 process-valid), while on hard tasks it leaves
@@ -189,6 +210,22 @@ contains the manifest's project-relative path string. v2 still hard-fails the
 run from the patch evidence but honestly reports the step as unlocatable rather
 than guessing.
 
+**Evaluator v3 (Day 11).** Both measured v2 gaps were closed and validated the
+same way. Relative-path write resolution tracks the `cd`-established working
+directory and anchors the 15278 first error at the human-labeled step 27 (the
+evasion is reproduced as the tracked fixture
+`data/fixtures/invalid-relative-path/`). Bounded semantic-input condensation
+(`semantic-prompt-v2`, policy `semantic-condense-v1` — aggregated all-passing
+per-test checks, then head/tail excerpts of oversized observations around
+explicit elision markers; faithful excerpts of real artifacts only, with the
+honest `context_limit` abstention as the floor) brings semantic coverage to 8/8.
+The recorded card (`results/regression/day11-regression-card-v3.json`): false
+positives 0/4, detection 4/4, exact and within-one localization 4/4, and all
+eight process verdicts agreeing with the frozen human labels; five judge repeats
+on a condensed input were unanimous
+(`results/judge-stability/day11-condensed-14017.json`). Both cards render
+interactively at `/regressions` in the workbench UI.
+
 ## 7. Judge stability
 
 Five repeated semantic reviews per subject with the fixed judge configuration
@@ -215,12 +252,17 @@ single-configuration judge design.
   never smoothed.
 - **Single procedurally-blinded labeler.** Labels were entered by one operator
   through the enforced blinded flow; there is no inter-rater agreement measure.
-- **Semantic coverage.** 4/8 slice trajectories exceeded the semantic context
-  limit; those runs carry deterministic evidence plus human labels only.
-- **Write-detection heuristics.** Relative-path edits evade command-level
-  write detection (the 15278 localization miss); patch-level detection still
-  catches the violation itself.
-- **Judge stochasticity and version drift.** The v2 regression card reflects one
+- **Semantic coverage (closed by v3).** At v2, 4/8 slice trajectories exceeded
+  the semantic context limit and honestly abstained; v3's bounded condensation
+  brings coverage to 8/8 (day11 regression card). The `context_limit` abstention
+  remains the floor for any input condensation cannot fit.
+- **Write-detection heuristics (largely closed by v3).** Relative-path edits
+  evaded command-level write detection at v2 (the 15278 localization miss); v3
+  resolves edit targets against the recorded working directory and anchors that
+  run at the human-labeled step. Other evasion shapes (e.g. paths built by
+  runtime string manipulation) would still fall back to patch-level detection
+  with an honest unlocatable step.
+- **Judge stochasticity and version drift.** Each regression card reflects one
   live re-evaluation per run; the judge-stability reports quantify repeat
   variance separately.
 

@@ -11,6 +11,24 @@ process validity, localize the first erroneous step, classify it against a docum
 taxonomy, and detect correct-result/invalid-process runs — and it measures its own
 reliability against frozen human labels.
 
+## 摘要（中文）
+
+本仓库是腾讯犀牛鸟开源实战任务（项目二：可验证场景 — 过程评估与错误定位）的个人参赛作品：
+一个针对混元（Hy3）编码智能体的**过程评估工作台**。它不仅看 SWE-bench Verified 任务的结果
+是否通过，更结合确定性证据通道、固定配置的 Hy3 语义评审通道与程序化盲评的人工复核通道，
+判断解题过程是否有效、定位第一处错误步骤并按文档化分类法归类，发现"结果对、过程有问题"的
+运行，并用冻结的人工标注度量评估器自身的可靠性。
+
+冻结八任务切片（`day8-slice-v1`，三个官方难度档）上的核心结论：官方验证器判定 **8/8 结果
+通过**，但已裁定人工标注仅 **4/8 过程有效** —— 易任务上智能体会直接修改受保护的评分测试
+文件（0/3 过程有效），难任务上反而不碰（2/2）；仅看结果的评测对这一整类行为完全失明。
+评估器的两轮修复均以对照冻结人工标注的回归卡验证（v1 → v3）：**误报率 3/4 → 0/4，第一处
+错误精确定位 0/4 → 4/4，检出率 4/4 保持，语义覆盖 4/8 → 8/8**（超长轨迹经有界压缩后全部
+可评；压缩只摘录真实产物，诚实弃权仍是兜底）。
+
+界面提供中英双语切换（默认英文）与浅色/深色主题；离线验证与启动命令见下文 Quickstart，
+完整数字（分子、分母、排除项、来源标注）与案例研究见[评估报告](docs/REPORT.md)。
+
 ## Headline validated findings
 
 From the frozen eight-task slice (`day8-slice-v1`, three official difficulty bands). Full
@@ -22,12 +40,15 @@ numbers with numerators, denominators, exclusions, and provenance are in the
   test file during its process.
 - **Outcome accuracy is blind to an entire behavior class**: on easy tasks the agent freely
   edited graded tests (0/3 process-valid); on hard tasks it left them alone (2/2).
-- The evaluator's measured failure modes were fixed as `workbench-evaluator-v2` and validated
-  by a recorded regression card against the frozen labels: **false positives 3/4 → 0/4, exact
-  first-error localization 0/4 → 3/4, detection 4/4 preserved**.
+- The evaluator's measured failure modes were fixed in two recorded rounds
+  (`workbench-evaluator-v2`, then `v3`), each validated by a regression card against the
+  frozen labels: **false positives 3/4 → 0/4, exact first-error localization 0/4 → 4/4,
+  detection 4/4 preserved, semantic coverage 4/8 → 8/8** (bounded condensation of oversized
+  trajectories — faithful excerpts of real artifacts only; honest abstention remains the
+  floor).
 - The fixed judge configuration is stable: verdict, first-error step, and category were
-  **unanimous across ten recorded sessions**, independently matching the human-labeled step on
-  the real run.
+  **unanimous across fifteen recorded sessions** on three inputs (including one condensed
+  oversized trajectory), independently matching the human-labeled step on the real runs.
 
 ## Quickstart
 
@@ -59,6 +80,16 @@ unconfigured, evaluation refuses instead of fabricating a verdict). The live
 Harbor/SWE-bench pipeline and its Docker gate are documented in
 [Development setup](docs/DEVELOPMENT_SETUP.md) and [report §9](docs/REPORT.md).
 
+### Process gate (CI-friendly)
+
+`scripts/process_gate.py` turns a stored process verdict into an exit code, so a pipeline
+can gate on process validity — not just outcome. It only reads persisted records and never
+evaluates: `0` valid · `2` invalid · `3` inconclusive · `4` not evaluated · `5` unknown run.
+
+```bash
+./scripts/uv-local run python scripts/process_gate.py --run run-fixture-invalid-first-error --json
+```
+
 ## Evidence map
 
 | Evidence | Where |
@@ -70,8 +101,8 @@ Harbor/SWE-bench pipeline and its Docker gate are documented in
 | Environment / gold-patch oracle gates | [data/environment-checks/](data/environment-checks/) |
 | Aggregate + per-run results (deterministic exports) | [results/](results/) |
 | Human-inspection records (blinded labels + adjudications) | [results/human_reviews.jsonl](results/human_reviews.jsonl) |
-| Evaluator v2 regression card vs frozen labels | [results/regression/day9-regression-card.json](results/regression/day9-regression-card.json) |
-| Judge-stability records (ten sessions) | [results/judge-stability/](results/judge-stability/) |
+| Evaluator v2/v3 regression cards vs frozen labels (rendered at `/regressions` in the UI) | [results/regression/](results/regression/) |
+| Judge-stability records (fifteen sessions) | [results/judge-stability/](results/judge-stability/) |
 | Synthetic oracle fixtures (valid / invalid / inconclusive) | [data/fixtures/](data/fixtures/) |
 
 ## Repository layout

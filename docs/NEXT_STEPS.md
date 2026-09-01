@@ -116,7 +116,7 @@ shared across slices only when its substantive contract is identical.
 in the UI as `operator-blinded-guardrail` before any reveal; verdicts stay out of
 this conversation until those labels are saved.
 
-### P3 — Non-UI amplifiers
+### P3 — Non-UI amplifiers — **COMPLETE (Day 11, 2026-09-01)**
 
 1. Chinese summary (摘要) at the top of the README and report for Rhino-Bird reviewers,
    reusing the report's existing bilingual term mapping (定位准确率 / 误报率 / 结果对、过程有问题).
@@ -125,6 +125,17 @@ this conversation until those labels are saved.
 
 **Exit condition:** the summary is faithful to the frozen numbers (no new claims), and
 the CLI — if built — is covered by the offline test suite.
+
+**Recorded exit evidence (2026-09-01):** 摘要（中文）sections added to the README and
+REPORT, sourced only from the frozen committed evidence (day8 labels, day9/day11
+regression cards, fifteen judge-stability sessions) with the report's bilingual terms.
+In the same pass the English headline sections were brought up to v3 (the guardrail
+line is deliberately absent until P2 closes), the report gained an "Evaluator v3
+(Day 11)" continuation of §6, and the two v2-era limitations closed by v3 are marked
+closed rather than deleted. The optional process gate landed as
+`scripts/process_gate.py` over `hy3_workbench/gate.py`: read-only exit-code mapping
+(0 valid · 2 invalid · 3 inconclusive · 4 not evaluated · 5 unknown), `--json` output,
+covered by three offline tests (167 backend tests total).
 
 ### P4 — UI phase (deliberately last) — **COMPLETE except the guardrail comparison (Day 11, 2026-09-01)**
 
