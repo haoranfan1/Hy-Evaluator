@@ -1062,3 +1062,31 @@ h4 {
   text-transform: uppercase;
   color: var(--muted);
 }
+
+/* Language toggle ------------------------------------------------------------ */
+
+.lang-toggle {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.lang-option {
+  padding: 0.35rem 0.7rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.lang-option + .lang-option {
+  border-left: 1px solid var(--line);
+}
+
+.lang-active {
+  color: #fff;
+  background: #17342f;
+}

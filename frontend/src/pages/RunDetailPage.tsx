@@ -9,15 +9,18 @@ import { EvidencePanel } from "../components/EvidencePanel";
 import { ReviewPanel } from "../components/ReviewPanel";
 import { ClampedText } from "../components/OutputBlock";
 import { StepTimeline } from "../components/StepTimeline";
+import type { MessageKey } from "../i18n";
+import { useI18n } from "../i18n";
 
-const TABS: { id: TabName; label: string }[] = [
-  { id: "timeline", label: "Timeline" },
-  { id: "patch", label: "Patch" },
-  { id: "verifier", label: "Verifier" },
-  { id: "task", label: "Task" },
+const TABS: { id: TabName; label: MessageKey }[] = [
+  { id: "timeline", label: "run.tab.timeline" },
+  { id: "patch", label: "run.tab.patch" },
+  { id: "verifier", label: "run.tab.verifier" },
+  { id: "task", label: "run.tab.task" },
 ];
 
 export function RunDetailPage() {
+  const { t } = useI18n();
   const { runId = "" } = useParams();
   const detail = useQuery({
     queryKey: ["run", runId],
@@ -64,10 +67,10 @@ export function RunDetailPage() {
   );
 
   if (detail.isPending) {
-    return <p>Loading run…</p>;
+    return <p>{t("run.loading")}</p>;
   }
   if (detail.isError || !detail.data) {
-    return <p role="alert">This run could not be loaded from the local API.</p>;
+    return <p role="alert">{t("run.error")}</p>;
   }
 
   const { run, task, artifacts, reviews } = detail.data;
@@ -83,29 +86,33 @@ export function RunDetailPage() {
   return (
     <section>
       <p className="breadcrumb">
-        <Link to="/runs">← All runs</Link>
+        <Link to="/runs">{t("run.back")}</Link>
       </p>
       <header className="page-head">
         <div>
           <h2>{run.run_id}</h2>
           <p className="page-lede">
-            {task.repository} · difficulty {task.difficulty.label} · {run.agent.name}{" "}
+            {task.repository} · {t("run.difficulty")} {task.difficulty.label} · {run.agent.name}{" "}
             {run.agent.version}
           </p>
         </div>
         <div className="badges">
           <span className={`chip chip-${evaluation?.outcome_status ?? "pending"}`}>
-            outcome: {evaluation?.outcome_status ?? "not evaluated"}
+            {t("run.outcome", {
+              status: evaluation?.outcome_status ?? t("common.notEvaluated"),
+            })}
           </span>
           {blinded ? (
-            <span className="chip chip-pending">process: hidden until your initial label</span>
+            <span className="chip chip-pending">{t("run.processHidden")}</span>
           ) : (
             <span className={`chip chip-${evaluation?.process_status ?? "pending"}`}>
-              process: {evaluation?.process_status ?? "not evaluated"}
+              {t("run.process", {
+                status: evaluation?.process_status ?? t("common.notEvaluated"),
+              })}
             </span>
           )}
           {!blinded && evaluation?.correct_result_invalid_process === true && (
-            <span className="chip chip-critical">correct result, invalid process</span>
+            <span className="chip chip-critical">{t("run.correctResultInvalidProcess")}</span>
           )}
         </div>
       </header>
@@ -113,7 +120,7 @@ export function RunDetailPage() {
       {firstError?.location === "located" && (
         <div className="first-error-banner" role="note" aria-label="First error">
           <h3>
-            First error at step {firstError.step_id}
+            {t("run.firstErrorAt", { n: firstError.step_id ?? "?" })}
             {firstError.tool_call_id && (
               <>
                 {" "}
@@ -129,17 +136,14 @@ export function RunDetailPage() {
       )}
       {firstError?.location === "unlocatable" && (
         <div className="first-error-banner" role="note" aria-label="First error">
-          <h3>A material error exists, but its first step is unlocatable</h3>
-          <p>Primary category: {firstError.primary_category}</p>
+          <h3>{t("run.firstErrorUnlocatable")}</h3>
+          <p>{t("run.primaryCategory", { category: firstError.primary_category ?? "—" })}</p>
         </div>
       )}
       {evaluation && !blinded && evaluation.process_status === "inconclusive" && (
         <div className="inconclusive-banner" role="note">
-          <h3>No process verdict</h3>
-          <p>
-            The evidence cannot support a defensible judgment. Recorded reasons are listed in the
-            verifier tab.
-          </p>
+          <h3>{t("run.noVerdict")}</h3>
+          <p>{t("run.noVerdictBody")}</p>
         </div>
       )}
 
@@ -154,7 +158,7 @@ export function RunDetailPage() {
                 aria-pressed={tab === entry.id}
                 onClick={() => setTab(entry.id)}
               >
-                {entry.label}
+                {t(entry.label)}
               </button>
             ))}
           </nav>
@@ -171,9 +175,9 @@ export function RunDetailPage() {
                 onSelectStep={setSelectedStep}
               />
             ) : trajectory.isError ? (
-              <p role="alert">The stored trajectory failed validation and cannot be shown.</p>
+              <p role="alert">{t("run.trajectoryInvalid")}</p>
             ) : (
-              <p>Loading trajectory…</p>
+              <p>{t("run.trajectoryLoading")}</p>
             ))}
           {tab === "patch" && <PatchView patch={artifacts.patch} />}
           {tab === "verifier" && (
@@ -199,11 +203,7 @@ export function RunDetailPage() {
           <EvidencePanel
             checks={evaluation?.deterministic_checks ?? []}
             findings={blinded ? [] : (evaluation?.findings ?? [])}
-            findingsHiddenNote={
-              blinded
-                ? "Semantic findings are hidden until your blinded initial label is saved."
-                : undefined
-            }
+            findingsHiddenNote={blinded ? t("evidence.hiddenWhileBlinded") : undefined}
             selection={selection}
             selectedStep={selectedStep}
             onSelect={setSelection}

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, Navigate, NavLink, Route, Routes } from "react-router";
 
+import { I18nProvider, useI18n } from "./i18n";
 import { AnalyticsPage } from "./pages/AnalyticsPage";
 import { RegressionsPage } from "./pages/RegressionsPage";
 import { RunDetailPage } from "./pages/RunDetailPage";
@@ -19,30 +20,56 @@ async function fetchHealth(): Promise<HealthResponse> {
   return response.json() as Promise<HealthResponse>;
 }
 
-export function App() {
+function LanguageToggle() {
+  const { language, setLanguage } = useI18n();
+  return (
+    <div className="lang-toggle" role="group" aria-label="Language">
+      <button
+        type="button"
+        className={language === "en" ? "lang-option lang-active" : "lang-option"}
+        aria-pressed={language === "en"}
+        onClick={() => setLanguage("en")}
+      >
+        EN
+      </button>
+      <button
+        type="button"
+        className={language === "zh" ? "lang-option lang-active" : "lang-option"}
+        aria-pressed={language === "zh"}
+        onClick={() => setLanguage("zh")}
+      >
+        中文
+      </button>
+    </div>
+  );
+}
+
+function AppShell() {
+  const { t } = useI18n();
   const health = useQuery({ queryKey: ["health"], queryFn: fetchHealth, retry: false });
 
   return (
     <main className="shell">
       <header className="app-head">
         <div>
-          <p className="eyebrow">Hy3 process evaluation workbench</p>
+          <p className="eyebrow">{t("app.eyebrow")}</p>
           <h1 className="app-title">
-            <Link to="/runs">Evidence debugger</Link>
+            <Link to="/runs">{t("app.title")}</Link>
           </h1>
         </div>
         <div className="head-side">
           <nav className="main-nav" aria-label="Main">
-            <NavLink to="/runs">Runs</NavLink>
-            <NavLink to="/analytics">Analytics</NavLink>
-            <NavLink to="/regressions">Regressions</NavLink>
+            <NavLink to="/runs">{t("nav.runs")}</NavLink>
+            <NavLink to="/analytics">{t("nav.analytics")}</NavLink>
+            <NavLink to="/regressions">{t("nav.regressions")}</NavLink>
           </nav>
+          <LanguageToggle />
           <span
             className={`chip chip-${health.data ? health.data.status : "pending"}`}
             title="Local API status"
           >
-            {health.isPending && "checking API…"}
-            {health.isError && "API unreachable"}
+            {health.isPending && t("health.checking")}
+            {health.isError && t("health.unreachable")}
             {health.data && `API ${health.data.status} · v${health.data.version}`}
           </span>
         </div>
@@ -56,5 +83,13 @@ export function App() {
         <Route path="/regressions" element={<RegressionsPage />} />
       </Routes>
     </main>
+  );
+}
+
+export function App() {
+  return (
+    <I18nProvider>
+      <AppShell />
+    </I18nProvider>
   );
 }

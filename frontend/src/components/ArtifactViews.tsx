@@ -1,8 +1,10 @@
 import type { DeterministicCheck, TaskDetail } from "../api";
+import { useI18n } from "../i18n";
 
 export function PatchView({ patch }: { patch: string | null }) {
+  const { t } = useI18n();
   if (!patch) {
-    return <p className="empty-lane">No verified patch artifact is available.</p>;
+    return <p className="empty-lane">{t("patch.empty")}</p>;
   }
   return (
     <pre className="diff" aria-label="Generated patch">
@@ -35,12 +37,13 @@ const TEST_CHECK_PREFIXES = ["check-test-fail-to-pass-", "check-test-pass-to-pas
 const PASSED_TABLE_COLLAPSE_THRESHOLD = 10;
 
 function TestTable({ checks }: { checks: DeterministicCheck[] }) {
+  const { t } = useI18n();
   return (
     <table className="test-table">
       <thead>
         <tr>
-          <th scope="col">Declared behavioral test</th>
-          <th scope="col">Result</th>
+          <th scope="col">{t("verifier.testCol")}</th>
+          <th scope="col">{t("verifier.resultCol")}</th>
         </tr>
       </thead>
       <tbody>
@@ -55,7 +58,7 @@ function TestTable({ checks }: { checks: DeterministicCheck[] }) {
               </td>
               <td>
                 <span className={`chip chip-${check.status}`}>
-                  {check.status === "unknown" ? "missing" : check.status}
+                  {check.status === "unknown" ? t("verifier.missing") : check.status}
                 </span>
               </td>
             </tr>
@@ -77,6 +80,7 @@ export function VerifierView({
   testOutput: string | null;
   runLog: string | null;
 }) {
+  const { t } = useI18n();
   const testChecks = checks.filter((check) =>
     TEST_CHECK_PREFIXES.some((prefix) => check.check_id.startsWith(prefix)),
   );
@@ -87,7 +91,7 @@ export function VerifierView({
     <div className="verifier">
       {exclusions.length > 0 && (
         <div className="exclusions" role="note">
-          <h4>Excluded from grading</h4>
+          <h4>{t("verifier.excluded")}</h4>
           <ul>
             {exclusions.map((reason, index) => (
               <li key={index}>{reason}</li>
@@ -96,18 +100,18 @@ export function VerifierView({
         </div>
       )}
 
-      {testChecks.length === 0 && (
-        <p className="empty-lane">No gradeable per-test verifier evidence exists for this run.</p>
-      )}
+      {testChecks.length === 0 && <p className="empty-lane">{t("verifier.empty")}</p>}
       {testChecks.length > 0 && !collapsePassed && <TestTable checks={testChecks} />}
       {collapsePassed && (
         <>
           {attention.length > 0 && <TestTable checks={attention} />}
           <details className="passed-tests">
             <summary>
-              <span className="chip chip-pass">pass</span> {passed.length}/{passed.length}{" "}
-              declared {attention.length > 0 ? "remaining " : ""}tests passed — show the full
-              list
+              <span className="chip chip-pass">pass</span>{" "}
+              {t(attention.length > 0 ? "verifier.passedRemaining" : "verifier.passedAll", {
+                n: passed.length,
+                d: passed.length,
+              })}
             </summary>
             <TestTable checks={passed} />
           </details>
@@ -116,13 +120,13 @@ export function VerifierView({
 
       {testOutput && (
         <details>
-          <summary>Raw test output</summary>
+          <summary>{t("verifier.rawOutput")}</summary>
           <pre className="log">{testOutput}</pre>
         </details>
       )}
       {runLog && (
         <details>
-          <summary>Verifier run log</summary>
+          <summary>{t("verifier.runLog")}</summary>
           <pre className="log">{runLog}</pre>
         </details>
       )}
@@ -131,11 +135,12 @@ export function VerifierView({
 }
 
 export function TaskView({ task }: { task: TaskDetail }) {
+  const { t } = useI18n();
   return (
     <div className="task-view">
-      <h4>Problem statement</h4>
+      <h4>{t("task.problem")}</h4>
       <p className="problem-statement">{task.problem_statement}</p>
-      <h4>Behavioral contract</h4>
+      <h4>{t("task.contract")}</h4>
       <dl className="contract">
         <dt>FAIL_TO_PASS</dt>
         {task.standard_answer.fail_to_pass.map((name) => (
@@ -149,7 +154,7 @@ export function TaskView({ task }: { task: TaskDetail }) {
             <code>{name}</code>
           </dd>
         ))}
-        <dt>Protected paths</dt>
+        <dt>{t("task.protectedPaths")}</dt>
         {task.protected_paths.map((path) => (
           <dd key={path}>
             <code>{path}</code>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { textOf } from "../api";
+import { useI18n } from "../i18n";
 
 // Reviewer-facing rendering for command and observation content. Real runs
 // carry multi-line shell commands and observations shaped as
@@ -59,6 +60,7 @@ function CollapsibleBody({
   label: string;
   className: string;
 }) {
+  const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
   const lines = text.split("\n");
   const collapsible = lines.length > COLLAPSE_LINE_THRESHOLD;
@@ -77,20 +79,22 @@ function CollapsibleBody({
           {text}
         </pre>
         <button type="button" className="output-toggle" onClick={() => setExpanded(false)}>
-          Collapse to preview
+          {t("output.collapse")}
         </button>
       </div>
     );
   }
   const hidden = lines.length - PREVIEW_HEAD_LINES - PREVIEW_TAIL_LINES;
+  const chars = text.length.toLocaleString();
   return (
     <div className="output-block">
       <pre className={className} aria-label={label}>
         {lines.slice(0, PREVIEW_HEAD_LINES).join("\n")}
       </pre>
       <button type="button" className="output-toggle" onClick={() => setExpanded(true)}>
-        Show {hidden} hidden {hidden === 1 ? "line" : "lines"} ({text.length.toLocaleString()}{" "}
-        chars total)
+        {hidden === 1
+          ? t("output.showHiddenLine", { chars })
+          : t("output.showHiddenLines", { n: hidden, chars })}
       </button>
       <pre className={`${className} output-tail`} aria-hidden="true">
         {lines.slice(-PREVIEW_TAIL_LINES).join("\n")}
@@ -114,6 +118,7 @@ export function CommandBlock({ args }: { args: Record<string, unknown> }) {
 }
 
 export function ObservationBlock({ content }: { content: string | unknown[] | null | undefined }) {
+  const { t } = useI18n();
   const { returncode, body } = parseObservation(content);
   const trimmed = body.replace(/\s+$/, "");
   return (
@@ -123,13 +128,15 @@ export function ObservationBlock({ content }: { content: string | unknown[] | nu
           <span className={`chip ${returncode === 0 ? "chip-pass" : "chip-fail"}`}>
             exit {returncode}
           </span>
-          {trimmed === "" && <span className="observation-empty">no output</span>}
+          {trimmed === "" && <span className="observation-empty">{t("output.noOutput")}</span>}
         </p>
       )}
       {trimmed !== "" && (
         <CollapsibleBody text={trimmed} label="Observation output" className="observation-body" />
       )}
-      {returncode === null && trimmed === "" && <p className="observation-empty">no output</p>}
+      {returncode === null && trimmed === "" && (
+        <p className="observation-empty">{t("output.noOutput")}</p>
+      )}
     </div>
   );
 }
@@ -148,6 +155,7 @@ export function ClampedText({
   className: string;
   threshold?: number;
 }) {
+  const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
   if (text.length <= threshold) {
     return <p className={className}>{text}</p>;
@@ -156,7 +164,9 @@ export function ClampedText({
     <p className={className}>
       {expanded ? text : `${text.slice(0, threshold - 20).trimEnd()}…`}{" "}
       <button type="button" className="clamp-toggle" onClick={() => setExpanded(!expanded)}>
-        {expanded ? "show less" : `show all (${text.length.toLocaleString()} chars)`}
+        {expanded
+          ? t("output.showLess")
+          : t("output.showAll", { chars: text.length.toLocaleString() })}
       </button>
     </p>
   );

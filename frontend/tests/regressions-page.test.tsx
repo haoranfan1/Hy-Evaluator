@@ -179,15 +179,15 @@ test("the evidence expander shows protected-path and condensation detail", async
 test("an honest abstention is labeled as such, not as a wrong verdict", () => {
   const human = { process_status: "valid", first_error_step: null };
   expect(agreement({ process_status: "inconclusive", first_error_step: null }, human)).toEqual({
-    label: "abstained",
+    label: "regressions.abstained",
     chip: "chip-warning",
   });
   expect(agreement({ process_status: "invalid", first_error_step: 3 }, human)).toEqual({
-    label: "differs from human",
+    label: "regressions.differsFromHuman",
     chip: "chip-fail",
   });
   expect(agreement({ process_status: "valid", first_error_step: null }, human)).toEqual({
-    label: "matches human",
+    label: "regressions.matchesHuman",
     chip: "chip-pass",
   });
 });

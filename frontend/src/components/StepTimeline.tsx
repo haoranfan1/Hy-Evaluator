@@ -1,5 +1,6 @@
 import type { FirstError, TrajectoryStep } from "../api";
 import { textOf } from "../api";
+import { useI18n } from "../i18n";
 import { ClampedText, CommandBlock, ObservationBlock } from "./OutputBlock";
 
 const NO_STEPS: ReadonlySet<number> = new Set();
@@ -25,6 +26,7 @@ export function StepTimeline({
   selectedStep,
   onSelectStep,
 }: Props) {
+  const { t } = useI18n();
   return (
     <ol className="timeline" aria-label="Trajectory steps">
       {steps.map((step) => {
@@ -56,14 +58,16 @@ export function StepTimeline({
               aria-pressed={selectedStep === step.step_id}
               onClick={() => onSelectStep(selectedStep === step.step_id ? null : step.step_id)}
             >
-              <span className="step-id">Step {step.step_id}</span>
+              <span className="step-id">{t("common.stepTitle", { n: step.step_id })}</span>
               <span className={`chip chip-${step.source}`}>{step.source}</span>
-              {isFirstError && <span className="chip chip-first-error">First error</span>}
+              {isFirstError && (
+                <span className="chip chip-first-error">{t("timeline.firstError")}</span>
+              )}
               {isDownstream && (
                 <span className="chip chip-downstream">
                   {propagationOrigin === null
-                    ? "downstream"
-                    : `downstream of step ${propagationOrigin}`}
+                    ? t("timeline.downstream")
+                    : t("timeline.downstreamOf", { n: propagationOrigin })}
                 </span>
               )}
             </button>

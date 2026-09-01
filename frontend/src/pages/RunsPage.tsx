@@ -3,15 +3,18 @@ import { useState } from "react";
 import { Link } from "react-router";
 
 import { fetchRuns } from "../api";
+import { useI18n } from "../i18n";
 
-function StatusChip({ value }: { value: string | null }) {
+// Statuses render untranslated: they are evaluation data, not chrome.
+function StatusChip({ value, fallback }: { value: string | null; fallback: string }) {
   if (!value) {
-    return <span className="chip chip-pending">not evaluated</span>;
+    return <span className="chip chip-pending">{fallback}</span>;
   }
   return <span className={`chip chip-${value}`}>{value}</span>;
 }
 
 export function RunsPage() {
+  const { t } = useI18n();
   const runs = useQuery({ queryKey: ["runs"], queryFn: fetchRuns, retry: false });
   const [outcomeFilter, setOutcomeFilter] = useState("all");
   const [processFilter, setProcessFilter] = useState("all");
@@ -26,31 +29,29 @@ export function RunsPage() {
     <section>
       <header className="page-head">
         <div>
-          <h2>Imported runs</h2>
-          <p className="page-lede">
-            Every run below has immutable artifacts; open one to inspect its evidence.
-          </p>
+          <h2>{t("runs.title")}</h2>
+          <p className="page-lede">{t("runs.lede")}</p>
         </div>
         <div className="filters">
           <label>
-            Outcome
+            {t("runs.filter.outcome")}
             <select
               value={outcomeFilter}
               onChange={(event) => setOutcomeFilter(event.target.value)}
             >
-              <option value="all">all</option>
+              <option value="all">{t("runs.filter.all")}</option>
               <option value="resolved">resolved</option>
               <option value="unresolved">unresolved</option>
               <option value="inconclusive">inconclusive</option>
             </select>
           </label>
           <label>
-            Process
+            {t("runs.filter.process")}
             <select
               value={processFilter}
               onChange={(event) => setProcessFilter(event.target.value)}
             >
-              <option value="all">all</option>
+              <option value="all">{t("runs.filter.all")}</option>
               <option value="valid">valid</option>
               <option value="invalid">invalid</option>
               <option value="inconclusive">inconclusive</option>
@@ -59,19 +60,19 @@ export function RunsPage() {
         </div>
       </header>
 
-      {runs.isPending && <p>Loading runs…</p>}
-      {runs.isError && <p role="alert">The run list could not be loaded from the local API.</p>}
+      {runs.isPending && <p>{t("runs.loading")}</p>}
+      {runs.isError && <p role="alert">{t("runs.error")}</p>}
       {runs.data && (
         <table className="run-table">
           <thead>
             <tr>
-              <th scope="col">Run</th>
-              <th scope="col">Repository</th>
-              <th scope="col">Difficulty</th>
-              <th scope="col">Outcome</th>
-              <th scope="col">Process</th>
-              <th scope="col">First error</th>
-              <th scope="col">Reviews</th>
+              <th scope="col">{t("runs.col.run")}</th>
+              <th scope="col">{t("runs.col.repository")}</th>
+              <th scope="col">{t("runs.col.difficulty")}</th>
+              <th scope="col">{t("runs.col.outcome")}</th>
+              <th scope="col">{t("runs.col.process")}</th>
+              <th scope="col">{t("runs.col.firstError")}</th>
+              <th scope="col">{t("runs.col.reviews")}</th>
             </tr>
           </thead>
           <tbody>
@@ -85,15 +86,16 @@ export function RunsPage() {
                 <td>{run.repository}</td>
                 <td>{run.difficulty}</td>
                 <td>
-                  <StatusChip value={run.outcome_status} />
+                  <StatusChip value={run.outcome_status} fallback={t("common.notEvaluated")} />
                 </td>
                 <td>
-                  <StatusChip value={run.process_status} />
+                  <StatusChip value={run.process_status} fallback={t("common.notEvaluated")} />
                 </td>
                 <td>
                   {run.first_error?.location === "located" && (
                     <span>
-                      step {run.first_error.step_id} · {run.first_error.primary_category}
+                      {t("common.step", { n: run.first_error.step_id ?? "?" })} ·{" "}
+                      {run.first_error.primary_category}
                     </span>
                   )}
                   {run.first_error?.location === "unlocatable" && (
@@ -107,7 +109,7 @@ export function RunsPage() {
             {visible.length === 0 && (
               <tr>
                 <td colSpan={7} className="empty-lane">
-                  No runs match the current filters.
+                  {t("runs.empty")}
                 </td>
               </tr>
             )}

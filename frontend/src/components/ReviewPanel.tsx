@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import type { Finding, FindingDecision, HumanLabel, HumanReview } from "../api";
 import { postAdjudication, postInitialReview } from "../api";
+import { useI18n } from "../i18n";
 
 const CATEGORIES = [
   "task_interpretation",
@@ -51,6 +52,7 @@ function LabelFields({
   state: LabelState;
   onChange: (state: LabelState) => void;
 }) {
+  const { t } = useI18n();
   const showLocation = state.process_status !== "valid";
   const showStep = showLocation && state.first_error_location === "located";
   const showCategory = showLocation && state.first_error_location !== "none";
@@ -58,7 +60,7 @@ function LabelFields({
     <fieldset className="label-fields">
       <legend>{legend}</legend>
       <label>
-        Process status
+        {t("review.processStatus")}
         <select
           value={state.process_status}
           onChange={(event) =>
@@ -72,7 +74,7 @@ function LabelFields({
       </label>
       {showLocation && (
         <label>
-          First error
+          {t("review.firstError")}
           <select
             value={state.first_error_location}
             onChange={(event) =>
@@ -90,7 +92,7 @@ function LabelFields({
       )}
       {showStep && (
         <label>
-          Step ID
+          {t("review.stepId")}
           <input
             type="number"
             min={1}
@@ -101,7 +103,7 @@ function LabelFields({
       )}
       {showCategory && (
         <label>
-          Primary category
+          {t("review.primaryCategory")}
           <select
             value={state.category}
             onChange={(event) => onChange({ ...state, category: event.target.value })}
@@ -115,7 +117,7 @@ function LabelFields({
         </label>
       )}
       <label>
-        Label notes
+        {t("review.labelNotes")}
         <textarea
           rows={2}
           value={state.notes}
@@ -126,12 +128,12 @@ function LabelFields({
   );
 }
 
-function describeLabel(label: HumanLabel): string {
+function describeLabel(t: ReturnType<typeof useI18n>["t"], label: HumanLabel): string {
   const parts: string[] = [label.process_status];
   if (label.first_error_location === "located") {
-    parts.push(`first error at step ${label.first_error_step_id}`);
+    parts.push(t("review.firstErrorAtStep", { n: label.first_error_step_id ?? "?" }));
   } else {
-    parts.push(`first error ${label.first_error_location}`);
+    parts.push(t("review.firstErrorLocation", { location: label.first_error_location }));
   }
   if (label.primary_category) {
     parts.push(label.primary_category);
@@ -150,6 +152,7 @@ export function ReviewPanel({
   reviews: HumanReview[];
   findings: Finding[];
 }) {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [reviewer, setReviewer] = useState("reviewer-1");
   const [label, setLabel] = useState(EMPTY_LABEL);
@@ -190,7 +193,7 @@ export function ReviewPanel({
   if (adjudicated) {
     return (
       <section className="review-panel" aria-label="Review history">
-        <h3>Review history</h3>
+        <h3>{t("review.history")}</h3>
         {reviews.map((review) => (
           <article className="review-version" key={review.review_id}>
             <p className="review-head">
@@ -201,10 +204,12 @@ export function ReviewPanel({
               )}
             </p>
             <p className="review-label">
-              Blinded initial label: {describeLabel(review.initial_label)}
+              {t("review.initialLabelIs", { label: describeLabel(t, review.initial_label) })}
             </p>
             {review.final_label && (
-              <p className="review-label">Final label: {describeLabel(review.final_label)}</p>
+              <p className="review-label">
+                {t("review.finalLabelIs", { label: describeLabel(t, review.final_label) })}
+              </p>
             )}
             {review.finding_decisions.length > 0 && (
               <ul className="decision-list">
@@ -224,23 +229,20 @@ export function ReviewPanel({
   if (!hasInitial) {
     return (
       <section className="review-panel" aria-label="Blinded initial review">
-        <h3>Blinded initial review</h3>
-        <p className="panel-note">
-          The evaluator verdict stays hidden until you record your own label from the task,
-          trajectory, patch, and verifier evidence.
-        </p>
+        <h3>{t("review.blindedInitial")}</h3>
+        <p className="panel-note">{t("review.blindedNote")}</p>
         <label>
-          Reviewer alias
+          {t("review.reviewerAlias")}
           <input value={reviewer} onChange={(event) => setReviewer(event.target.value)} />
         </label>
-        <LabelFields legend="Your label" state={label} onChange={setLabel} />
+        <LabelFields legend={t("review.yourLabel")} state={label} onChange={setLabel} />
         <button
           type="button"
           className="primary-action"
           disabled={initialMutation.isPending}
           onClick={() => initialMutation.mutate()}
         >
-          Save initial label and reveal the verdict
+          {t("review.saveInitial")}
         </button>
         {initialMutation.isError && (
           <p role="alert" className="form-error">
@@ -253,12 +255,12 @@ export function ReviewPanel({
 
   return (
     <section className="review-panel" aria-label="Adjudication">
-      <h3>Adjudication</h3>
+      <h3>{t("review.adjudication")}</h3>
       <p className="review-label">
-        Blinded initial label: {describeLabel(reviews[0].initial_label)}
+        {t("review.initialLabelIs", { label: describeLabel(t, reviews[0].initial_label) })}
       </p>
       <label>
-        Decision
+        {t("review.decision")}
         <select
           value={adjudication}
           onChange={(event) => setAdjudication(event.target.value as typeof adjudication)}
@@ -271,7 +273,7 @@ export function ReviewPanel({
       </label>
       {findings.length > 0 && (
         <fieldset className="label-fields">
-          <legend>Finding decisions</legend>
+          <legend>{t("review.findingDecisions")}</legend>
           {findings.map((finding) => (
             <label key={finding.finding_id}>
               <code>{finding.finding_id}</code>
@@ -294,14 +296,14 @@ export function ReviewPanel({
           ))}
         </fieldset>
       )}
-      <LabelFields legend="Final label" state={label} onChange={setLabel} />
+      <LabelFields legend={t("review.finalLabel")} state={label} onChange={setLabel} />
       <button
         type="button"
         className="primary-action"
         disabled={adjudicationMutation.isPending}
         onClick={() => adjudicationMutation.mutate()}
       >
-        Append adjudication
+        {t("review.appendAdjudication")}
       </button>
       {adjudicationMutation.isError && (
         <p role="alert" className="form-error">

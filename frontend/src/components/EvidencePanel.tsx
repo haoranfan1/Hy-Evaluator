@@ -1,6 +1,7 @@
 import { ClampedText } from "./OutputBlock";
 import type { DeterministicCheck, EvidenceReference, Finding } from "../api";
 import { citedStepIds } from "../api";
+import { useI18n } from "../i18n";
 
 export type TabName = "timeline" | "patch" | "verifier" | "task";
 
@@ -33,6 +34,7 @@ function EvidenceChips({
   onOpenTab: (tab: TabName) => void;
   onSelectStep: (stepId: number) => void;
 }) {
+  const { t } = useI18n();
   return (
     <p className="evidence-chips">
       {evidence.map((reference, index) => {
@@ -47,7 +49,7 @@ function EvidenceChips({
                 onOpenTab("timeline");
               }}
             >
-              step {reference.step_id}
+              {t("common.step", { n: reference.step_id })}
               {reference.tool_call_id ? ` · ${reference.tool_call_id}` : ""}
             </button>
           );
@@ -60,7 +62,7 @@ function EvidenceChips({
               className="evidence-chip"
               onClick={() => onOpenTab("patch")}
             >
-              patch · {reference.file}
+              {t("evidence.patchChip")} · {reference.file}
               {reference.line ? `:${reference.line}` : ""}
             </button>
           );
@@ -73,7 +75,8 @@ function EvidenceChips({
               className="evidence-chip"
               onClick={() => onOpenTab("verifier")}
             >
-              verifier{reference.test_name ? ` · ${reference.test_name}` : ""}
+              {t("evidence.verifierChip")}
+              {reference.test_name ? ` · ${reference.test_name}` : ""}
             </button>
           );
         }
@@ -84,7 +87,7 @@ function EvidenceChips({
             className="evidence-chip"
             onClick={() => onOpenTab("task")}
           >
-            task · {reference.field}
+            {t("evidence.taskChip")} · {reference.field}
           </button>
         );
       })}
@@ -102,21 +105,20 @@ export function EvidencePanel({
   onOpenTab,
   onSelectStep,
 }: Props) {
+  const { t } = useI18n();
   return (
     <aside className="evidence-panel">
       {selectedStep !== null && (
-        <p className="panel-note">
-          Showing evidence lanes. Items citing step {selectedStep} are marked.
-        </p>
+        <p className="panel-note">{t("evidence.showingLanes", { n: selectedStep })}</p>
       )}
 
       <section aria-labelledby="findings-lane">
-        <h3 id="findings-lane">Findings</h3>
+        <h3 id="findings-lane">{t("evidence.findings")}</h3>
         {findingsHiddenNote !== undefined && (
           <p className="empty-lane">{findingsHiddenNote}</p>
         )}
         {findingsHiddenNote === undefined && findings.length === 0 && (
-          <p className="empty-lane">No findings.</p>
+          <p className="empty-lane">{t("evidence.noFindings")}</p>
         )}
         {findings.map((finding) => {
           const active = selection?.kind === "finding" && selection.id === finding.finding_id;
@@ -142,7 +144,9 @@ export function EvidencePanel({
                 <span className={`chip chip-${finding.source}`}>{finding.source}</span>
                 <span className="chip chip-category">{finding.category}</span>
                 {citesStep(finding.evidence, selectedStep) && (
-                  <span className="chip chip-cites">cites step {selectedStep}</span>
+                  <span className="chip chip-cites">
+                    {t("evidence.citesStep", { n: selectedStep ?? "?" })}
+                  </span>
                 )}
               </button>
               <ClampedText className="evidence-summary" text={finding.summary} />
@@ -152,7 +156,7 @@ export function EvidencePanel({
                   <p className="evidence-feedback">{finding.feedback}</p>
                   {finding.downstream_step_ids.length > 0 && (
                     <p className="evidence-chips propagation-row">
-                      <span className="propagation-label">recorded propagation:</span>
+                      <span className="propagation-label">{t("evidence.propagation")}</span>
                       {finding.downstream_step_ids.map((stepId) => (
                         <button
                           key={stepId}
@@ -163,7 +167,7 @@ export function EvidencePanel({
                             onOpenTab("timeline");
                           }}
                         >
-                          step {stepId}
+                          {t("common.step", { n: stepId })}
                         </button>
                       ))}
                     </p>
@@ -181,7 +185,7 @@ export function EvidencePanel({
       </section>
 
       <section aria-labelledby="checks-lane">
-        <h3 id="checks-lane">Deterministic checks</h3>
+        <h3 id="checks-lane">{t("evidence.checks")}</h3>
         {checks.map((check) => {
           const active = selection?.kind === "check" && selection.id === check.check_id;
           const classes = [
@@ -202,10 +206,12 @@ export function EvidencePanel({
               >
                 <span className={`chip chip-${check.status}`}>{check.status}</span>
                 {check.hard_process_failure && (
-                  <span className="chip chip-critical">hard failure</span>
+                  <span className="chip chip-critical">{t("evidence.hardFailure")}</span>
                 )}
                 {citesStep(check.evidence, selectedStep) && (
-                  <span className="chip chip-cites">cites step {selectedStep}</span>
+                  <span className="chip chip-cites">
+                    {t("evidence.citesStep", { n: selectedStep ?? "?" })}
+                  </span>
                 )}
                 <span className="check-id">{check.check_id}</span>
               </button>
