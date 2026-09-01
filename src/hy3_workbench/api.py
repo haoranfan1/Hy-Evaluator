@@ -413,7 +413,7 @@ def analytics_summary(
             slice_scope = load_slice(project_root / settings.slices_dir, scope)
         except ValueError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
-    return MetricCalculator(repository).summarize(scope=slice_scope)
+    return MetricCalculator(repository, project_root).summarize(scope=slice_scope)
 
 
 @app.get("/api/regressions", response_model=ValidationRecords)

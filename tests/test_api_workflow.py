@@ -127,6 +127,12 @@ async def test_full_offline_workflow_via_the_api(client: AsyncClient, judge: Fak
             for entry in analytics["metrics"]
         )
 
+        efficiency = analytics["efficiency"]
+        assert sum(row["run_count"] for row in efficiency) == 3
+        # The API passes the project root, so every stored trajectory is counted.
+        assert all(row["runs_with_trajectory"] == row["run_count"] for row in efficiency)
+        assert all(row["provenance"] == "official" for row in efficiency)
+
         slices = (await client.get("/api/analytics/slices")).json()["slices"]
         assert "day8-slice-v1" in slices
 

@@ -426,6 +426,13 @@ import must present an identical substantive contract (recording metadata — cr
 per-slice selection rationale, and the reference patch's per-bundle copy path with equal
 sha256 — may differ) and never replaces the stored manifest.
 
+Efficiency rows: the analytics summary includes an `efficiency` table of trajectory
+effort (median/min/max step count and median tool-call count) grouped by difficulty band
+and outcome bucket. Counts are read from each run's stored ATIF trajectory file at
+summary time — a run whose trajectory cannot be read is reported in the row's
+`runs_with_trajectory` shortfall, never interpolated — and the outcome bucket comes from
+the stored evaluation's official verifier lane, so the rows carry `official` provenance.
+
 Expected export artifacts:
 
 ```text

@@ -10,6 +10,7 @@ from hy3_workbench.metrics import (
     MetricCalculator,
     RunAnalysisRow,
     SliceDefinition,
+    build_rows,
     list_slices,
     load_slice,
     summarize_rows,
@@ -493,3 +494,60 @@ class TestSliceMembership:
         assert scope.contains("task-a", None) is False
         assert scope.contains("task-a", "other-slice") is False
         assert scope.contains("task-b", "intervention") is False
+
+
+class TestEfficiency:
+    def test_counts_come_from_the_stored_trajectory(self) -> None:
+        service = make_service(FakeJudge([]))
+        service.import_bundle("data/fixtures/invalid-first-error")
+
+        [row] = build_rows(service.repository, PROJECT_ROOT)
+
+        assert row.step_count == 5
+        assert row.tool_call_count == 3
+
+    def test_rows_without_project_root_leave_counts_unset(self) -> None:
+        service = make_service(FakeJudge([]))
+        service.import_bundle("data/fixtures/invalid-first-error")
+
+        [row] = build_rows(service.repository)
+
+        assert row.step_count is None
+        assert row.tool_call_count is None
+
+    def test_groups_by_difficulty_and_outcome_with_official_provenance(self) -> None:
+        rows = [
+            make_row("run-1", outcome="resolved").model_copy(
+                update={"step_count": 10, "tool_call_count": 8}
+            ),
+            make_row("run-2", outcome="resolved").model_copy(
+                update={"step_count": 20, "tool_call_count": 18}
+            ),
+            # An unreadable trajectory is reported, never interpolated.
+            make_row("run-3", outcome="resolved"),
+            make_row("run-4", difficulty="medium", outcome="unresolved").model_copy(
+                update={"step_count": 40, "tool_call_count": 39}
+            ),
+            make_row("run-5", outcome=None),
+        ]
+
+        table = summarize_rows(rows).efficiency
+
+        assert [(row.difficulty, row.outcome) for row in table] == [
+            ("easy", "resolved"),
+            ("easy", "not_evaluated"),
+            ("medium", "unresolved"),
+        ]
+        easy_resolved = table[0]
+        assert easy_resolved.run_count == 3
+        assert easy_resolved.runs_with_trajectory == 2
+        assert easy_resolved.median_steps == 15.0
+        assert (easy_resolved.min_steps, easy_resolved.max_steps) == (10, 20)
+        assert easy_resolved.median_tool_calls == 13.0
+        assert easy_resolved.provenance == "official"
+        assert table[1].median_steps is None
+        assert table[1].runs_with_trajectory == 0
+        assert table[2].median_steps == 40.0
+
+    def test_no_rows_yield_an_empty_table(self) -> None:
+        assert summarize_rows([]).efficiency == []

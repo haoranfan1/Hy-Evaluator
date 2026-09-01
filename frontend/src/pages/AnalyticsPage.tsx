@@ -7,6 +7,13 @@ function formatRate(value: number | null): string {
   return value === null ? "—" : `${(value * 100).toFixed(0)}%`;
 }
 
+function formatCount(value: number | null): string {
+  if (value === null) {
+    return "—";
+  }
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
 const OUTCOME_ORDER = ["resolved", "unresolved", "inconclusive", "not_evaluated"];
 const PROCESS_ORDER = ["valid", "invalid", "inconclusive", "not_evaluated"];
 
@@ -225,6 +232,55 @@ export function AnalyticsPage() {
           {summary.configuration.bootstrap_seed}, {summary.configuration.bootstrap_resamples}{" "}
           resamples)
         </p>
+      </section>
+
+      <section className="analytics-card" aria-label="Agent effort">
+        <h3>Agent effort by difficulty × outcome</h3>
+        <p className="record-meta">
+          Steps and tool calls counted from the stored ATIF trajectories; a run whose trajectory
+          cannot be read is reported as missing, never interpolated.
+        </p>
+        {summary.efficiency.length === 0 && <p className="empty-lane">No runs yet.</p>}
+        {summary.efficiency.length > 0 && (
+          <table className="run-table">
+            <thead>
+              <tr>
+                <th scope="col">Difficulty</th>
+                <th scope="col">Outcome</th>
+                <th scope="col">Runs</th>
+                <th scope="col">Median steps</th>
+                <th scope="col">Steps range</th>
+                <th scope="col">Median tool calls</th>
+                <th scope="col">Provenance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {summary.efficiency.map((row) => (
+                <tr key={`${row.difficulty}-${row.outcome}`}>
+                  <td>{row.difficulty}</td>
+                  <td>{row.outcome.replaceAll("_", " ")}</td>
+                  <td>
+                    {row.run_count}
+                    {row.runs_with_trajectory < row.run_count &&
+                      ` (${row.run_count - row.runs_with_trajectory} without trajectory)`}
+                  </td>
+                  <td>{formatCount(row.median_steps)}</td>
+                  <td>
+                    {row.min_steps === null || row.max_steps === null
+                      ? "—"
+                      : row.min_steps === row.max_steps
+                        ? row.min_steps
+                        : `${row.min_steps}–${row.max_steps}`}
+                  </td>
+                  <td>{formatCount(row.median_tool_calls)}</td>
+                  <td>
+                    <span className={`chip chip-${row.provenance}`}>{row.provenance}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </section>
 
       <div className="analytics-grid">

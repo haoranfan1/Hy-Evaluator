@@ -159,6 +159,17 @@ export type AnalyticsSummary = {
     inconclusive_runs: number;
     provenance: string;
   }[];
+  efficiency: {
+    difficulty: string;
+    outcome: string;
+    run_count: number;
+    runs_with_trajectory: number;
+    median_steps: number | null;
+    min_steps: number | null;
+    max_steps: number | null;
+    median_tool_calls: number | null;
+    provenance: string;
+  }[];
   quadrant: {
     outcome_status: string;
     process_status: string;

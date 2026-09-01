@@ -12,6 +12,7 @@ import json
 import random
 import re
 from pathlib import Path
+from statistics import median
 from typing import Literal
 
 from hy3_workbench.contracts import (
@@ -58,6 +59,10 @@ class RunAnalysisRow(StrictModel):
     human_final: HumanLabel | None
     adjudication: str | None
     exclusion_reasons: list[str]
+    # Effort counted from the stored ATIF trajectory; None when rows are built
+    # without filesystem access or the trajectory file is unreadable.
+    step_count: int | None = None
+    tool_call_count: int | None = None
 
     @property
     def human_label(self) -> HumanLabel | None:
@@ -103,6 +108,20 @@ class DifficultyRow(StrictModel):
     process_valid_runs: int
     process_valid_rate: float | None
     inconclusive_runs: int
+    provenance: Provenance
+
+
+class EfficiencyRow(StrictModel):
+    """Trajectory effort recorded for one difficulty band and outcome bucket."""
+
+    difficulty: str
+    outcome: str
+    run_count: int
+    runs_with_trajectory: int
+    median_steps: float | None
+    min_steps: int | None
+    max_steps: int | None
+    median_tool_calls: float | None
     provenance: Provenance
 
 
@@ -211,6 +230,7 @@ class AnalyticsSummary(StrictModel):
     metrics: list[MetricValue]
     primary_error_distribution: list[DistributionEntry]
     difficulty_table: list[DifficultyRow]
+    efficiency: list[EfficiencyRow]
     quadrant: list[QuadrantCell]
     observed_decline_interval: str
     statistically_supported_decline_interval: str
@@ -241,13 +261,44 @@ def _metric(
     )
 
 
-def build_rows(repository: WorkbenchRepository) -> list[RunAnalysisRow]:
-    """Assemble analysis rows purely from persisted records."""
+def _trajectory_counts(path: Path) -> tuple[int | None, int | None]:
+    """Steps and tool calls recorded in one stored ATIF trajectory.
+
+    Counts come straight from the persisted file; an unreadable trajectory
+    yields ``(None, None)`` so the run is reported as missing, never guessed.
+    """
+
+    try:
+        steps = json.loads(path.read_text(encoding="utf-8"))["steps"]
+        if not isinstance(steps, list):
+            return None, None
+        tool_calls = 0
+        for step in steps:
+            calls = step.get("tool_calls") if isinstance(step, dict) else None
+            tool_calls += len(calls) if isinstance(calls, list) else 0
+        return len(steps), tool_calls
+    except (OSError, ValueError, KeyError, TypeError):
+        return None, None
+
+
+def build_rows(
+    repository: WorkbenchRepository, project_root: Path | None = None
+) -> list[RunAnalysisRow]:
+    """Assemble analysis rows purely from persisted records.
+
+    With a ``project_root``, each row also counts the steps and tool calls in
+    the run's stored trajectory file; without one the counts stay ``None``.
+    """
 
     rows: list[RunAnalysisRow] = []
     for stored in repository.list_runs():
         task = repository.get_task(stored.task_id)
         evaluation = repository.get_evaluation_for_run(stored.run.run_id)
+        step_count = tool_call_count = None
+        if project_root is not None:
+            step_count, tool_call_count = _trajectory_counts(
+                project_root / stored.run.trajectory.path
+            )
         if evaluation is None:
             rows.append(
                 RunAnalysisRow(
@@ -264,6 +315,8 @@ def build_rows(repository: WorkbenchRepository) -> list[RunAnalysisRow]:
                     human_final=None,
                     adjudication=None,
                     exclusion_reasons=["the run has not been evaluated"],
+                    step_count=step_count,
+                    tool_call_count=tool_call_count,
                 )
             )
             continue
@@ -288,6 +341,8 @@ def build_rows(repository: WorkbenchRepository) -> list[RunAnalysisRow]:
                 human_final=final,
                 adjudication=adjudication,
                 exclusion_reasons=list(result.exclusions),
+                step_count=step_count,
+                tool_call_count=tool_call_count,
             )
         )
     return rows
@@ -599,6 +654,51 @@ def _difficulty_table(rows: list[RunAnalysisRow]) -> list[DifficultyRow]:
     return table
 
 
+_OUTCOME_ORDER = ["resolved", "unresolved", "inconclusive", "not_evaluated"]
+
+
+def _outcome_sort_key(outcome: str) -> tuple[int, str]:
+    if outcome in _OUTCOME_ORDER:
+        return (_OUTCOME_ORDER.index(outcome), outcome)
+    return (len(_OUTCOME_ORDER), outcome)
+
+
+def _efficiency_table(rows: list[RunAnalysisRow]) -> list[EfficiencyRow]:
+    """Median trajectory effort per difficulty band and outcome bucket.
+
+    Outcome comes from the official verifier via the stored evaluation and the
+    counts from the harness-recorded trajectory, so the provenance is official.
+    Runs whose trajectory could not be counted are reported, not interpolated.
+    """
+
+    groups: dict[tuple[str, str], list[RunAnalysisRow]] = {}
+    for row in rows:
+        outcome = row.outcome_status or "not_evaluated"
+        groups.setdefault((row.difficulty, outcome), []).append(row)
+
+    table: list[EfficiencyRow] = []
+    for difficulty, outcome in sorted(
+        groups, key=lambda key: (_difficulty_sort_key(key[0]), _outcome_sort_key(key[1]))
+    ):
+        band = groups[(difficulty, outcome)]
+        steps = sorted(row.step_count for row in band if row.step_count is not None)
+        calls = sorted(row.tool_call_count for row in band if row.tool_call_count is not None)
+        table.append(
+            EfficiencyRow(
+                difficulty=difficulty,
+                outcome=outcome,
+                run_count=len(band),
+                runs_with_trajectory=len(steps),
+                median_steps=float(median(steps)) if steps else None,
+                min_steps=steps[0] if steps else None,
+                max_steps=steps[-1] if steps else None,
+                median_tool_calls=float(median(calls)) if calls else None,
+                provenance="official",
+            )
+        )
+    return table
+
+
 def _decline_intervals(
     table: list[DifficultyRow],
     seed: int,
@@ -757,6 +857,7 @@ def summarize_rows(
         configuration=configuration,
         metrics=_scalar_metrics(rows),
         primary_error_distribution=_primary_error_distribution(rows),
+        efficiency=_efficiency_table(rows),
         difficulty_table=table,
         quadrant=_quadrant(rows),
         observed_decline_interval=observed,
@@ -773,8 +874,9 @@ def summarize_rows(
 class MetricCalculator:
     """Summarize one repository's persisted evidence."""
 
-    def __init__(self, repository: WorkbenchRepository) -> None:
+    def __init__(self, repository: WorkbenchRepository, project_root: Path | None = None) -> None:
         self.repository = repository
+        self.project_root = project_root
 
     def summarize(self, scope: SliceDefinition | None = None) -> AnalyticsSummary:
-        return summarize_rows(build_rows(self.repository), scope=scope)
+        return summarize_rows(build_rows(self.repository, self.project_root), scope=scope)

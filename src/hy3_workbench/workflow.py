@@ -238,7 +238,7 @@ class WorkbenchService:
         reviews_path.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
         written.append(reviews_path.relative_to(self.project_root).as_posix())
 
-        calculator = MetricCalculator(self.repository)
+        calculator = MetricCalculator(self.repository, self.project_root)
         written.extend(self._write_summary(calculator.summarize(), results_root, suffix=""))
 
         slices_dir = self.project_root / self.settings.slices_dir

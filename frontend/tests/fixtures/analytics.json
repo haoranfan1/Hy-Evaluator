@@ -114,6 +114,19 @@
       "provenance": "mixed"
     }
   ],
+  "efficiency": [
+    {
+      "difficulty": "easy",
+      "outcome": "resolved",
+      "run_count": 1,
+      "runs_with_trajectory": 1,
+      "median_steps": 6.0,
+      "min_steps": 6,
+      "max_steps": 6,
+      "median_tool_calls": 4.0,
+      "provenance": "official"
+    }
+  ],
   "quadrant": [
     {
       "outcome_status": "inconclusive",
