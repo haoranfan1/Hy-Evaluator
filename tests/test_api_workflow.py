@@ -1,3 +1,4 @@
+import json
 import shutil
 from pathlib import Path
 
@@ -152,6 +153,28 @@ async def test_full_offline_workflow_via_the_api(client: AsyncClient, judge: Fak
         # per-run files plus reviews, then summary/metrics for "all" and per committed slice
         committed_slices = len(list((PROJECT_ROOT / "data/evaluation-slices").glob("*.json")))
         assert len(exported) == 3 + 1 + 2 * (1 + committed_slices)
+
+
+async def test_regression_records_are_served_from_the_results_dir(
+    client: AsyncClient, judge: FakeJudge
+) -> None:
+    from test_validation_records import minimal_card
+
+    regression_dir = PROJECT_ROOT / DATA_DIR / "results" / "regression"
+    regression_dir.mkdir(parents=True)
+    (regression_dir / "card.json").write_text(json.dumps(minimal_card()), encoding="utf-8")
+
+    async with client:
+        response = await client.get("/api/regressions")
+
+    assert response.status_code == 200, response.text
+    body = response.json()
+    assert body["unreadable"] == []
+    assert body["judge_stability"] == []
+    [entry] = body["regression_cards"]
+    assert entry["file"] == f"{DATA_DIR.as_posix()}/results/regression/card.json"
+    assert entry["card"]["reevaluated_version"] == "workbench-evaluator-v3"
+    assert entry["card"]["runs"][0]["reevaluated"]["semantic_condensation"] is None
 
 
 async def test_evaluate_is_idempotent_and_force_respects_reviews(

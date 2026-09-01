@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, Navigate, NavLink, Route, Routes } from "react-router";
 
 import { AnalyticsPage } from "./pages/AnalyticsPage";
+import { RegressionsPage } from "./pages/RegressionsPage";
 import { RunDetailPage } from "./pages/RunDetailPage";
 import { RunsPage } from "./pages/RunsPage";
 
@@ -34,6 +35,7 @@ export function App() {
           <nav className="main-nav" aria-label="Main">
             <NavLink to="/runs">Runs</NavLink>
             <NavLink to="/analytics">Analytics</NavLink>
+            <NavLink to="/regressions">Regressions</NavLink>
           </nav>
           <span
             className={`chip chip-${health.data ? health.data.status : "pending"}`}
@@ -51,6 +53,7 @@ export function App() {
         <Route path="/runs" element={<RunsPage />} />
         <Route path="/runs/:runId" element={<RunDetailPage />} />
         <Route path="/analytics" element={<AnalyticsPage />} />
+        <Route path="/regressions" element={<RegressionsPage />} />
       </Routes>
     </main>
   );

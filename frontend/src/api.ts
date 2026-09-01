@@ -177,6 +177,76 @@ export type AnalyticsSummary = {
   }[];
 };
 
+export type ScoreCount = { runs: string[]; n: number; d: number };
+
+export type RegressionLane = {
+  evaluator_version: string;
+  status: string;
+  process_status: string;
+  first_error_step: number | null;
+};
+
+export type RegressionRun = {
+  run_id: string;
+  task_id: string;
+  human: { process_status: string; first_error_step: number | null };
+  stored: RegressionLane;
+  reevaluated: RegressionLane & {
+    exclusions: string[];
+    semantic_condensation: string | null;
+    protected_check: { status: string; summary: string } | null;
+  };
+};
+
+export type RegressionCard = {
+  schema_version: string;
+  recorded_at: string;
+  slice_id: string;
+  note: string;
+  stored_version: string;
+  reevaluated_version: string;
+  scores: Record<string, Record<string, ScoreCount>>;
+  runs: RegressionRun[];
+};
+
+export type JudgeStabilityRecord = {
+  schema_version: string;
+  recorded_at: string;
+  subject: string;
+  repeats: number;
+  judge: {
+    model: string;
+    reasoning_effort: string;
+    temperature: number;
+    top_p: number;
+    rubric_version: string;
+    semantic_prompt_version: string;
+  };
+  summary: {
+    completed: number;
+    verdict_unanimous: boolean;
+    verdicts: string[];
+    first_error_steps: number[];
+    step_unanimous: boolean;
+  };
+  attempts: {
+    attempt: number;
+    status: string;
+    process_status: string | null;
+    first_error_location: string | null;
+    first_error_step: number | null;
+    primary_category: string | null;
+    finding_count: number | null;
+    repair_retries: number | null;
+  }[];
+};
+
+export type ValidationRecords = {
+  regression_cards: { file: string; card: RegressionCard }[];
+  judge_stability: { file: string; record: JudgeStabilityRecord }[];
+  unreadable: { file: string; reason: string }[];
+};
+
 export type ToolCall = {
   tool_call_id: string;
   function_name: string;
@@ -221,6 +291,10 @@ export function fetchRunDetail(runId: string): Promise<RunDetail> {
 
 export function fetchTrajectory(runId: string): Promise<Trajectory> {
   return getJson(`/api/runs/${encodeURIComponent(runId)}/trajectory`);
+}
+
+export function fetchValidationRecords(): Promise<ValidationRecords> {
+  return getJson("/api/regressions");
 }
 
 export function fetchAnalytics(scope?: string): Promise<AnalyticsSummary> {

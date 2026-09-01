@@ -129,6 +129,7 @@ h4 {
 .chip-valid,
 .chip-pass,
 .chip-ready,
+.chip-completed,
 .chip-passed {
   color: var(--good-ink);
   background: var(--good-bg);
@@ -139,6 +140,7 @@ h4 {
 .chip-fail,
 .chip-error,
 .chip-critical,
+.chip-failed,
 .chip-first-error {
   color: var(--bad-ink);
   background: var(--bad-bg);
@@ -989,4 +991,53 @@ h4 {
 .contract dd {
   margin: 0.25rem 0 0;
   font-size: 0.85rem;
+}
+
+/* Regression evidence page -------------------------------------------------- */
+
+.record-meta {
+  margin: 0.2rem 0 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.record-file {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+.card-note {
+  margin: 0 0 0.9rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.score-table {
+  margin-bottom: 1.1rem;
+}
+
+.score-unchanged {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.step-ref {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.regression-evidence {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.regression-evidence li + li {
+  margin-top: 0.35rem;
 }

@@ -30,6 +30,7 @@ from hy3_workbench.storage import (
     RepositoryNotFoundError,
     WorkbenchRepository,
 )
+from hy3_workbench.validation_records import ValidationRecords, load_validation_records
 from hy3_workbench.workflow import (
     ImportRejectedError,
     JudgeUnavailableError,
@@ -413,6 +414,17 @@ def analytics_summary(
         except ValueError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
     return MetricCalculator(repository).summarize(scope=slice_scope)
+
+
+@app.get("/api/regressions", response_model=ValidationRecords)
+def regression_records(
+    settings: SettingsDependency, project_root: ProjectRootDependency
+) -> ValidationRecords:
+    """Serve the committed regression cards and judge-stability records read-only."""
+
+    return load_validation_records(
+        project_root / settings.results_dir, display_base=settings.results_dir.as_posix()
+    )
 
 
 @app.post("/api/exports", response_model=ExportResponse)
