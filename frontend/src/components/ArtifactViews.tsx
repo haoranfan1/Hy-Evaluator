@@ -29,6 +29,43 @@ export function PatchView({ patch }: { patch: string | null }) {
 
 const TEST_CHECK_PREFIXES = ["check-test-fail-to-pass-", "check-test-pass-to-pass-"];
 
+// Above this count, an all-passing test table collapses to a summary line —
+// dozens of green rows are noise during review, while any non-pass row always
+// stays visible.
+const PASSED_TABLE_COLLAPSE_THRESHOLD = 10;
+
+function TestTable({ checks }: { checks: DeterministicCheck[] }) {
+  return (
+    <table className="test-table">
+      <thead>
+        <tr>
+          <th scope="col">Declared behavioral test</th>
+          <th scope="col">Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        {checks.map((check) => {
+          const test = check.evidence.find((reference) => reference.kind === "verifier");
+          return (
+            <tr key={check.check_id}>
+              <td>
+                <code>
+                  {test?.kind === "verifier" ? (test.test_name ?? check.check_id) : check.check_id}
+                </code>
+              </td>
+              <td>
+                <span className={`chip chip-${check.status}`}>
+                  {check.status === "unknown" ? "missing" : check.status}
+                </span>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
 export function VerifierView({
   checks,
   exclusions,
@@ -43,6 +80,9 @@ export function VerifierView({
   const testChecks = checks.filter((check) =>
     TEST_CHECK_PREFIXES.some((prefix) => check.check_id.startsWith(prefix)),
   );
+  const attention = testChecks.filter((check) => check.status !== "pass");
+  const passed = testChecks.filter((check) => check.status === "pass");
+  const collapsePassed = passed.length > PASSED_TABLE_COLLAPSE_THRESHOLD;
   return (
     <div className="verifier">
       {exclusions.length > 0 && (
@@ -56,34 +96,22 @@ export function VerifierView({
         </div>
       )}
 
-      {testChecks.length > 0 ? (
-        <table className="test-table">
-          <thead>
-            <tr>
-              <th scope="col">Declared behavioral test</th>
-              <th scope="col">Result</th>
-            </tr>
-          </thead>
-          <tbody>
-            {testChecks.map((check) => {
-              const test = check.evidence.find((reference) => reference.kind === "verifier");
-              return (
-                <tr key={check.check_id}>
-                  <td>
-                    <code>{test?.kind === "verifier" ? (test.test_name ?? check.check_id) : check.check_id}</code>
-                  </td>
-                  <td>
-                    <span className={`chip chip-${check.status}`}>
-                      {check.status === "unknown" ? "missing" : check.status}
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      ) : (
+      {testChecks.length === 0 && (
         <p className="empty-lane">No gradeable per-test verifier evidence exists for this run.</p>
+      )}
+      {testChecks.length > 0 && !collapsePassed && <TestTable checks={testChecks} />}
+      {collapsePassed && (
+        <>
+          {attention.length > 0 && <TestTable checks={attention} />}
+          <details className="passed-tests">
+            <summary>
+              <span className="chip chip-pass">pass</span> {passed.length}/{passed.length}{" "}
+              declared {attention.length > 0 ? "remaining " : ""}tests passed — show the full
+              list
+            </summary>
+            <TestTable checks={passed} />
+          </details>
+        </>
       )}
 
       {testOutput && (

@@ -152,6 +152,27 @@ tests cover each addition (including a language-toggle test), and no evaluator b
 changed. Internal cut order if time runs short: theme toggle → propagation overlay →
 comparison view. The `/regressions` route and i18n are keepers.
 
+**Progress (2026-09-01) — review-experience subset pulled forward.** Operator feedback
+during the guardrail labeling handoff ("nobody wants to read stack output and logs in
+the frontend") pulled the readability half of this item ahead of the P2 labeling
+session, since the labeling session is exactly where it pays off:
+
+- Structured observations (`{"returncode": N, "output": …}`) render as an exit-code
+  chip plus clean text instead of escaped JSON; long command and observation bodies
+  collapse to a verbatim head/tail preview with an explicit hidden-line count and
+  one-click expansion; nothing is summarized or lost.
+- **Defect found and fixed:** Harbor's chat-completions conversion leaves
+  `source_call_id` null on every real run's observation results, and the timeline's
+  strict filter silently dropped all of them — the entire day8 labeling was done
+  without a single command output visible in the timeline. Unmatched results now
+  attach to their step.
+- All-passing per-test verifier tables above ten rows collapse to a counted summary
+  (failing rows always stay visible), mirroring the evaluator's own condensation
+  stage; long prose summaries (v1-era protected-path walls) and the task-instruction
+  step clamp with show-all toggles.
+- 26 frontend tests (12 new), typecheck and build clean; verified visually against
+  the real day8 django-16899 run via headless screenshots.
+
 ### P5 — Wrap-up and submission (the former single next action)
 
 1. Operator's end-to-end hand review of the workbench, now including the new views and

@@ -1,5 +1,6 @@
 import type { FirstError, TrajectoryStep } from "../api";
 import { textOf } from "../api";
+import { ClampedText, CommandBlock, ObservationBlock } from "./OutputBlock";
 
 type Props = {
   steps: TrajectoryStep[];
@@ -29,6 +30,14 @@ export function StepTimeline({
         ]
           .filter(Boolean)
           .join(" ");
+        // Harbor's chat-completions conversion leaves source_call_id null on
+        // real runs, so results that match no tool call attach to the step
+        // itself — dropping them would hide every real observation.
+        const results = step.observation?.results ?? [];
+        const callIds = new Set((step.tool_calls ?? []).map((call) => call.tool_call_id));
+        const unmatched = results.filter(
+          (result) => result.source_call_id == null || !callIds.has(result.source_call_id),
+        );
         return (
           <li key={step.step_id} className={classes}>
             <button
@@ -41,7 +50,7 @@ export function StepTimeline({
               <span className={`chip chip-${step.source}`}>{step.source}</span>
               {isFirstError && <span className="chip chip-first-error">First error</span>}
             </button>
-            <p className="step-message">{textOf(step.message)}</p>
+            <ClampedText className="step-message" text={textOf(step.message)} threshold={600} />
             {(step.tool_calls ?? []).map((call) => (
               <div className="tool-call" key={call.tool_call_id}>
                 <p className="tool-call-head">
@@ -53,15 +62,16 @@ export function StepTimeline({
                       <span className="chip chip-first-error">first-error call</span>
                     )}
                 </p>
-                <pre className="tool-call-args">{JSON.stringify(call.arguments, null, 2)}</pre>
-                {(step.observation?.results ?? [])
+                <CommandBlock args={call.arguments} />
+                {results
                   .filter((result) => result.source_call_id === call.tool_call_id)
                   .map((result, index) => (
-                    <pre className="observation" key={index} aria-label="Observation">
-                      {textOf(result.content)}
-                    </pre>
+                    <ObservationBlock content={result.content} key={index} />
                   ))}
               </div>
+            ))}
+            {unmatched.map((result, index) => (
+              <ObservationBlock content={result.content} key={`step-${index}`} />
             ))}
           </li>
         );

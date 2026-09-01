@@ -1,3 +1,4 @@
+import { ClampedText } from "./OutputBlock";
 import type { DeterministicCheck, EvidenceReference, Finding } from "../api";
 import { citedStepIds } from "../api";
 
@@ -144,7 +145,7 @@ export function EvidencePanel({
                   <span className="chip chip-cites">cites step {selectedStep}</span>
                 )}
               </button>
-              <p className="evidence-summary">{finding.summary}</p>
+              <ClampedText className="evidence-summary" text={finding.summary} />
               {active && (
                 <>
                   <p className="evidence-detail">{finding.explanation}</p>
@@ -190,7 +191,7 @@ export function EvidencePanel({
                 )}
                 <span className="check-id">{check.check_id}</span>
               </button>
-              <p className="evidence-summary">{check.summary}</p>
+              <ClampedText className="evidence-summary" text={check.summary} />
               {check.evidence.length > 0 && (
                 <EvidenceChips
                   evidence={check.evidence}

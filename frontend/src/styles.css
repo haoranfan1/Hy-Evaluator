@@ -464,6 +464,113 @@ h4 {
   border: 1px solid var(--line);
 }
 
+/* Collapsible command/observation output ------------------------------------ */
+
+.observation-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.observation-empty {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.observation-body {
+  margin: 0.35rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.observation-head + .observation-body,
+.observation-head + .output-block {
+  margin-top: 0.4rem;
+}
+
+.output-block {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.35rem;
+}
+
+.output-block > pre {
+  margin: 0;
+}
+
+.output-block > pre:first-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.output-block > pre.output-tail {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.tool-call-args.output-tail {
+  border-top: 1px dashed rgba(219, 231, 226, 0.3);
+}
+
+.observation-body.output-tail {
+  border-top: 1px dashed var(--line);
+}
+
+.output-toggle {
+  border: 1px dashed var(--line);
+  border-left: none;
+  border-right: none;
+  background: var(--card);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.output-toggle:hover,
+.output-toggle:focus-visible {
+  color: var(--ink);
+}
+
+.passed-tests {
+  margin-top: 0.8rem;
+}
+
+.passed-tests > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.passed-tests[open] > summary {
+  margin-bottom: 0.5rem;
+}
+
+.clamp-toggle {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--good-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+
+.banner-summary {
+  margin: 0.4rem 0 0;
+}
+
 /* Evidence panel ------------------------------------------------------------ */
 
 .evidence-panel {

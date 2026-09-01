@@ -7,6 +7,7 @@ import { PatchView, TaskView, VerifierView } from "../components/ArtifactViews";
 import type { Selection, TabName } from "../components/EvidencePanel";
 import { EvidencePanel } from "../components/EvidencePanel";
 import { ReviewPanel } from "../components/ReviewPanel";
+import { ClampedText } from "../components/OutputBlock";
 import { StepTimeline } from "../components/StepTimeline";
 
 const TABS: { id: TabName; label: string }[] = [
@@ -112,7 +113,7 @@ export function RunDetailPage() {
             · {firstError.primary_category}
           </h3>
           {firstErrorFindings.map((finding) => (
-            <p key={finding.finding_id}>{finding.summary}</p>
+            <ClampedText key={finding.finding_id} className="banner-summary" text={finding.summary} />
           ))}
         </div>
       )}
