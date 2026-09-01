@@ -55,6 +55,35 @@ test("selecting a finding highlights every step it cites", async () => {
   expect(timeline.getByText("Step 2").closest("li")).not.toHaveClass("step-cited");
 });
 
+test("selecting a finding overlays its recorded downstream steps", async () => {
+  mockInvalidRun();
+
+  renderApp("/runs/run-fixture-invalid-first-error");
+  await screen.findByRole("note", { name: "First error" });
+
+  const finding = screen.getByTestId("finding-reversed-requirement");
+  fireEvent.click(within(finding).getByRole("button", { pressed: false }));
+
+  const timeline = within(screen.getByRole("list", { name: "Trajectory steps" }));
+  for (const label of ["Step 4", "Step 5"]) {
+    const step = timeline.getByText(label).closest("li") as HTMLElement;
+    expect(step).toHaveClass("step-downstream");
+    expect(within(step).getByText("downstream of step 3")).toBeInTheDocument();
+  }
+  // The error step itself is cited evidence, not downstream of itself.
+  expect(timeline.getByText("Step 3").closest("li")).not.toHaveClass("step-downstream");
+  expect(timeline.getByText("Step 2").closest("li")).not.toHaveClass("step-downstream");
+
+  // The active finding lists the same recorded propagation as clickable chips.
+  fireEvent.click(within(finding).getByRole("button", { name: "step 4" }));
+  const stepFour = timeline.getByText("Step 4").closest("li") as HTMLElement;
+  expect(within(stepFour).getByRole("button", { pressed: true })).toBeInTheDocument();
+
+  // Deselecting the finding clears the overlay.
+  fireEvent.click(within(finding).getByRole("button", { pressed: true }));
+  expect(timeline.getByText("Step 4").closest("li")).not.toHaveClass("step-downstream");
+});
+
 test("selecting a step marks the findings and checks citing it", async () => {
   mockInvalidRun();
 

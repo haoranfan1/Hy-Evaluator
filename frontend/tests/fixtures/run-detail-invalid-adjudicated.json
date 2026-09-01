@@ -342,7 +342,10 @@
             "line": 2
           }
         ],
-        "downstream_step_ids": [],
+        "downstream_step_ids": [
+          4,
+          5
+        ],
         "recovered": false,
         "recovery_step_id": null,
         "evidence_strength": "strong"

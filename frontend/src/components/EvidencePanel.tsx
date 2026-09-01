@@ -150,6 +150,24 @@ export function EvidencePanel({
                 <>
                   <p className="evidence-detail">{finding.explanation}</p>
                   <p className="evidence-feedback">{finding.feedback}</p>
+                  {finding.downstream_step_ids.length > 0 && (
+                    <p className="evidence-chips propagation-row">
+                      <span className="propagation-label">recorded propagation:</span>
+                      {finding.downstream_step_ids.map((stepId) => (
+                        <button
+                          key={stepId}
+                          type="button"
+                          className="evidence-chip"
+                          onClick={() => {
+                            onSelectStep(stepId);
+                            onOpenTab("timeline");
+                          }}
+                        >
+                          step {stepId}
+                        </button>
+                      ))}
+                    </p>
+                  )}
                 </>
               )}
               <EvidenceChips

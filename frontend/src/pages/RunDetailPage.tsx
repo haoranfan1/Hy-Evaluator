@@ -53,6 +53,16 @@ export function RunDetailPage() {
     return ids;
   }, [evaluation, selection]);
 
+  // Propagation overlay: the selected finding's recorded downstream steps.
+  const selectedFinding =
+    selection?.kind === "finding"
+      ? (evaluation?.findings.find((finding) => finding.finding_id === selection.id) ?? null)
+      : null;
+  const downstreamSteps = useMemo(
+    () => new Set(selectedFinding?.downstream_step_ids ?? []),
+    [selectedFinding],
+  );
+
   if (detail.isPending) {
     return <p>Loading run…</p>;
   }
@@ -155,6 +165,8 @@ export function RunDetailPage() {
                 steps={trajectory.data.steps}
                 firstError={firstError}
                 highlightedSteps={highlightedSteps}
+                downstreamSteps={downstreamSteps}
+                propagationOrigin={selectedFinding?.step_id ?? null}
                 selectedStep={selectedStep}
                 onSelectStep={setSelectedStep}
               />

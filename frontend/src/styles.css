@@ -1041,3 +1041,24 @@ h4 {
 .regression-evidence li + li {
   margin-top: 0.35rem;
 }
+
+/* Error-propagation overlay ------------------------------------------------- */
+
+.step-downstream {
+  border-style: dashed;
+  border-color: rgba(136, 71, 18, 0.55);
+}
+
+.chip-downstream {
+  color: var(--warn-ink);
+  background: var(--warn-bg);
+  border: 1px dashed var(--warn-ink);
+}
+
+.propagation-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}

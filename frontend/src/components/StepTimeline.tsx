@@ -2,10 +2,16 @@ import type { FirstError, TrajectoryStep } from "../api";
 import { textOf } from "../api";
 import { ClampedText, CommandBlock, ObservationBlock } from "./OutputBlock";
 
+const NO_STEPS: ReadonlySet<number> = new Set();
+
 type Props = {
   steps: TrajectoryStep[];
   firstError: FirstError | null;
   highlightedSteps: Set<number>;
+  // Steps the selected finding records as downstream of its error — recorded
+  // evidence from the evaluation, never inferred in the UI.
+  downstreamSteps?: ReadonlySet<number>;
+  propagationOrigin?: number | null;
   selectedStep: number | null;
   onSelectStep: (stepId: number | null) => void;
 };
@@ -14,6 +20,8 @@ export function StepTimeline({
   steps,
   firstError,
   highlightedSteps,
+  downstreamSteps = NO_STEPS,
+  propagationOrigin = null,
   selectedStep,
   onSelectStep,
 }: Props) {
@@ -21,10 +29,12 @@ export function StepTimeline({
     <ol className="timeline" aria-label="Trajectory steps">
       {steps.map((step) => {
         const isFirstError = firstError?.location === "located" && firstError.step_id === step.step_id;
+        const isDownstream = downstreamSteps.has(step.step_id);
         const classes = [
           "step",
           `step-${step.source}`,
           highlightedSteps.has(step.step_id) ? "step-cited" : "",
+          isDownstream ? "step-downstream" : "",
           selectedStep === step.step_id ? "step-selected" : "",
           isFirstError ? "step-first-error" : "",
         ]
@@ -49,6 +59,13 @@ export function StepTimeline({
               <span className="step-id">Step {step.step_id}</span>
               <span className={`chip chip-${step.source}`}>{step.source}</span>
               {isFirstError && <span className="chip chip-first-error">First error</span>}
+              {isDownstream && (
+                <span className="chip chip-downstream">
+                  {propagationOrigin === null
+                    ? "downstream"
+                    : `downstream of step ${propagationOrigin}`}
+                </span>
+              )}
             </button>
             <ClampedText className="step-message" text={textOf(step.message)} threshold={600} />
             {(step.tool_calls ?? []).map((call) => (
