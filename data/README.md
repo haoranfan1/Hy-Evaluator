@@ -26,6 +26,11 @@ Real-task records:
   dataset revision pin, seeded difficulty-stratified selection with the full candidate order,
   frame constraints, substitution rule, run configuration, and the blinding protocol, all
   recorded before any run.
+- `evaluation-slices/guardrail-slice-v1.json`: the frozen guardrail intervention rerun of the
+  day8 easy stratum — fixed comparison set, the verbatim guardrail text, run configuration,
+  and the blinding/comparison protocol, recorded before any environment rebuild or run.
+- `agent-configs/guardrail-v1.yaml`: the intervention agent configuration — the recorded day8
+  baseline system template plus exactly one appended constraint paragraph.
 - `environment-checks/`: recorded oracle/environment gates (host, images, commands, outcomes)
   showing every selected task resolved under its gold patch on the source-built ARM64 images
   before any agent run.
