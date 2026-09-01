@@ -126,8 +126,9 @@ this conversation until those labels are saved.
 **Exit condition:** the summary is faithful to the frozen numbers (no new claims), and
 the CLI — if built — is covered by the offline test suite.
 
-**Recorded exit evidence (2026-09-01):** 摘要（中文）sections added to the README and
-REPORT, sourced only from the frozen committed evidence (day8 labels, day9/day11
+**Recorded exit evidence (2026-09-01):** a separate Chinese README (`README.zh-CN.md`,
+language-switch linked from the pure-English `README.md`) and a 摘要（中文）section
+atop the REPORT, sourced only from the frozen committed evidence (day8 labels, day9/day11
 regression cards, fifteen judge-stability sessions) with the report's bilingual terms.
 In the same pass the English headline sections were brought up to v3 (the guardrail
 line is deliberately absent until P2 closes), the report gained an "Evaluator v3
