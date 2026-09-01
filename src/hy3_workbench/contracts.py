@@ -336,6 +336,10 @@ class EvaluationResult(PersistedModel):
     findings: list[Finding]
     exclusions: list[str]
     raw_semantic_output_path: ProjectRelativePath | None = None
+    # Set when the semantic lane reviewed a condensed input (aggregated per-test
+    # checks and/or marker-elided observations); None for full-input reviews and
+    # for evaluations stored before workbench-evaluator-v3.
+    semantic_condensation: str | None = None
 
     @model_validator(mode="after")
     def validate_derived_labels(self) -> EvaluationResult:

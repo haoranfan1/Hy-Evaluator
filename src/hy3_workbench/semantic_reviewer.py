@@ -29,6 +29,7 @@ from hy3_workbench.rubric import (
     RUBRIC_VERSION,
     SEMANTIC_PROMPT_VERSION,
     SEMANTIC_SYSTEM_PROMPT,
+    condense_semantic_input,
     render_repair_input,
     render_semantic_input,
 )
@@ -47,11 +48,12 @@ class SemanticReviewResult(StrictModel):
 
     status: Literal["completed", "unavailable", "context_limit"]
     rubric_version: Literal["process-rubric-v1"] = RUBRIC_VERSION
-    prompt_version: Literal["semantic-prompt-v1"] = SEMANTIC_PROMPT_VERSION
+    prompt_version: Literal["semantic-prompt-v2"] = SEMANTIC_PROMPT_VERSION
     output: SemanticReviewOutput | None = None
     attempts: int = 0
     failure_reasons: list[str] = []
     raw_response_paths: list[ProjectRelativePath] = []
+    condensation: str | None = None
 
 
 def validate_semantic_output(
@@ -121,11 +123,25 @@ class SemanticReviewer:
         deterministic: DeterministicEvidence,
     ) -> SemanticReviewResult:
         user_input = render_semantic_input(manifest, run, trajectory, patch_text, deterministic)
+        condensation: str | None = None
         if len(SEMANTIC_SYSTEM_PROMPT) + len(user_input) > self.context_limit_chars:
-            return SemanticReviewResult(
-                status="context_limit",
-                failure_reasons=["rendered judge input exceeds the configured context limit"],
+            condensed, condensation = condense_semantic_input(
+                manifest,
+                run,
+                trajectory,
+                patch_text,
+                deterministic,
+                budget=self.context_limit_chars - len(SEMANTIC_SYSTEM_PROMPT),
             )
+            if condensed is None:
+                return SemanticReviewResult(
+                    status="context_limit",
+                    failure_reasons=[
+                        "rendered judge input exceeds the configured context limit even "
+                        "after bounded condensation"
+                    ],
+                )
+            user_input = condensed
 
         resolver = EvidenceResolver(
             manifest,
@@ -156,6 +172,7 @@ class SemanticReviewer:
                         attempts=attempt,
                         failure_reasons=failure_reasons,
                         raw_response_paths=raw_paths,
+                        condensation=condensation,
                     )
                 continue
             errors = self._validate_response(response.content, resolver, trajectory)
@@ -167,6 +184,7 @@ class SemanticReviewer:
                     output=output,
                     attempts=attempt,
                     raw_response_paths=raw_paths,
+                    condensation=condensation,
                 )
             failure_reasons.append(f"attempt {attempt}: " + "; ".join(errors))
             messages = [
@@ -180,6 +198,7 @@ class SemanticReviewer:
             attempts=MAX_SEMANTIC_ATTEMPTS,
             failure_reasons=failure_reasons,
             raw_response_paths=raw_paths,
+            condensation=condensation,
         )
 
     @staticmethod

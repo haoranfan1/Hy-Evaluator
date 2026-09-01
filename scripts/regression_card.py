@@ -90,6 +90,7 @@ def main() -> int:
                     "process_status": new_result.process_status,
                     "first_error_step": _first_error_step(new_result.first_error),
                     "exclusions": list(new_result.exclusions),
+                    "semantic_condensation": new_result.semantic_condensation,
                     "protected_check": next(
                         (
                             {"status": c.status, "summary": c.summary[:200]}

@@ -151,6 +151,33 @@ class TestMergedEvaluation:
         assert result.findings[0].severity == "critical"
         assert any("contradicts" in reason for reason in result.exclusions)
 
+    def test_condensed_semantic_review_is_marked_in_the_result(self, evaluator_factory) -> None:
+        from hy3_workbench.contracts import SemanticReviewOutput
+        from hy3_workbench.semantic_reviewer import SemanticReviewResult
+
+        manifest, run = load_bundle("valid")
+        evaluator = evaluator_factory(FakeJudge([]))
+        condensation = "semantic-condense-v1: compact serialization"
+
+        class CondensingReviewer:
+            def review(self, *args, **kwargs):
+                return SemanticReviewResult(
+                    status="completed",
+                    output=SemanticReviewOutput.model_validate_json(valid_response()),
+                    attempts=1,
+                    condensation=condensation,
+                )
+
+        evaluator.reviewer = CondensingReviewer()
+
+        result = evaluator.evaluate(manifest, run)
+
+        assert result.status == "completed"
+        assert result.process_status == "valid"
+        assert result.semantic_condensation == condensation
+        restored = EvaluationResult.model_validate_json(result.model_dump_json())
+        assert restored.semantic_condensation == condensation
+
     def test_merged_results_survive_contract_round_trip(self, evaluator_factory) -> None:
         manifest, run = load_bundle("invalid-first-error")
         judge = FakeJudge([invalid_response()])

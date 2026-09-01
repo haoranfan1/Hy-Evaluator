@@ -207,6 +207,7 @@ class ProcessEvaluator:
             raw_semantic_output_path=(
                 semantic.raw_response_paths[-1] if semantic.raw_response_paths else None
             ),
+            semantic_condensation=semantic.condensation,
         )
 
     @staticmethod
@@ -221,6 +222,7 @@ class ProcessEvaluator:
         findings: list[Finding],
         exclusions: list[str],
         raw_semantic_output_path: str | None,
+        semantic_condensation: str | None = None,
     ) -> EvaluationResult:
         if outcome_status == "inconclusive" or process_status == "inconclusive":
             correct_result_invalid_process = None
@@ -243,4 +245,5 @@ class ProcessEvaluator:
             findings=findings,
             exclusions=exclusions,
             raw_semantic_output_path=raw_semantic_output_path,
+            semantic_condensation=semantic_condensation,
         )

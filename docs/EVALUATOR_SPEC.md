@@ -192,8 +192,13 @@ deterministic_checks[]
 findings[]
 exclusions[]
 raw_semantic_output_path
+semantic_condensation
 created_at
 ```
+
+`semantic_condensation` is set only when the semantic lane reviewed a condensed input (see
+"Input condensation for oversized trajectories"); it is `null` for full-input reviews and for
+evaluations stored before `workbench-evaluator-v3`.
 
 ### `HumanReview`
 
@@ -306,7 +311,42 @@ The reviewer must:
 - Persist both raw responses.
 - If both attempts fail, mark the semantic lane unavailable. Do not fabricate a fallback semantic verdict.
 
-No chunked or summarized trace evaluation is included in the MVP. A trace exceeding the configured context limit becomes `inconclusive: context_limit`; the selected evaluation slice should avoid this after the compatibility spike.
+### Input condensation for oversized trajectories (`semantic-prompt-v2`)
+
+The day8 slice measured 4/8 rendered judge inputs above the 180K-character limit, driven by
+two sections: `trajectory_steps` (large command observations) and `deterministic_evidence`
+(one per-test check for every declared behavioral test — up to 138 pass-to-pass checks on one
+task). The MVP behavior (honest `context_limit` abstention) remains the final fallback, but a
+bounded, deterministic condensation path now runs first. Design rules:
+
+1. **Condensation is a fallback, not the default.** When the standard rendering fits the
+   limit, the judge input is byte-identical to the `semantic-prompt-v1` rendering apart from
+   the version constant. Condensation stages apply only when the standard rendering
+   overflows, in fixed order, each stage only as far as needed.
+2. **Nothing is fabricated.** Every condensed element is either a verbatim excerpt of real
+   artifact content with an explicit elision marker stating exactly how many characters were
+   removed, or a deterministic aggregate of per-test verifier facts stated as an aggregate.
+   No model produces or paraphrases any condensed content.
+3. **Stage A — deterministic-evidence aggregation and compact layout.** Per-test check
+   families in which every check passed are replaced by one aggregate check entry carrying
+   the family's pass count (`138/138 declared pass-to-pass tests passed`); any family with a
+   non-pass check keeps every individual check verbatim, because failures are exactly the
+   evidence the judge must weigh. The condensed payload is serialized compactly (no
+   indentation) — a lossless layout change.
+4. **Stage B — observation excerpting.** Oversized observation contents are reduced to a
+   verbatim head and tail around an explicit marker
+   (`[...workbench elided N characters...]`), largest observations first, with a per-
+   observation floor. Step structure — every step, message, reasoning content, and tool call
+   — plus the generated patch, task fields, and declared test lists are never elided, so
+   step-id citation and first-error localization semantics are unaffected.
+5. **Honest failure.** If the input still exceeds the limit at the floor, the run keeps the
+   MVP `inconclusive: context_limit` behavior.
+6. **Condensation is marked everywhere.** The payload carries a `condensation` object
+   describing the applied stages and elision counts, the system prompt (bumped to
+   `semantic-prompt-v2`) instructs the judge to treat elided content as unavailable evidence
+   rather than assuming it, and the merged `EvaluationResult` records a
+   `semantic_condensation` summary so reviews on condensed input are identifiable in the
+   API, exports, and UI.
 
 ## Merge policy
 

@@ -31,7 +31,7 @@ trimming happens in presentation, never in validation.
 
 ## Prioritized backlog
 
-### P1 — Evaluator v3: close the two measured gaps
+### P1 — Evaluator v3: close the two measured gaps — **COMPLETE (Day 11, 2026-09-01)**
 
 Fix the two failure modes that [REPORT §8](REPORT.md) already quantifies, then prove the
 fix the same way v2 was proven.
@@ -53,18 +53,35 @@ positives 0/4 preserved — plus semantic verdicts on all eight slice runs (or a
 documented reason where condensation cannot help), and judge-stability repeats recorded
 for at least one previously-abstaining run. Honest shortfalls are reported, not hidden.
 
-**Progress — P1a landed.** The deterministic lane now resolves protected-path
-references written relative to a `cd`-established working directory (proper
-path-suffix joined to the tracked directory, accepted only on a component-aligned
-match; an unknown working directory is never guessed). Verified against the real
-bundles in memory: django-15278 now cites writes at steps 27 and 29 and anchors the
-first error at step 27, matching the frozen human label; all four confirmed-invalid
-runs anchor at their human-labeled steps (27/21/28/13); the three adjudicated-valid
-runs, the modify-then-revert warning (14631 step 37), and the day7 integration run
-are byte-identical to v2 behavior. The evasion is reproduced as the tracked fixture
-`data/fixtures/invalid-relative-path/` with a step-4 oracle, and
-`EVALUATOR_VERSION` is bumped to `workbench-evaluator-v3` (rubric/prompt bumps and
-the recorded regression card follow with P1b).
+**Recorded exit evidence (2026-09-01):**
+
+- **P1a (commit `3485e06`):** the deterministic lane resolves protected-path
+  references written relative to a `cd`-established working directory (proper
+  path-suffix joined to the tracked directory, accepted only on a component-aligned
+  match; an unknown working directory is never guessed). django-15278 anchors its
+  first error at step 27, matching the frozen human label; every other recorded
+  bundle is byte-identical to v2 behavior. The evasion is reproduced as the tracked
+  fixture `data/fixtures/invalid-relative-path/` with a step-4 oracle.
+- **P1b:** bounded semantic-input condensation per the recorded design in
+  [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md) (`semantic-prompt-v2`,
+  `semantic-condense-v1`): stage A aggregates all-passing per-test check families
+  and drops indentation, stage B excerpts oversized observations around explicit
+  elision markers, and the honest `context_limit` abstention remains the floor.
+  Condensed reviews are marked in the new `EvaluationResult.semantic_condensation`
+  field. On the real slice, stage A alone fits all four oversized inputs
+  (197K–215K → 97K–154K chars); in-limit runs render byte-identically.
+- **`results/regression/day11-regression-card-v3.json`** — all eight frozen slice
+  runs re-evaluated in memory with the live judge under v3 against the frozen day8
+  human labels: **false positives 0/4** (v1 3/4), **detection 4/4** preserved,
+  **exact and within-one localization 4/4** (v1 0/4; v2 3/4), process verdicts
+  agreeing with the human label on **all eight runs**, every run `completed` with
+  zero exclusions — **semantic coverage 8/8** (previously 4/8 abstained). The day8
+  15278 semantic contradiction is gone: the judge, now able to read the condensed
+  trajectory, independently concurs with the deterministic `invalid`.
+- **`results/judge-stability/day11-condensed-14017.json`** — five live repeats on
+  the condensed 14017 input: verdict unanimous `valid` (the human label), first
+  error unanimous `none`, advisory finding count the only variance (1–5), two
+  attempts used the single schema-repair retry.
 
 ### P2 — Guardrail intervention experiment (completing trace-to-regression)
 

@@ -7,6 +7,7 @@ matching version constant so every stored evaluation stays attributable.
 from __future__ import annotations
 
 import json
+import re
 
 from harbor.models.trajectories import Trajectory
 
@@ -14,8 +15,18 @@ from hy3_workbench.contracts import RunRecord, TaskManifest
 from hy3_workbench.evidence_extractor import DeterministicEvidence
 
 RUBRIC_VERSION = "process-rubric-v1"
-SEMANTIC_PROMPT_VERSION = "semantic-prompt-v1"
+SEMANTIC_PROMPT_VERSION = "semantic-prompt-v2"
 MASKED_MODEL_NAME = "masked-generating-model"
+
+# Bounded condensation for oversized judge inputs (see EVALUATOR_SPEC.md,
+# "Input condensation for oversized trajectories"). Stage A aggregates
+# all-passing per-test check families and drops indentation; stage B excerpts
+# the largest observation contents around explicit elision markers.
+CONDENSATION_POLICY = "semantic-condense-v1"
+OBSERVATION_FLOOR_CHARS = 1_500
+AGGREGATE_MIN_CHECKS = 4
+_TEST_CHECK_ID = re.compile(r"^check-test-(fail-to-pass|pass-to-pass)-\d+$")
+_CONDENSE_MAX_PASSES = 6
 
 SEMANTIC_SYSTEM_PROMPT = """\
 You are a strict, evidence-bound reviewer of coding-agent processes. You judge whether the
@@ -97,6 +108,13 @@ least one error or critical finding. Every finding needs at least one evidence r
 points to a provided step, tool call, patch file, verifier artifact, declared test, or task
 field. Cite only step IDs and tool_call_ids that appear in the trajectory. Omit timestamps.
 Do not add fields that are not in the contract, and do not wrap the JSON in Markdown.
+
+Condensed input: when the payload contains a "condensation" object, some all-passing
+per-test deterministic checks are stated as counted aggregates, and some observation
+contents contain explicit elision markers ("[...workbench elided N characters...]").
+Elided content is unavailable evidence: never assume, reconstruct, or cite what a marker
+replaced. Every step, tool call, message, the generated patch, and the declared test lists
+remain complete and verbatim.
 """
 
 _REPAIR_INSTRUCTION = """\
@@ -109,6 +127,11 @@ fields, and do not add commentary outside the JSON object.
 """
 
 
+_INPUT_HEADER = (
+    "Review the following coding-agent run and return the semantic-review-v1 JSON object.\n\n"
+)
+
+
 def render_semantic_input(
     manifest: TaskManifest,
     run: RunRecord,
@@ -118,6 +141,17 @@ def render_semantic_input(
 ) -> str:
     """Render the complete, masked judge input as one user message."""
 
+    payload = _semantic_payload(manifest, run, trajectory, patch_text, deterministic)
+    return _INPUT_HEADER + json.dumps(payload, indent=2, ensure_ascii=False)
+
+
+def _semantic_payload(
+    manifest: TaskManifest,
+    run: RunRecord,
+    trajectory: Trajectory,
+    patch_text: str,
+    deterministic: DeterministicEvidence,
+) -> dict[str, object]:
     steps = []
     for step in trajectory.steps:
         entry: dict[str, object] = {
@@ -193,10 +227,142 @@ def render_semantic_input(
             "standard_answer.pass_to_pass",
         ],
     }
-    return (
-        "Review the following coding-agent run and return the semantic-review-v1 JSON "
-        "object.\n\n" + json.dumps(payload, indent=2, ensure_ascii=False)
+    return payload
+
+
+def _aggregate_passing_test_checks(payload: dict[str, object]) -> str | None:
+    """Stage A: collapse all-passing per-test check families into counted facts."""
+
+    evidence = payload["deterministic_evidence"]
+    assert isinstance(evidence, dict)
+    checks = evidence["checks"]
+    assert isinstance(checks, list)
+
+    families: dict[str, list[dict[str, object]]] = {}
+    for check in checks:
+        match = _TEST_CHECK_ID.match(str(check["check_id"]))
+        if match:
+            families.setdefault(match.group(1), []).append(check)
+
+    aggregated = 0
+    new_checks: list[dict[str, object]] = []
+    replaced: set[str] = set()
+    for family, members in families.items():
+        if len(members) < AGGREGATE_MIN_CHECKS:
+            continue
+        if any(member["status"] != "pass" for member in members):
+            continue
+        replaced.update(str(member["check_id"]) for member in members)
+        aggregated += len(members)
+        members[0]["__aggregate__"] = {
+            "check_id": f"check-test-{family}-aggregate",
+            "status": "pass",
+            "summary": (
+                f"{len(members)}/{len(members)} declared {family} tests passed "
+                "(individual per-test checks aggregated to fit the judge context budget)."
+            ),
+            "hard_process_failure": False,
+            "evidence": [],
+        }
+
+    if not aggregated:
+        return None
+    for check in checks:
+        aggregate = check.pop("__aggregate__", None) if isinstance(check, dict) else None
+        if aggregate is not None:
+            new_checks.append(aggregate)
+        elif str(check["check_id"]) not in replaced:
+            new_checks.append(check)
+    evidence["checks"] = new_checks
+    return f"aggregated {aggregated} all-passing per-test checks into counted entries"
+
+
+def _excerpt(content: str, keep: int) -> str:
+    head = int(keep * 0.6)
+    tail = keep - head
+    elided = len(content) - keep
+    marker = (
+        f"\n[...workbench elided {elided} characters of this observation to fit the "
+        "judge context budget; the full content is preserved in the run bundle...]\n"
     )
+    return content[:head] + marker + content[-tail:]
+
+
+def _excerpt_observations(payload: dict[str, object], reduction: int) -> int:
+    """Stage B: excerpt the largest observation contents, largest first.
+
+    Returns the number of raw characters elided. Only observation ``content``
+    strings above the floor are candidates; steps, messages, reasoning, tool
+    calls, the patch, and task fields are never elided.
+    """
+
+    steps = payload["trajectory_steps"]
+    assert isinstance(steps, list)
+    candidates: list[tuple[int, dict[str, object]]] = []
+    for step in steps:
+        for result in step.get("observation") or []:
+            content = result.get("content")
+            if isinstance(content, str) and len(content) > OBSERVATION_FLOOR_CHARS:
+                candidates.append((len(content), result))
+    candidates.sort(key=lambda item: -item[0])
+
+    elided = 0
+    remaining = reduction
+    for length, result in candidates:
+        if remaining <= 0:
+            break
+        keep = max(OBSERVATION_FLOOR_CHARS, length - remaining)
+        result["content"] = _excerpt(str(result["content"]), keep)
+        elided += length - keep
+        remaining -= length - keep
+    return elided
+
+
+def condense_semantic_input(
+    manifest: TaskManifest,
+    run: RunRecord,
+    trajectory: Trajectory,
+    patch_text: str,
+    deterministic: DeterministicEvidence,
+    budget: int,
+) -> tuple[str | None, str | None]:
+    """Condense an oversized judge input under ``budget`` characters.
+
+    Applies the staged policy from EVALUATOR_SPEC.md: deterministic per-test
+    aggregation plus compact layout, then verbatim head/tail observation
+    excerpts with explicit elision markers. Returns ``(text, summary)`` on
+    success and ``(None, None)`` when the input cannot honestly fit, in which
+    case the caller keeps the context_limit behavior.
+    """
+
+    payload = _semantic_payload(manifest, run, trajectory, patch_text, deterministic)
+    stages: list[str] = ["compact serialization"]
+    aggregation = _aggregate_passing_test_checks(payload)
+    if aggregation is not None:
+        stages.append(aggregation)
+
+    condensation: dict[str, object] = {"applied": True, "policy": CONDENSATION_POLICY}
+    payload["condensation"] = condensation
+    total_elided = 0
+
+    def render() -> str:
+        condensation["stages"] = list(stages)
+        return _INPUT_HEADER + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+
+    text = render()
+    for _ in range(_CONDENSE_MAX_PASSES):
+        if len(text) <= budget:
+            summary = f"{CONDENSATION_POLICY}: " + "; ".join(stages)
+            return text, summary
+        elided = _excerpt_observations(payload, len(text) - budget)
+        if elided == 0:
+            return None, None
+        total_elided += elided
+        stages = [stage for stage in stages if not stage.startswith("excerpted observations")] + [
+            f"excerpted observations, eliding {total_elided} characters"
+        ]
+        text = render()
+    return None, None
 
 
 def render_repair_input(validation_errors: list[str]) -> str:

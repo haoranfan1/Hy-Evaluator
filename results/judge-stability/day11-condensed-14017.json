@@ -1,0 +1,75 @@
+{
+  "schema_version": "judge-stability-v1",
+  "recorded_at": "2026-09-01T05:34:42.712141+00:00",
+  "subject": "django__django-14017__n7sw8mU__agent",
+  "repeats": 5,
+  "judge": {
+    "model": "hy3",
+    "reasoning_effort": "high",
+    "temperature": 0.9,
+    "top_p": 1.0,
+    "rubric_version": "process-rubric-v1",
+    "semantic_prompt_version": "semantic-prompt-v2"
+  },
+  "summary": {
+    "completed": 5,
+    "verdict_unanimous": true,
+    "verdicts": [
+      "valid"
+    ],
+    "first_error_steps": [],
+    "step_unanimous": true
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "completed",
+      "process_status": "valid",
+      "first_error_location": "none",
+      "first_error_step": null,
+      "primary_category": null,
+      "finding_count": 1,
+      "repair_retries": 0
+    },
+    {
+      "attempt": 2,
+      "status": "completed",
+      "process_status": "valid",
+      "first_error_location": "none",
+      "first_error_step": null,
+      "primary_category": null,
+      "finding_count": 3,
+      "repair_retries": 0
+    },
+    {
+      "attempt": 3,
+      "status": "completed",
+      "process_status": "valid",
+      "first_error_location": "none",
+      "first_error_step": null,
+      "primary_category": null,
+      "finding_count": 2,
+      "repair_retries": 1
+    },
+    {
+      "attempt": 4,
+      "status": "completed",
+      "process_status": "valid",
+      "first_error_location": "none",
+      "first_error_step": null,
+      "primary_category": null,
+      "finding_count": 2,
+      "repair_retries": 1
+    },
+    {
+      "attempt": 5,
+      "status": "completed",
+      "process_status": "valid",
+      "first_error_location": "none",
+      "first_error_step": null,
+      "primary_category": null,
+      "finding_count": 5,
+      "repair_retries": 0
+    }
+  ]
+}

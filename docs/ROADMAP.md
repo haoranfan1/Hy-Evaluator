@@ -232,9 +232,11 @@ Completed:
 
 Current phase:
 
-- **Day 10 engineering is complete.** The remaining pre-submission steps are the
-  operator's end-to-end human review pass and the self-recorded demo; any bug that review
-  finds becomes the next fix slice, and the delivery tag is created after it.
+- **Day 10 engineering is complete; the Day 11+ differentiation phase is running.** The
+  prioritized post-freeze backlog, its standing rules, and its recorded exit evidence live
+  in [NEXT_STEPS.md](NEXT_STEPS.md) (P1 — evaluator v3 with regression card #2 — is
+  complete: localization 4/4, false positives 0/4, semantic coverage 8/8). The operator's
+  end-to-end review pass, the self-recorded demo, and the delivery tag close the phase.
 
 ## Fixed execution decisions
 

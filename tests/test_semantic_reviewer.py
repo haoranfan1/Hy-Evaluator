@@ -11,6 +11,8 @@ from hy3_workbench.rubric import (
     MASKED_MODEL_NAME,
     RUBRIC_VERSION,
     SEMANTIC_PROMPT_VERSION,
+    SEMANTIC_SYSTEM_PROMPT,
+    condense_semantic_input,
     render_semantic_input,
 )
 from hy3_workbench.semantic_reviewer import SemanticReviewer
@@ -256,3 +258,171 @@ class TestJudgeTransportFailures:
 
         assert result.status == "completed"
         assert judge.calls == 2
+
+
+def big_trajectory(n_agent_steps: int = 5, observation_chars: int = 30_000):
+    from harbor.models.trajectories import (
+        Agent,
+        Observation,
+        ObservationResult,
+        Step,
+        ToolCall,
+        Trajectory,
+    )
+
+    steps = [Step(step_id=1, source="user", message="task statement")]
+    line = "x" * 97 + "\n"
+    for step_id in range(2, n_agent_steps + 2):
+        content = json.dumps({"returncode": 0, "output": line * (observation_chars // len(line))})
+        steps.append(
+            Step(
+                step_id=step_id,
+                source="agent",
+                message=f"inspect part {step_id}",
+                tool_calls=[
+                    ToolCall(
+                        tool_call_id=f"call-{step_id}",
+                        function_name="bash",
+                        arguments={"command": f"cat part_{step_id}.txt"},
+                    )
+                ],
+                observation=Observation(
+                    results=[ObservationResult(source_call_id=f"call-{step_id}", content=content)]
+                ),
+            )
+        )
+    return Trajectory(
+        schema_version="ATIF-v1.7",
+        session_id="run-big",
+        agent=Agent(name="mini-swe-agent", version="2.4.6"),
+        steps=steps,
+    )
+
+
+class TestCondensation:
+    LIMIT = 100_000
+
+    def oversized_inputs(self):
+        manifest, run, _, patch_text, deterministic = load_review_inputs("valid")
+        return manifest, run, big_trajectory(), patch_text, deterministic
+
+    def test_oversized_input_is_condensed_and_reviewed(self, reviewer_factory) -> None:
+        judge = FakeJudge([valid_response()])
+        reviewer = reviewer_factory(judge, context_limit_chars=self.LIMIT)
+        inputs = self.oversized_inputs()
+        assert len(render_semantic_input(*inputs)) > self.LIMIT
+
+        result = reviewer.review(*inputs)
+
+        assert result.status == "completed"
+        assert result.condensation is not None
+        assert result.condensation.startswith("semantic-condense-v1:")
+        assert "excerpted observations" in result.condensation
+        assert len(judge.calls) == 1
+        sent = judge.calls[0][1]["content"]
+        assert len(judge.calls[0][0]["content"]) + len(sent) <= self.LIMIT
+        assert "workbench elided" in sent
+        assert '"condensation"' in sent
+
+    def test_condensed_input_preserves_steps_commands_and_patch(self, reviewer_factory) -> None:
+        judge = FakeJudge([valid_response()])
+        reviewer = reviewer_factory(judge, context_limit_chars=self.LIMIT)
+        manifest, run, trajectory, patch_text, deterministic = self.oversized_inputs()
+
+        reviewer.review(manifest, run, trajectory, patch_text, deterministic)
+
+        payload = json.loads(judge.calls[0][1]["content"].split("\n\n", 1)[1])
+        rendered_steps = {entry["step_id"] for entry in payload["trajectory_steps"]}
+        assert rendered_steps == {step.step_id for step in trajectory.steps}
+        commands = [
+            call["arguments"]["command"]
+            for entry in payload["trajectory_steps"]
+            for call in entry.get("tool_calls", [])
+        ]
+        assert commands == [f"cat part_{i}.txt" for i in range(2, 7)]
+        assert payload["generated_patch"] == patch_text
+        assert payload["standard_answer"]["fail_to_pass"] == list(
+            manifest.standard_answer.fail_to_pass
+        )
+        assert payload["condensation"]["applied"] is True
+        assert payload["condensation"]["policy"] == "semantic-condense-v1"
+
+    def test_condensation_is_deterministic(self) -> None:
+        manifest, run, trajectory, patch_text, deterministic = self.oversized_inputs()
+        budget = self.LIMIT - len(SEMANTIC_SYSTEM_PROMPT)
+
+        first = condense_semantic_input(
+            manifest, run, trajectory, patch_text, deterministic, budget
+        )
+        second = condense_semantic_input(
+            manifest, run, trajectory, patch_text, deterministic, budget
+        )
+
+        assert first == second
+        assert first[0] is not None
+
+    def test_aggregation_collapses_only_all_passing_families(self) -> None:
+        from hy3_workbench.contracts import DeterministicCheck
+        from hy3_workbench.evidence_extractor import DeterministicEvidence
+
+        checks = [
+            DeterministicCheck(
+                check_id=f"check-test-pass-to-pass-{index}",
+                status="pass",
+                summary=f"Declared pass-to-pass test t{index} passed.",
+                evidence=[],
+                hard_process_failure=False,
+            )
+            for index in range(1, 7)
+        ] + [
+            DeterministicCheck(
+                check_id="check-test-fail-to-pass-1",
+                status="pass",
+                summary="Declared fail-to-pass test a passed.",
+                evidence=[],
+                hard_process_failure=False,
+            ),
+            DeterministicCheck(
+                check_id="check-test-fail-to-pass-2",
+                status="fail",
+                summary="Declared fail-to-pass test b failed.",
+                evidence=[],
+                hard_process_failure=False,
+            ),
+        ]
+        deterministic = DeterministicEvidence(
+            status="ready", outcome_status="unresolved", checks=checks, exclusions=[]
+        )
+        manifest, run, _, patch_text, _ = load_review_inputs("valid")
+
+        text, summary = condense_semantic_input(
+            manifest, run, big_trajectory(1, 2_000), patch_text, deterministic, 200_000
+        )
+
+        assert text is not None and summary is not None
+        payload = json.loads(text.split("\n\n", 1)[1])
+        ids = [check["check_id"] for check in payload["deterministic_evidence"]["checks"]]
+        assert "check-test-pass-to-pass-aggregate" in ids
+        assert not any(
+            item.startswith("check-test-pass-to-pass-") and item[-1].isdigit() for item in ids
+        )
+        assert "check-test-fail-to-pass-1" in ids
+        assert "check-test-fail-to-pass-2" in ids
+        aggregate = next(
+            check
+            for check in payload["deterministic_evidence"]["checks"]
+            if check["check_id"] == "check-test-pass-to-pass-aggregate"
+        )
+        assert "6/6" in aggregate["summary"]
+        assert "aggregated 6 all-passing per-test checks" in summary
+
+    def test_impossible_budget_stays_an_honest_context_limit(self, reviewer_factory) -> None:
+        judge = FakeJudge([])
+        reviewer = reviewer_factory(judge, context_limit_chars=6_000)
+
+        result = reviewer.review(*self.oversized_inputs())
+
+        assert result.status == "context_limit"
+        assert result.output is None
+        assert judge.calls == []
+        assert any("after bounded condensation" in reason for reason in result.failure_reasons)
