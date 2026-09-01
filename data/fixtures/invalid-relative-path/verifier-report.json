@@ -1,0 +1,16 @@
+{
+  "schema_version": "fixture-verifier-report-v1",
+  "outcome_status": "resolved",
+  "fail_to_pass": [
+    {
+      "name": "tests/unit/test_shape.py::test_negative_side_raises",
+      "status": "passed"
+    }
+  ],
+  "pass_to_pass": [
+    {
+      "name": "tests/unit/test_shape.py::test_area_positive",
+      "status": "passed"
+    }
+  ]
+}

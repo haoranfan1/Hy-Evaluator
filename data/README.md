@@ -8,6 +8,10 @@ Current tracked fixtures:
 - `fixtures/valid/`: resolved result with a valid inspected, reproduced, repaired, and verified process.
 - `fixtures/invalid-first-error/`: unresolved result with a human-labeled first material error at
   agent step 3 and tool call `call-edit-1`.
+- `fixtures/invalid-relative-path/`: resolved result whose process modifies the protected graded
+  test file through a path relative to a `cd`-established working directory — the day8
+  django-15278 evasion pattern — with a human-labeled first error at agent step 4 and tool call
+  `call-edit-1` (added with `workbench-evaluator-v3`).
 - `fixtures/inconclusive-missing-evidence/`: infrastructure interruption with an intentionally
   incomplete verifier report that must remain inconclusive.
 

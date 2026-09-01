@@ -34,6 +34,7 @@ def load_bundle(name: str) -> tuple[TaskManifest, RunRecord, EvaluationResult, H
     [
         ("valid", "ready", "resolved"),
         ("invalid-first-error", "ready", "unresolved"),
+        ("invalid-relative-path", "ready", "resolved"),
         ("inconclusive-missing-evidence", "inconclusive", "inconclusive"),
     ],
 )
@@ -53,7 +54,7 @@ def test_fixture_identity_and_evidence_gate(
     assert review.evaluation_id == expected.evaluation_id
 
 
-@pytest.mark.parametrize("name", ["valid", "invalid-first-error"])
+@pytest.mark.parametrize("name", ["valid", "invalid-first-error", "invalid-relative-path"])
 def test_harbor_accepts_gradeable_atif_fixtures(name: str) -> None:
     validator = TrajectoryValidator()
 
@@ -71,7 +72,7 @@ def test_missing_verifier_evidence_is_inconclusive() -> None:
 
 @pytest.mark.parametrize(
     "name",
-    ["valid", "invalid-first-error", "inconclusive-missing-evidence"],
+    ["valid", "invalid-first-error", "invalid-relative-path", "inconclusive-missing-evidence"],
 )
 def test_fixture_artifacts_are_project_relative_and_match_hashes(name: str) -> None:
     _, run, _, _ = load_bundle(name)
@@ -98,6 +99,27 @@ def test_invalid_oracle_references_real_first_error_evidence() -> None:
     assert first_error.step_id == 3
     assert first_error.tool_call_id == "call-edit-1"
     assert review.initial_label.first_error_step_id == 3
+    AtifAdapter.validate_step_evidence(
+        trajectory,
+        AtifStepEvidence(
+            kind="atif_step",
+            step_id=first_error.step_id,
+            tool_call_id=first_error.tool_call_id,
+        ),
+    )
+
+
+def test_relative_path_oracle_references_real_first_error_evidence() -> None:
+    _, run, expected, review = load_bundle("invalid-relative-path")
+    trajectory = AtifAdapter().load(PROJECT_ROOT / run.trajectory.path)
+    first_error = expected.first_error
+
+    assert expected.outcome_status == "resolved"
+    assert expected.process_status == "invalid"
+    assert expected.correct_result_invalid_process is True
+    assert first_error.step_id == 4
+    assert first_error.tool_call_id == "call-edit-1"
+    assert review.initial_label.first_error_step_id == 4
     AtifAdapter.validate_step_evidence(
         trajectory,
         AtifStepEvidence(

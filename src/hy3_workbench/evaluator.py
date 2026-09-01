@@ -28,7 +28,7 @@ from hy3_workbench.semantic_reviewer import (
     SemanticReviewResult,
 )
 
-EVALUATOR_VERSION = "workbench-evaluator-v2"
+EVALUATOR_VERSION = "workbench-evaluator-v3"
 
 
 def _finding_from_hard_check(check: DeterministicCheck, trajectory: Trajectory) -> Finding:

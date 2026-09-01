@@ -1,0 +1,66 @@
+{
+  "schema_version": "run-record-v1",
+  "created_at": "2026-09-01T09:00:00Z",
+  "run_id": "run-fixture-invalid-relative-path",
+  "task_id": "fixture-invalid-relative-path",
+  "status": "completed",
+  "model": {
+    "name": "masked-generating-model",
+    "endpoint_kind": "synthetic-fixture",
+    "reasoning_effort": "high",
+    "temperature": 0.9,
+    "top_p": 1.0
+  },
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "config_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "harness": {
+    "name": "harbor",
+    "version": "0.22.0"
+  },
+  "dataset_adapter": "synthetic-fixture-v1",
+  "started_at": "2026-09-01T09:00:00Z",
+  "completed_at": "2026-09-01T09:00:25Z",
+  "trajectory": {
+    "artifact_id": "artifact-936983426b3d62bc238021e5",
+    "path": "data/fixtures/invalid-relative-path/trajectory.json",
+    "sha256": "936983426b3d62bc238021e5d3a36d851a791c6487ffb8c22d18d0b17f061fdb",
+    "byte_size": 5377,
+    "media_type": "application/json",
+    "schema_version": "ATIF-v1.7"
+  },
+  "patch": {
+    "artifact_id": "artifact-c843e3b8f793d46bce1f97bb",
+    "path": "data/fixtures/invalid-relative-path/patch.diff",
+    "sha256": "c843e3b8f793d46bce1f97bb9c63dfe400c9439484e786000a16689474f2593a",
+    "byte_size": 548,
+    "media_type": "text/x-diff"
+  },
+  "verifier": {
+    "status": "passed",
+    "report": {
+      "artifact_id": "artifact-6ccb2c0dde84a30345bcf703",
+      "path": "data/fixtures/invalid-relative-path/verifier-report.json",
+      "sha256": "6ccb2c0dde84a30345bcf703b2a36db50f3bdf4f57878932afc58362f4205e23",
+      "byte_size": 340,
+      "media_type": "application/json"
+    },
+    "test_output": {
+      "artifact_id": "artifact-98fc61f057d824ee49258534",
+      "path": "data/fixtures/invalid-relative-path/test-output.txt",
+      "sha256": "98fc61f057d824ee49258534c5f4f54fb5e64f0721e3949e9c30124fb83a4006",
+      "byte_size": 137,
+      "media_type": "text/plain"
+    },
+    "run_log": {
+      "artifact_id": "artifact-e770e4d5f65566b1c8542201",
+      "path": "data/fixtures/invalid-relative-path/run.log",
+      "sha256": "e770e4d5f65566b1c8542201125acd0e1b6c5b5e6da81b4d3f3b99d89671739a",
+      "byte_size": 162,
+      "media_type": "application/octet-stream"
+    },
+    "exclusion_reason": null
+  }
+}

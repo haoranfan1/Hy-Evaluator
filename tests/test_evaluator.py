@@ -73,6 +73,25 @@ class TestMergedEvaluation:
         assert result.first_error.primary_category == "task_interpretation"
         assert [finding.source for finding in result.findings] == ["semantic"]
 
+    def test_relative_path_fixture_localizes_despite_a_contradicting_verdict(
+        self, evaluator_factory
+    ) -> None:
+        manifest, run = load_bundle("invalid-relative-path")
+        judge = FakeJudge([valid_response()])
+
+        result = evaluator_factory(judge).evaluate(manifest, run)
+
+        assert result.status == "partial"
+        assert result.outcome_status == "resolved"
+        assert result.process_status == "invalid"
+        assert result.correct_result_invalid_process is True
+        assert result.first_error.location == "located"
+        assert result.first_error.step_id == 4
+        assert result.first_error.tool_call_id == "call-edit-1"
+        assert result.first_error.primary_category == "process_integrity"
+        assert [finding.source for finding in result.findings] == ["deterministic"]
+        assert any("contradicts" in reason for reason in result.exclusions)
+
     def test_inconclusive_fixture_never_calls_the_judge(self, evaluator_factory) -> None:
         manifest, run = load_bundle("inconclusive-missing-evidence")
         judge = FakeJudge([])
