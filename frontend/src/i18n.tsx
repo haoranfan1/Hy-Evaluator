@@ -19,6 +19,8 @@ export const MESSAGES = {
   "nav.regressions": { en: "Regressions", zh: "回归" },
   "health.checking": { en: "checking API…", zh: "正在检查 API…" },
   "health.unreachable": { en: "API unreachable", zh: "API 不可达" },
+  "theme.toDark": { en: "Switch to dark theme", zh: "切换到深色主题" },
+  "theme.toLight": { en: "Switch to light theme", zh: "切换到浅色主题" },
 
   // Shared fragments
   "common.step": { en: "step {n}", zh: "第 {n} 步" },

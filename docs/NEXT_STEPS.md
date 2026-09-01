@@ -126,7 +126,7 @@ this conversation until those labels are saved.
 **Exit condition:** the summary is faithful to the frozen numbers (no new claims), and
 the CLI — if built — is covered by the offline test suite.
 
-### P4 — UI phase (deliberately last)
+### P4 — UI phase (deliberately last) — **COMPLETE except the guardrail comparison (Day 11, 2026-09-01)**
 
 All frontend work in one item, ordered internally by value:
 
@@ -172,6 +172,39 @@ session, since the labeling session is exactly where it pays off:
   step clamp with show-all toggles.
 - 26 frontend tests (12 new), typecheck and build clean; verified visually against
   the real day8 django-16899 run via headless screenshots.
+
+**Recorded exit evidence (2026-09-01, commits `5c8c460`, `112a3be`, `18907f4`,
+`63a386a`, plus the theme commit):**
+
+1. **Evidence views** — `/regressions` serves and renders the committed regression
+   cards and judge-stability records read-only via `GET /api/regressions`
+   (unparseable files are listed, never dropped; a committed-evidence test pins the
+   real day9/day11 files). Each card is the v1-vs-v2/v3 before/after comparison:
+   score families with change direction and per-run human/stored/re-evaluated lanes
+   with agreement chips — an honest `inconclusive` is labeled *abstained*, not
+   painted as a wrong verdict. The error-propagation overlay marks the selected
+   finding's recorded `downstream_step_ids` on the timeline ("downstream of step N",
+   clickable from the finding) — persisted evidence only, no inferred causality.
+   The **baseline-vs-guardrail run comparison** is the one deferred piece: it joins
+   the P2 comparison work once the blinded labels land, so no guardrail verdict has
+   to be rendered before then.
+2. **Efficiency analytics** — `/analytics` gains the official-provenance agent-effort
+   table (median/min/max steps, median tool calls per difficulty × outcome) counted
+   from the stored ATIF trajectories at summary time; unreadable trajectories are
+   reported as missing, never interpolated. On the frozen day8 slice: medians
+   45 → 44 → 57 steps across the three bands.
+3. **Internationalization (required)** — dependency-free typed dictionary, EN
+   default + 中文 with a persisted header toggle. Chrome only: statuses, categories,
+   run ids, file paths, and frozen-record content stay untranslated; terms reuse the
+   report's bilingual mapping (误报 / 定位 / 结果对、过程有问题). Covered by dedicated
+   tests including a dictionary invariant (both languages, balanced placeholders).
+4. **Theme toggle (optional, landed within its timebox)** — every remaining color
+   literal moved into the `:root` variable palette (1:1, so light mode is
+   pixel-identical), one `[data-theme="dark"]` override block, persisted 🌙/☀️
+   toggle defaulting to the system preference.
+- Gates at completion: 164 backend tests, 43 frontend tests, ruff clean,
+  typecheck/build clean; light and dark, English and Chinese verified against the
+  real day8 data via headless screenshots.
 
 ### P5 — Wrap-up and submission (the former single next action)
 

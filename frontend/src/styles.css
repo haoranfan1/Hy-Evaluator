@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  color: #17342f;
-  background: #f2efe7;
+  color: var(--accent-ink);
+  background: var(--page-solid);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  color-scheme: light;
   --ink: #122a26;
   --muted: #59736c;
   --line: rgba(23, 52, 47, 0.14);
@@ -19,6 +20,96 @@
   --idle-ink: #4b5d58;
   --idle-bg: #e6e8e2;
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --accent: #17342f;
+  --accent-ink: #17342f;
+  --accent-contrast: #fff;
+  --accent-glow: rgba(23, 52, 47, 0.2);
+  --page-solid: #f2efe7;
+  --page-background:
+    radial-gradient(circle at 85% 10%, rgba(244, 171, 91, 0.24), transparent 30rem),
+    linear-gradient(145deg, #f7f4ec, #ebe8df);
+  --surface: #fff;
+  --surface-soft: rgba(249, 248, 243, 0.78);
+  --info-ink: #1e4f74;
+  --info-bg: #dcebf7;
+  --info-bg-soft: #eef4fa;
+  --info-border: rgba(30, 79, 116, 0.35);
+  --info-surface: rgba(220, 235, 247, 0.35);
+  --purple-ink: #5a3d7a;
+  --purple-bg: #ebe1f7;
+  --leaf-ink: #3c5a2e;
+  --leaf-bg: #e3efd8;
+  --cited: #b58322;
+  --cited-glow: rgba(217, 121, 37, 0.25);
+  --danger-border: rgba(140, 47, 35, 0.35);
+  --danger-border-strong: rgba(140, 47, 35, 0.6);
+  --danger-surface: rgba(251, 224, 218, 0.55);
+  --danger-surface-soft: rgba(251, 224, 218, 0.4);
+  --warn-border: rgba(136, 71, 18, 0.35);
+  --warn-border-strong: rgba(136, 71, 18, 0.55);
+  --warn-surface: rgba(255, 234, 208, 0.55);
+  --terminal-bg: #122a26;
+  --terminal-ink: #dbe7e2;
+  --terminal-line: rgba(219, 231, 226, 0.3);
+  --well-bg: #f0ede4;
+  --well-ink: #3d4f4a;
+  --success: #25a565;
+  --success-surface: rgba(217, 245, 228, 0.45);
+  --diff-add-bg: #e9f8ef;
+  --diff-remove-bg: #fdeae6;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e4ecea;
+  --muted: #93a8a1;
+  --line: rgba(212, 228, 222, 0.16);
+  --card: rgba(24, 34, 31, 0.62);
+  --good-ink: #7fd7ab;
+  --good-bg: rgba(26, 88, 60, 0.5);
+  --bad-ink: #f2a08e;
+  --bad-bg: rgba(116, 40, 29, 0.5);
+  --warn-ink: #eec287;
+  --warn-bg: rgba(112, 68, 22, 0.45);
+  --idle-ink: #aebbb6;
+  --idle-bg: rgba(92, 108, 102, 0.35);
+  --accent: #2e6e57;
+  --accent-ink: #dfe9e6;
+  --accent-contrast: #f4f8f6;
+  --accent-glow: rgba(126, 200, 170, 0.28);
+  --page-solid: #0f1a16;
+  --page-background:
+    radial-gradient(circle at 85% 10%, rgba(64, 122, 97, 0.22), transparent 30rem),
+    linear-gradient(145deg, #131f1a, #0b1411);
+  --surface: #17221e;
+  --surface-soft: rgba(23, 34, 30, 0.78);
+  --info-ink: #9ec7e8;
+  --info-bg: rgba(30, 79, 116, 0.45);
+  --info-bg-soft: rgba(30, 79, 116, 0.3);
+  --info-border: rgba(158, 199, 232, 0.35);
+  --info-surface: rgba(30, 79, 116, 0.28);
+  --purple-ink: #cbb1ec;
+  --purple-bg: rgba(90, 61, 122, 0.45);
+  --leaf-ink: #b3d49a;
+  --leaf-bg: rgba(60, 90, 46, 0.5);
+  --cited: #d9a13e;
+  --cited-glow: rgba(217, 161, 62, 0.3);
+  --danger-border: rgba(242, 160, 142, 0.4);
+  --danger-border-strong: rgba(242, 160, 142, 0.6);
+  --danger-surface: rgba(116, 40, 29, 0.35);
+  --danger-surface-soft: rgba(116, 40, 29, 0.25);
+  --warn-border: rgba(238, 194, 135, 0.4);
+  --warn-border-strong: rgba(238, 194, 135, 0.6);
+  --warn-surface: rgba(112, 68, 22, 0.32);
+  --terminal-bg: #0a1411;
+  --terminal-ink: #cfe0da;
+  --terminal-line: rgba(207, 224, 218, 0.25);
+  --well-bg: #1d2b26;
+  --well-ink: #b9c8c2;
+  --success: #4cc98a;
+  --success-surface: rgba(38, 120, 79, 0.3);
+  --diff-add-bg: rgba(37, 165, 101, 0.16);
+  --diff-remove-bg: rgba(206, 84, 61, 0.16);
 }
 
 * {
@@ -29,9 +120,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 85% 10%, rgba(244, 171, 91, 0.24), transparent 30rem),
-    linear-gradient(145deg, #f7f4ec, #ebe8df);
+  background: var(--page-background);
 }
 
 .shell {
@@ -155,18 +244,18 @@ h4 {
 }
 
 .chip-agent {
-  color: #1e4f74;
-  background: #dcebf7;
+  color: var(--info-ink);
+  background: var(--info-bg);
 }
 
 .chip-semantic {
-  color: #5a3d7a;
-  background: #ebe1f7;
+  color: var(--purple-ink);
+  background: var(--purple-bg);
 }
 
 .chip-deterministic {
-  color: #3c5a2e;
-  background: #e3efd8;
+  color: var(--leaf-ink);
+  background: var(--leaf-bg);
 }
 
 .chip-cites {
@@ -174,18 +263,18 @@ h4 {
 }
 
 .chip-human {
-  color: #5a3d7a;
-  background: #ebe1f7;
+  color: var(--purple-ink);
+  background: var(--purple-bg);
 }
 
 .chip-evaluator {
-  color: #3c5a2e;
-  background: #e3efd8;
+  color: var(--leaf-ink);
+  background: var(--leaf-bg);
 }
 
 .chip-mixed {
-  color: #1e4f74;
-  background: #dcebf7;
+  color: var(--info-ink);
+  background: var(--info-bg);
 }
 
 .chip-official {
@@ -225,9 +314,9 @@ h4 {
 }
 
 .main-nav a.active {
-  color: #fff;
-  background: #17342f;
-  border-color: #17342f;
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border-color: var(--accent-ink);
 }
 
 /* Run list ----------------------------------------------------------------- */
@@ -252,7 +341,7 @@ h4 {
   padding: 0.35rem 0.5rem;
   border: 1px solid var(--line);
   border-radius: 0.5rem;
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
   font: inherit;
   font-size: 0.85rem;
@@ -312,13 +401,13 @@ h4 {
   margin: 0 0 1.2rem;
   padding: 0.9rem 1.1rem;
   border-radius: 0.9rem;
-  border: 1px solid rgba(140, 47, 35, 0.35);
-  background: rgba(251, 224, 218, 0.55);
+  border: 1px solid var(--danger-border);
+  background: var(--danger-surface);
 }
 
 .inconclusive-banner {
-  border-color: rgba(136, 71, 18, 0.35);
-  background: rgba(255, 234, 208, 0.55);
+  border-color: var(--warn-border);
+  background: var(--warn-surface);
 }
 
 .first-error-banner h3,
@@ -363,9 +452,9 @@ h4 {
 }
 
 .tab-active {
-  color: #fff;
-  background: #17342f;
-  border-color: #17342f;
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border-color: var(--accent-ink);
 }
 
 /* Timeline ----------------------------------------------------------------- */
@@ -387,18 +476,18 @@ h4 {
 }
 
 .step-cited {
-  border-color: #b58322;
-  box-shadow: 0 0 0 2px rgba(217, 121, 37, 0.25);
+  border-color: var(--cited);
+  box-shadow: 0 0 0 2px var(--cited-glow);
 }
 
 .step-selected {
-  border-color: #17342f;
-  box-shadow: 0 0 0 2px rgba(23, 52, 47, 0.2);
+  border-color: var(--accent-ink);
+  box-shadow: 0 0 0 2px var(--accent-glow);
 }
 
 .step-first-error {
-  border-color: rgba(140, 47, 35, 0.6);
-  background: rgba(251, 224, 218, 0.4);
+  border-color: var(--danger-border-strong);
+  background: var(--danger-surface-soft);
 }
 
 .step-select {
@@ -450,8 +539,8 @@ h4 {
   margin: 0.35rem 0 0;
   padding: 0.55rem 0.7rem;
   border-radius: 0.5rem;
-  background: #122a26;
-  color: #dbe7e2;
+  background: var(--terminal-bg);
+  color: var(--terminal-ink);
   font-family: var(--mono);
   font-size: 0.76rem;
   line-height: 1.5;
@@ -461,8 +550,8 @@ h4 {
 }
 
 .observation {
-  background: #f0ede4;
-  color: #3d4f4a;
+  background: var(--well-bg);
+  color: var(--well-ink);
   border: 1px solid var(--line);
 }
 
@@ -516,7 +605,7 @@ h4 {
 }
 
 .tool-call-args.output-tail {
-  border-top: 1px dashed rgba(219, 231, 226, 0.3);
+  border-top: 1px dashed var(--terminal-line);
 }
 
 .observation-body.output-tail {
@@ -582,7 +671,7 @@ h4 {
   padding: 1rem;
   border: 1px solid var(--line);
   border-radius: 0.9rem;
-  background: rgba(249, 248, 243, 0.78);
+  background: var(--surface-soft);
   position: sticky;
   top: 1rem;
   max-height: calc(100vh - 2rem);
@@ -599,17 +688,17 @@ h4 {
   padding: 0.65rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: 0.7rem;
-  background: #fff;
+  background: var(--surface);
   margin-bottom: 0.55rem;
 }
 
 .evidence-selected {
-  border-color: #17342f;
-  box-shadow: 0 0 0 2px rgba(23, 52, 47, 0.18);
+  border-color: var(--accent-ink);
+  box-shadow: 0 0 0 2px var(--accent-glow);
 }
 
 .evidence-cites-step {
-  border-color: #b58322;
+  border-color: var(--cited);
 }
 
 .evidence-head {
@@ -644,13 +733,13 @@ h4 {
   margin: 0.4rem 0 0;
   font-size: 0.82rem;
   line-height: 1.45;
-  color: #3d4f4a;
+  color: var(--well-ink);
 }
 
 .evidence-feedback {
   padding: 0.45rem 0.6rem;
-  border-left: 3px solid #25a565;
-  background: rgba(217, 245, 228, 0.45);
+  border-left: 3px solid var(--success);
+  background: var(--success-surface);
 }
 
 .evidence-chips {
@@ -664,7 +753,7 @@ h4 {
   padding: 0.14rem 0.55rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: #fff;
+  background: var(--surface);
   color: var(--idle-ink);
   font-family: var(--mono);
   font-size: 0.7rem;
@@ -672,8 +761,8 @@ h4 {
 }
 
 .evidence-chip:hover {
-  border-color: #17342f;
-  color: #17342f;
+  border-color: var(--accent-ink);
+  color: var(--accent-ink);
 }
 
 .empty-lane {
@@ -688,7 +777,7 @@ h4 {
   padding: 0.8rem 0;
   border: 1px solid var(--line);
   border-radius: 0.7rem;
-  background: #fff;
+  background: var(--surface);
   font-family: var(--mono);
   font-size: 0.78rem;
   line-height: 1.55;
@@ -706,18 +795,18 @@ h4 {
 }
 
 .diff-hunk {
-  color: #1e4f74;
-  background: #eef4fa;
+  color: var(--info-ink);
+  background: var(--info-bg-soft);
 }
 
 .diff-add {
   color: var(--good-ink);
-  background: #e9f8ef;
+  background: var(--diff-add-bg);
 }
 
 .diff-remove {
   color: var(--bad-ink);
-  background: #fdeae6;
+  background: var(--diff-remove-bg);
 }
 
 .verifier details {
@@ -733,9 +822,9 @@ h4 {
 .exclusions {
   margin-bottom: 1rem;
   padding: 0.8rem 1rem;
-  border: 1px solid rgba(136, 71, 18, 0.35);
+  border: 1px solid var(--warn-border);
   border-radius: 0.8rem;
-  background: rgba(255, 234, 208, 0.5);
+  background: var(--warn-surface);
 }
 
 .exclusions ul {
@@ -759,9 +848,9 @@ h4 {
 
 .review-panel {
   padding: 1rem;
-  border: 1px solid rgba(30, 79, 116, 0.35);
+  border: 1px solid var(--info-border);
   border-radius: 0.9rem;
-  background: rgba(220, 235, 247, 0.35);
+  background: var(--info-surface);
 }
 
 .review-panel label {
@@ -780,7 +869,7 @@ h4 {
   padding: 0.4rem 0.5rem;
   border: 1px solid var(--line);
   border-radius: 0.5rem;
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
   font: inherit;
   font-size: 0.85rem;
@@ -808,8 +897,8 @@ h4 {
   padding: 0.55rem 1rem;
   border: 0;
   border-radius: 0.6rem;
-  background: #17342f;
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-contrast);
   font: inherit;
   font-size: 0.88rem;
   cursor: pointer;
@@ -830,7 +919,7 @@ h4 {
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: 0.7rem;
-  background: #fff;
+  background: var(--surface);
 }
 
 .review-head {
@@ -865,7 +954,7 @@ h4 {
   padding: 1rem 1.2rem;
   border: 1px solid var(--line);
   border-radius: 0.9rem;
-  background: rgba(249, 248, 243, 0.78);
+  background: var(--surface-soft);
   margin-bottom: 1.2rem;
 }
 
@@ -888,7 +977,7 @@ h4 {
 }
 
 .quadrant-filled {
-  background: #fff;
+  background: var(--surface);
 }
 
 .quadrant-count {
@@ -933,7 +1022,7 @@ h4 {
 .bar-fill {
   display: block;
   height: 100%;
-  background: #b58322;
+  background: var(--cited);
 }
 
 .bar-count {
@@ -1046,7 +1135,7 @@ h4 {
 
 .step-downstream {
   border-style: dashed;
-  border-color: rgba(136, 71, 18, 0.55);
+  border-color: var(--warn-border-strong);
 }
 
 .chip-downstream {
@@ -1087,6 +1176,19 @@ h4 {
 }
 
 .lang-active {
-  color: #fff;
-  background: #17342f;
+  color: var(--accent-contrast);
+  background: var(--accent);
+}
+
+/* Theme toggle --------------------------------------------------------------- */
+
+.theme-toggle {
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
 }

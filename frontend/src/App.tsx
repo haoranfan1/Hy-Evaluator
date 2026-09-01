@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Link, Navigate, NavLink, Route, Routes } from "react-router";
 
 import { I18nProvider, useI18n } from "./i18n";
@@ -18,6 +19,56 @@ async function fetchHealth(): Promise<HealthResponse> {
     throw new Error(`Health request failed with status ${response.status}.`);
   }
   return response.json() as Promise<HealthResponse>;
+}
+
+type Theme = "light" | "dark";
+
+export const THEME_STORAGE_KEY = "hy3-workbench-theme";
+
+function readStoredTheme(): Theme {
+  try {
+    const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === "dark" || stored === "light") {
+      return stored;
+    }
+    if (
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      return "dark";
+    }
+  } catch {
+    // Fall through to the light default.
+  }
+  return "light";
+}
+
+function ThemeToggle() {
+  const { t } = useI18n();
+  const [theme, setTheme] = useState<Theme>(readStoredTheme);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+  const next: Theme = theme === "dark" ? "light" : "dark";
+  const label = t(next === "dark" ? "theme.toDark" : "theme.toLight");
+  return (
+    <button
+      type="button"
+      className="theme-toggle"
+      aria-label={label}
+      title={label}
+      onClick={() => {
+        setTheme(next);
+        try {
+          window.localStorage.setItem(THEME_STORAGE_KEY, next);
+        } catch {
+          // Persistence is a convenience; the in-memory choice still applies.
+        }
+      }}
+    >
+      {theme === "dark" ? "☀️" : "🌙"}
+    </button>
+  );
 }
 
 function LanguageToggle() {
@@ -64,6 +115,7 @@ function AppShell() {
             <NavLink to="/regressions">{t("nav.regressions")}</NavLink>
           </nav>
           <LanguageToggle />
+          <ThemeToggle />
           <span
             className={`chip chip-${health.data ? health.data.status : "pending"}`}
             title="Local API status"
