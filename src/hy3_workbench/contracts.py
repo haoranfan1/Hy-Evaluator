@@ -199,6 +199,10 @@ class RunRecord(PersistedModel):
     schema_version: Literal["run-record-v1"] = "run-record-v1"
     run_id: Identifier
     task_id: Identifier
+    # Slice membership recorded at import time so multiple runs of one task can
+    # belong to different frozen slices; None for fixtures and for runs imported
+    # before this field existed (their membership stays task-based).
+    slice_id: str | None = None
     status: Literal["queued", "running", "completed", "failed", "interrupted"]
     model: ModelConfiguration
     agent: AgentConfiguration

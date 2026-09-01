@@ -104,6 +104,7 @@ Optional provenance fields include reference-patch location and digest. Referenc
 ```text
 run_id
 task_id
+slice_id (optional; the frozen slice this run was imported for)
 status = queued | running | completed | failed | interrupted
 model.name
 model.endpoint_kind
@@ -415,6 +416,15 @@ For aggregate results:
 - Mark every row and chart segment as `human` or `evaluator` provenance.
 - Do not silently combine inconclusive runs with failures.
 - Publish the configuration, rubric version, prompt version, task-manifest revision, and random seed alongside results.
+
+Slice scoping: a task may be run under more than one frozen slice (an intervention rerun),
+so scope membership is decided per run. Runs carry an optional `slice_id` recorded at
+import. A legacy slice (no `intervention` key in its record) matches its tasks' untagged
+runs and excludes runs tagged for any other slice; an intervention slice matches only runs
+explicitly tagged with its id. The stored task manifest is shared across slices: a second
+import must present an identical substantive contract (recording metadata — creation time,
+per-slice selection rationale, and the reference patch's per-bundle copy path with equal
+sha256 — may differ) and never replaces the stored manifest.
 
 Expected export artifacts:
 

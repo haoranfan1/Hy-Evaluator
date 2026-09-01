@@ -1,0 +1,37 @@
+{
+  "schema_version": "environment-check-v1",
+  "check_id": "arm64-oracle-guardrail-slice",
+  "recorded_at": "2026-09-01T06:12:00Z",
+  "purpose": "Image rebuild plus per-task gold-patch oracle gate for every task in the frozen guardrail-slice-v1 intervention slice, run before any agent run for that slice. The day8 ARM64 images had been pruned from this host after the day8 gate, so this rebuild recreates them from source through the same recorded official path.",
+  "host": {
+    "os": "Linux 6.11.0-1016-nvidia",
+    "architecture": "aarch64",
+    "machine": "NVIDIA DGX Spark (GB10)",
+    "docker_server": "28.3.3 linux/arm64"
+  },
+  "environment_path": {
+    "chosen": "source-built ARM64 task images on this host",
+    "reason": "Same recorded path as arm64-oracle-day8-slice: the official swebench==4.0.3 harness builds base, env, and instance images natively for aarch64; the rebuilt instance images carry exactly the tags the pinned task copies reference (sweb.eval.arm64.<instance_id>:latest), so the task copies are reused unchanged."
+  },
+  "slice": "data/evaluation-slices/guardrail-slice-v1.json",
+  "dataset": {
+    "name": "princeton-nlp/SWE-bench_Verified",
+    "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a"
+  },
+  "build_provenance": {
+    "builder": "swebench==4.0.3 official harness, python -m swebench.harness.run_evaluation",
+    "batch_arguments": "--dataset_name princeton-nlp/SWE-bench_Verified --split test --predictions_path gold --instance_ids django__django-16801 django__django-16429 django__django-16899 --namespace '' --max_workers 2 --cache_level instance --run_id arm64-oracle-guardrail-slice"
+  },
+  "results": {
+    "batch": {
+      "resolved": [
+        "django__django-16429",
+        "django__django-16801",
+        "django__django-16899"
+      ],
+      "errors": []
+    },
+    "conclusion": "All 3 guardrail-slice tasks pass the gold-patch oracle in freshly rebuilt ARM64 images (3/3 resolved, first attempt, no substitutions available or needed under the slice's fixed comparison set).",
+    "official_reports": ".local/workbench/swebench/oracle/ on the recording host (gold.arm64-oracle-guardrail-slice.json, guardrail-oracle.log, and per-instance run logs)"
+  }
+}

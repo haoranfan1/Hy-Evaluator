@@ -113,9 +113,30 @@ class WorkbenchRepository:
                     (manifest.task_id, manifest_payload),
                 )
             elif existing["payload"] != manifest_payload:
-                raise RepositoryConflictError(
-                    f"task {manifest.task_id} is already stored with different content"
+                # A task may be run under more than one frozen slice. Recording
+                # metadata may differ across imports — creation time, per-slice
+                # selection rationale, and the reference patch's per-bundle copy
+                # path (its content identity must still match by sha256) — but
+                # the substantive task contract must not. The stored manifest
+                # stays authoritative and is never replaced.
+                recording_only = {"created_at", "selection", "reference_patch"}
+                stored = TaskManifest.model_validate_json(existing["payload"])
+                stored_gold = (
+                    stored.reference_patch.artifact.sha256
+                    if stored.reference_patch is not None
+                    else None
                 )
+                new_gold = (
+                    manifest.reference_patch.artifact.sha256
+                    if manifest.reference_patch is not None
+                    else None
+                )
+                if stored_gold != new_gold or stored.model_dump(
+                    exclude=recording_only
+                ) != manifest.model_dump(exclude=recording_only):
+                    raise RepositoryConflictError(
+                        f"task {manifest.task_id} is already stored with different content"
+                    )
 
             duplicate = connection.execute(
                 "SELECT run_id FROM runs WHERE run_id = ?", (run.run_id,)

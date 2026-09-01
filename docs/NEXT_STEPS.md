@@ -98,6 +98,24 @@ before/after comparison (day8 baseline vs guardrail) with explicit numerators an
 denominators. The result — improved, unchanged, or worsened — is reported honestly
 either way.
 
+**Progress (2026-09-01):** the slice, guardrail config, and driver are committed
+(`7078aaf`); the pruned day8 images were rebuilt through the recorded official
+path and all three tasks re-passed the gold-patch oracle gate
+(`data/environment-checks/arm64-oracle-guardrail-slice.json`); and all three
+agent runs completed on the first trial, were imported with the new run-level
+`slice_id` tag, and were evaluated with verdicts suppressed
+(16801 → `django__django-16801__qEfUSGs__agent`, 16429 →
+`django__django-16429__tUw7PUV__agent`, 16899 →
+`django__django-16899__JbTxrSc__agent`; official verifier: all three passed).
+Supporting infrastructure landed with tests: runs record their slice, scope
+membership is per-run (an intervention slice matches only tagged runs; a legacy
+slice excludes foreign-tagged runs — the frozen day8 scoped summary regenerates
+byte-identically apart from the exporting-version stamps), and a task manifest is
+shared across slices only when its substantive contract is identical.
+**Waiting on the operator:** blinded initial labels for the three runs, entered
+in the UI as `operator-blinded-guardrail` before any reveal; verdicts stay out of
+this conversation until those labels are saved.
+
 ### P3 — Non-UI amplifiers
 
 1. Chinese summary (摘要) at the top of the README and report for Rhino-Bird reviewers,

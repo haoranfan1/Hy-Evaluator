@@ -46,6 +46,11 @@ def main() -> int:
     parser.add_argument("--bundle-root", type=Path, default=None)
     parser.add_argument("--selection-method", default="single-task integration gate")
     parser.add_argument("--selection-reason", required=True)
+    parser.add_argument(
+        "--slice-id",
+        default=None,
+        help="Frozen slice this run belongs to; recorded on the run for scoped analytics.",
+    )
     args = parser.parse_args()
 
     project_root = Path.cwd().resolve(strict=True)
@@ -64,6 +69,7 @@ def main() -> int:
             bundle_root=bundle_root,
             selection=Selection(method=args.selection_method, reason=args.selection_reason),
             harness_version=metadata.version("harbor"),
+            slice_id=args.slice_id,
         )
     except HarborImportError as error:
         print(f"import rejected: {error}", file=sys.stderr)

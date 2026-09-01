@@ -144,12 +144,14 @@ async def test_full_offline_workflow_via_the_api(client: AsyncClient, judge: Fak
         assert f"{DATA_DIR.as_posix()}/results/metrics.csv" in exported
         assert f"{DATA_DIR.as_posix()}/results/summary-day8-slice-v1.json" in exported
         assert f"{DATA_DIR.as_posix()}/results/metrics-day8-slice-v1.csv" in exported
+        assert f"{DATA_DIR.as_posix()}/results/summary-guardrail-slice-v1.json" in exported
         first_bytes = [(PROJECT_ROOT / name).read_bytes() for name in sorted(exported)]
         again = (await client.post("/api/exports")).json()["files"]
         second_bytes = [(PROJECT_ROOT / name).read_bytes() for name in sorted(again)]
         assert first_bytes == second_bytes
         # per-run files plus reviews, then summary/metrics for "all" and per committed slice
-        assert len(exported) == 8
+        committed_slices = len(list((PROJECT_ROOT / "data/evaluation-slices").glob("*.json")))
+        assert len(exported) == 3 + 1 + 2 * (1 + committed_slices)
 
 
 async def test_evaluate_is_idempotent_and_force_respects_reviews(

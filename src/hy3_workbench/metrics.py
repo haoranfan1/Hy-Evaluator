@@ -47,6 +47,7 @@ class RunAnalysisRow(StrictModel):
 
     run_id: str
     task_id: str
+    slice_id: str | None = None
     evaluation_id: str | None
     difficulty: str
     outcome_status: OutcomeStatus | None
@@ -128,10 +129,25 @@ class ExcludedRun(StrictModel):
 
 
 class SliceDefinition(StrictModel):
-    """One frozen evaluation slice: the task ids validation metrics scope to."""
+    """One frozen evaluation slice: the task ids validation metrics scope to.
+
+    ``membership`` decides how runs join the scope. A legacy slice (no
+    ``intervention`` key in its record) predates run-level slice tags, so its
+    runs match by task id — but a run tagged for a *different* slice is always
+    excluded. An intervention slice reruns tasks that already belong to another
+    slice, so only runs explicitly tagged with its id are members.
+    """
 
     slice_id: str
     task_ids: list[str]
+    membership: Literal["task", "slice_tag"] = "task"
+
+    def contains(self, task_id: str, run_slice_id: str | None) -> bool:
+        if run_slice_id == self.slice_id:
+            return task_id in set(self.task_ids)
+        if self.membership == "slice_tag":
+            return False
+        return run_slice_id is None and task_id in set(self.task_ids)
 
 
 _SLICE_ID_PATTERN = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
@@ -171,7 +187,8 @@ def load_slice(slices_dir: Path, slice_id: str) -> SliceDefinition:
             task_ids.append(instance_id)
     if len(task_ids) != len(set(task_ids)):
         raise ValueError(f"evaluation slice {slice_id} selects a task more than once")
-    return SliceDefinition(slice_id=slice_id, task_ids=sorted(task_ids))
+    membership: Literal["task", "slice_tag"] = "slice_tag" if "intervention" in payload else "task"
+    return SliceDefinition(slice_id=slice_id, task_ids=sorted(task_ids), membership=membership)
 
 
 def list_slices(slices_dir: Path) -> list[str]:
@@ -236,6 +253,7 @@ def build_rows(repository: WorkbenchRepository) -> list[RunAnalysisRow]:
                 RunAnalysisRow(
                     run_id=stored.run.run_id,
                     task_id=stored.task_id,
+                    slice_id=stored.run.slice_id,
                     evaluation_id=None,
                     difficulty=task.difficulty.label,
                     outcome_status=None,
@@ -259,6 +277,7 @@ def build_rows(repository: WorkbenchRepository) -> list[RunAnalysisRow]:
             RunAnalysisRow(
                 run_id=result.run_id,
                 task_id=stored.task_id,
+                slice_id=stored.run.slice_id,
                 evaluation_id=result.evaluation_id,
                 difficulty=task.difficulty.label,
                 outcome_status=result.outcome_status,
@@ -721,7 +740,7 @@ def summarize_rows(
     }
     if scope is not None:
         in_scope = set(scope.task_ids)
-        scoped_rows = [row for row in rows if row.task_id in in_scope]
+        scoped_rows = [row for row in rows if scope.contains(row.task_id, row.slice_id)]
         missing = sorted(in_scope - {row.task_id for row in scoped_rows})
         configuration["scope_task_count"] = len(scope.task_ids)
         configuration["scope_out_of_scope_runs"] = len(rows) - len(scoped_rows)

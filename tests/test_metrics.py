@@ -9,6 +9,7 @@ from hy3_workbench.contracts import FirstError, HumanLabel
 from hy3_workbench.metrics import (
     MetricCalculator,
     RunAnalysisRow,
+    SliceDefinition,
     list_slices,
     load_slice,
     summarize_rows,
@@ -462,3 +463,33 @@ class TestCaseAdjudicationAnnotation:
         assert "false positive" in cases["run-fp"].note
         assert cases["run-tp"].adjudication == "edit"
         assert "human-confirmed" in cases["run-tp"].note
+
+
+class TestSliceMembership:
+    SLICES_DIR = PROJECT_ROOT / "data" / "evaluation-slices"
+
+    def test_committed_slices_declare_their_membership_mode(self) -> None:
+        day8 = load_slice(self.SLICES_DIR, "day8-slice-v1")
+        guardrail = load_slice(self.SLICES_DIR, "guardrail-slice-v1")
+
+        assert day8.membership == "task"
+        assert guardrail.membership == "slice_tag"
+        assert set(guardrail.task_ids) <= set(day8.task_ids)
+
+    def test_task_membership_excludes_foreign_tagged_runs(self) -> None:
+        scope = SliceDefinition(slice_id="legacy", task_ids=["task-a", "task-b"], membership="task")
+
+        assert scope.contains("task-a", None) is True
+        assert scope.contains("task-a", "legacy") is True
+        assert scope.contains("task-a", "other-slice") is False
+        assert scope.contains("task-c", None) is False
+
+    def test_slice_tag_membership_requires_the_tag(self) -> None:
+        scope = SliceDefinition(
+            slice_id="intervention", task_ids=["task-a"], membership="slice_tag"
+        )
+
+        assert scope.contains("task-a", "intervention") is True
+        assert scope.contains("task-a", None) is False
+        assert scope.contains("task-a", "other-slice") is False
+        assert scope.contains("task-b", "intervention") is False

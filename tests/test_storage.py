@@ -226,3 +226,75 @@ class TestImportRejection:
 
         with pytest.raises(ImportRejectedError, match="mismatch for bundle/patch.diff"):
             service.import_bundle("bundle")
+
+
+class TestMultiSliceTaskReuse:
+    def _seeded_repository(self):
+        from hy3_workbench.contracts import ReferencePatchProvenance
+
+        manifest, run = load_bundle("valid")
+        gold_a = ReferencePatchProvenance(
+            artifact=run.patch.model_copy(update={"path": "bundle/a/reference.diff"})
+        )
+        repository = make_service(FakeJudge([])).repository
+        repository.save_imported_bundle(
+            manifest.model_copy(update={"reference_patch": gold_a}), run, "bundle/a"
+        )
+        return repository, manifest, run, gold_a
+
+    def test_second_import_reuses_manifest_when_only_recording_metadata_differs(
+        self,
+    ) -> None:
+        from datetime import UTC, datetime
+
+        from hy3_workbench.contracts import ReferencePatchProvenance, Selection
+
+        repository, manifest, run, gold_a = self._seeded_repository()
+        # Same gold-patch content (sha256) copied into a different bundle path
+        # counts as recording metadata, not a substantive conflict.
+        gold_b = ReferencePatchProvenance(
+            artifact=run.patch.model_copy(update={"path": "bundle/b/reference.diff"})
+        )
+        rerun_manifest = manifest.model_copy(
+            update={
+                "created_at": datetime(2026, 9, 1, 12, 0, tzinfo=UTC),
+                "selection": Selection(method="intervention rerun", reason="second frozen slice"),
+                "reference_patch": gold_b,
+            }
+        )
+        rerun_run = run.model_copy(
+            update={"run_id": "run-fixture-valid-rerun", "slice_id": "some-intervention"}
+        )
+
+        repository.save_imported_bundle(rerun_manifest, rerun_run, "bundle/b")
+
+        stored_manifest = repository.get_task(run.task_id)
+        assert stored_manifest.selection == manifest.selection
+        assert stored_manifest.reference_patch == gold_a
+        assert repository.get_run("run-fixture-valid-rerun").run.slice_id == "some-intervention"
+
+    def test_second_import_with_substantive_difference_still_conflicts(self) -> None:
+        repository, manifest, run, gold_a = self._seeded_repository()
+        tampered = manifest.model_copy(
+            update={"problem_statement": "a different task", "reference_patch": gold_a}
+        )
+        rerun_run = run.model_copy(update={"run_id": "run-fixture-valid-rerun"})
+
+        with pytest.raises(RepositoryConflictError):
+            repository.save_imported_bundle(tampered, rerun_run, "bundle/b")
+
+    def test_second_import_with_different_gold_patch_content_conflicts(self) -> None:
+        from hy3_workbench.contracts import ReferencePatchProvenance
+
+        repository, manifest, run, _ = self._seeded_repository()
+        different_gold = ReferencePatchProvenance(
+            artifact=run.patch.model_copy(update={"sha256": "ab" * 32})
+        )
+        rerun_run = run.model_copy(update={"run_id": "run-fixture-valid-rerun"})
+
+        with pytest.raises(RepositoryConflictError):
+            repository.save_imported_bundle(
+                manifest.model_copy(update={"reference_patch": different_gold}),
+                rerun_run,
+                "bundle/b",
+            )

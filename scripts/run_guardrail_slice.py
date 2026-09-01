@@ -48,6 +48,14 @@ def main() -> int:
         default=None,
         help="Suffix for a documented one-time agent-phase retry (e.g. r2).",
     )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help=(
+            "Reuse an existing job's recorded trial instead of refusing: skip the "
+            "agent run and continue with import and blinded evaluation."
+        ),
+    )
     args = parser.parse_args()
 
     slice_data = json.loads(SLICE_FILE.read_text(encoding="utf-8"))
@@ -69,38 +77,41 @@ def main() -> int:
         if args.retry_suffix:
             job_name = f"{job_name}-{args.retry_suffix}"
         job_dir = JOBS_DIR / job_name
-        if job_dir.exists():
+        if job_dir.exists() and not args.resume:
             raise SystemExit(
-                f"job {job_name} already exists; pass --retry-suffix for the "
-                "documented one-time retry instead of overwriting a recorded trial"
+                f"job {job_name} already exists; pass --resume to import its recorded "
+                "trial, or --retry-suffix for the documented one-time retry"
             )
 
-        print(f"\n=== {instance}: agent run ===", flush=True)
-        run(
-            [
-                "harbor",
-                "run",
-                "-p",
-                str(TASKS_DIR / instance),
-                "--agent",
-                "mini-swe-agent",
-                "--model",
-                "openai/hy3",
-                "--ak",
-                "version=2.4.6",
-                "--ak",
-                f"config_file={config_file}",
-                "--env-file",
-                str(ENV_FILE),
-                "--job-name",
-                job_name,
-                "--jobs-dir",
-                str(JOBS_DIR),
-                "-n",
-                "1",
-                "--quiet",
-            ]
-        )
+        if job_dir.exists():
+            print(f"\n=== {instance}: reusing recorded trial in {job_name} ===", flush=True)
+        else:
+            print(f"\n=== {instance}: agent run ===", flush=True)
+            run(
+                [
+                    "harbor",
+                    "run",
+                    "-p",
+                    str(TASKS_DIR / instance),
+                    "--agent",
+                    "mini-swe-agent",
+                    "--model",
+                    "openai/hy3",
+                    "--ak",
+                    "version=2.4.6",
+                    "--ak",
+                    f"config_file={config_file}",
+                    "--env-file",
+                    str(ENV_FILE),
+                    "--job-name",
+                    job_name,
+                    "--jobs-dir",
+                    str(JOBS_DIR),
+                    "-n",
+                    "1",
+                    "--quiet",
+                ]
+            )
 
         trial_dirs = [path for path in job_dir.iterdir() if path.is_dir()]
         if len(trial_dirs) != 1:
@@ -124,6 +135,8 @@ def main() -> int:
                 "--selection-reason",
                 "Fixed comparison set: day8-slice-v1 easy stratum rerun under the "
                 "frozen guardrail agent configuration (see the slice file).",
+                "--slice-id",
+                slice_data["slice_id"],
             ]
         )
         match = re.search(r"imported run (\S+)", stdout)

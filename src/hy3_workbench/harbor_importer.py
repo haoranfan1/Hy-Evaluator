@@ -118,6 +118,7 @@ class HarborImporter:
         bundle_root: Path,
         selection: Selection,
         harness_version: str,
+        slice_id: str | None = None,
     ) -> BuiltBundle:
         row = dict(dataset_row)
         instance_id = _require_str(row, "instance_id")
@@ -181,6 +182,7 @@ class HarborImporter:
         run = RunRecord(
             run_id=run_id,
             task_id=instance_id,
+            slice_id=slice_id,
             status="completed",
             model=self._model_configuration(result),
             agent=self._agent_configuration(result),
