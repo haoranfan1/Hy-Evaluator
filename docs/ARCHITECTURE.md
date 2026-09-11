@@ -4,6 +4,34 @@
 
 **Approved MVP architecture.** Research is complete. See [Research 04](research/04-evaluator-and-implementation.md) for evidence and [Evaluator Specification](EVALUATOR_SPEC.md) for evaluator semantics.
 
+## As built — deviations from this design (recorded 2026-09-11, tag `v1.0`)
+
+The sections below are the approved design and are kept as written. Where the delivered
+system differs, the delivered behavior is authoritative:
+
+- **Live task launch is script-driven, not an API.** There is no `POST /runs`; Harbor trials
+  are launched by `scripts/run_guardrail_slice.py` / the recorded `harbor run` commands and
+  imported afterwards through `POST /api/runs/import` and `scripts/import_harbor_trial.py`.
+  No in-process job manager exists.
+- **Regression cards are committed files, not API objects.** `scripts/regression_card.py`
+  writes `results/regression/*.json`; `GET /api/regressions` serves those files plus the
+  judge-stability records read-only. There is no `regression-cards` endpoint and no card
+  creation from the UI. The `/regressions` route is built, not optional.
+- **Extra routes:** `GET /api/analytics/slices` (frozen slice scopes) and the frontend
+  `/help` guide (bilingual explanations of every page, column, status, and term).
+- **Persistence layout:** frozen selections live in `data/evaluation-slices/*.json` and
+  `data/environment-checks/*.json` (no `data/manifests/`); mutable state is
+  `.local/workbench/workbench.sqlite3` with bundles under `.local/workbench/bundles/`; the
+  analysis report is `docs/REPORT.md`, not `results/report.md`.
+- **Frontend tests:** Vitest with React Testing Library only. Playwright is used by the demo
+  recorder (`frontend/scripts/record_demo.mjs`), not as a test.
+- **Run naming:** the run id is the Harbor trial name reused verbatim; the UI shows a short
+  task name (`django-16899`) and keeps the full id in the tooltip and on the detail page.
+- **Semantic context limit:** as of evaluator v3, oversized judge inputs are condensed by a
+  bounded, excerpt-only policy before the `context_limit` abstention applies
+  (see [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md)); the failure-handling row below describes
+  the pre-v3 behavior.
+
 ## Product boundary
 
 The application is a local web workbench for inspecting and validating Hy3 coding-agent processes.

@@ -229,7 +229,10 @@ created_at
 
 The UI should request the initial label before revealing the semantic verdict when practical. Deterministic task and verifier evidence remains visible because the reviewer needs it to label the run.
 
-### `RegressionCard` — optional
+### `RegressionCard` — recorded as committed files
+
+As built, cards are produced by `scripts/regression_card.py` and committed under
+`results/regression/*.json`; the UI renders them read-only. No API creates them.
 
 ```text
 card_id
@@ -440,7 +443,7 @@ results/per_run/*.json
 results/human_reviews.jsonl
 results/metrics.csv
 results/summary.json
-results/report.md
+docs/REPORT.md        # the analysis report lives in docs/, not results/
 ```
 
 ## Acceptance scenarios

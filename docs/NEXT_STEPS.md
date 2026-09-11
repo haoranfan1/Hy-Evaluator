@@ -150,7 +150,7 @@ closed rather than deleted. The optional process gate landed as
 (0 valid · 2 invalid · 3 inconclusive · 4 not evaluated · 5 unknown), `--json` output,
 covered by three offline tests (167 backend tests total).
 
-### P4 — UI phase (deliberately last) — **COMPLETE except the guardrail comparison (Day 11, 2026-09-01)**
+### P4 — UI phase (deliberately last) — **COMPLETE (Day 11, 2026-09-01; the guardrail comparison view was dropped with P2's closure)**
 
 All frontend work in one item, ordered internally by value:
 
@@ -211,7 +211,10 @@ session, since the labeling session is exactly where it pays off:
    clickable from the finding) — persisted evidence only, no inferred causality.
    The **baseline-vs-guardrail run comparison** is the one deferred piece: it joins
    the P2 comparison work once the blinded labels land, so no guardrail verdict has
-   to be rendered before then.
+   to be rendered before then. (Dropped on 2026-09-10 when P2 closed without labels.)
+   Added after the freeze, 2026-09-10: a bilingual `/help` guide route, short run
+   names on the list with the full trial id in the tooltip and detail page, and
+   source-labeled column headers — presentation only, no evaluator change.
 2. **Efficiency analytics** — `/analytics` gains the official-provenance agent-effort
    table (median/min/max steps, median tool calls per difficulty × outcome) counted
    from the stored ATIF trajectories at summary time; unreadable trajectories are
@@ -236,12 +239,16 @@ session, since the labeling session is exactly where it pays off:
    both languages; findings become the last fix slice.
 2. Update [REPORT.md](REPORT.md), [README](../README.md), and
    [REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md) so headline numbers include v3 and
-   the guardrail result.
+   the guardrail result. **Done** — v3 is in every headline; the guardrail result is
+   recorded as absent (P2 closed incomplete).
 3. Record the ≤2-minute demo per [DEMO.md](DEMO.md) (state-isolation protocol; the new
    views join the scene script only if they strengthen it within the time budget).
    **Done 2026-09-11** — `docs/demo/hy3-workbench-demo.mp4`, 4 min 22 s, operator-narrated
    in Chinese per `DEMO_NARRATION.zh-CN.md`, recorded locally against a state copy.
-4. Clean-clone re-verification, annotated delivery tag, push, GitHub render check,
+4. **Done 2026-09-11** (tag `v1.0`, fresh clone from GitHub: 167 backend + 51 frontend
+   tests, lint/typecheck/build clean; record in the audit). Remaining: the submission
+   itself through the Rhino-Bird channel.
+   Original item: clean-clone re-verification, annotated delivery tag, push, GitHub render check,
    submission through the Rhino-Bird channel.
 
 ## Explicitly skipped (recorded decisions)

@@ -115,7 +115,7 @@ Harbor/SWE-bench 流水线及其 Docker 门禁见[开发环境设置](docs/DEVEL
 
 ## 状态
 
-第 1–11 天的工程工作已完成并通过审计，≤2 分钟演示已录制
+第 1–11 天的工程工作已完成并通过审计，配音演示已录制（4 分 22 秒，超出任务书两分钟要求，为操作者的选择，见审计）
 （[docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)）。护栏干预切片
 （`guardrail-slice-v1`）已冻结、三条运行已完成，但盲评标注未能在提交截止前完成，因此不贡献
 任何头条数字（见[后续步骤](docs/NEXT_STEPS.md)）。逐日构建与验证历史记录在

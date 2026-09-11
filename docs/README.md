@@ -13,7 +13,8 @@ This directory is the source of truth for project scope, design, planning, and p
 | [NEXT_STEPS.md](NEXT_STEPS.md) | The single next approved action | The current action is completed or changed |
 | [REPORT.md](REPORT.md) | Validated results, metrics with provenance, case studies, and the regression card | New validated evidence lands (slice runs, adjudications, evaluator versions) |
 | [REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md) | Delivery-freeze walk of every requirement with evidence pointers, gaps found, and the clean-environment verification record | The requirements or the delivered evidence change |
-| [DEMO.md](DEMO.md) | The ≤2-minute demo: scene script, state-isolation protocol, and optional driver | The demonstrated workflow changes |
+| [DEMO.md](DEMO.md) | The demo: scene script, state-isolation protocol, automated driver, and the submitted narrated recording | The demonstrated workflow changes |
+| [DEMO_NARRATION.zh-CN.md](DEMO_NARRATION.zh-CN.md) | Chinese narration script for the operator-voiced recording | The narration or scene order changes |
 | [research/](research/README.md) | Completed source-backed research record | A later implementation result contradicts a research conclusion |
 
 ## Documentation practice

@@ -5,6 +5,10 @@ Audited 2026-08-31 (Day 10) against every item of
 walk order. Each row records where the requirement is satisfied and the committed evidence.
 Gaps found by this audit and their fixes are listed at the end.
 
+Re-walked 2026-09-11 at the delivery tag `v1.0`: rows whose evidence moved after Day 10
+(evaluator v3, the narrated demo, test counts) were updated in place; the Day 10
+clean-environment record is kept as recorded and a second record at `v1.0` follows it.
+
 ## Acceptance checklist walk
 
 | # | Requirement (§10) | Status | Where satisfied / evidence |
@@ -14,12 +18,12 @@ Gaps found by this audit and their fixes are listed at the end.
 | 3 | Every item has a standard answer and automatic checker | Satisfied | Official FAIL_TO_PASS/PASS_TO_PASS tests graded by `swebench==4.0.3` in-container; gold patch retained as adjudication-only provenance. Oracle gates: `data/environment-checks/` (8/8 slice tasks + the integration task gold-resolved) |
 | 4 | Evaluation set spans documented difficulty levels | Satisfied | Official SWE-bench Verified difficulty annotations; slice stratified over `<15 min` / `15 min–1 h` / `1–4 h`. `data/evaluation-slices/day8-slice-v1.json`; difficulty tables in [REPORT §4](REPORT.md) and `results/summary-day8-slice-v1.json` |
 | 5 | Item sources, construction, difficulty criteria documented | Satisfied | Pinned dataset revision `c104f840…`, seeded stratified selection with full recorded candidate order, frame constraints, substitution rule. `data/evaluation-slices/day8-slice-v1.json`, [data/README.md](../data/README.md), [REPORT §2](REPORT.md) |
-| 6 | Evaluator judges process correctness | Satisfied | Deterministic + fixed Hy3 semantic + blinded human lanes under fixed merge precedence. `src/hy3_workbench/{evidence_extractor,semantic_reviewer,evaluator}.py`; [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md); 128 offline tests |
+| 6 | Evaluator judges process correctness | Satisfied | Deterministic + fixed Hy3 semantic + blinded human lanes under fixed merge precedence. `src/hy3_workbench/{evidence_extractor,semantic_reviewer,evaluator}.py`; [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md); 167 offline backend tests and 51 frontend tests at `v1.0` |
 | 7 | Evaluator identifies the first erroneous step | Satisfied | `first_error` contract over stable ATIF step ids; v2 anchors at the first successful write. `src/hy3_workbench/contracts.py`; [REPORT §6](REPORT.md) |
 | 8 | Domain-appropriate error taxonomy documented and implemented | Satisfied | [EVALUATOR_SPEC.md §Error taxonomy](EVALUATOR_SPEC.md); `ErrorCategory` literal in `contracts.py`; `process-rubric-v1` |
 | 9 | Correct-answer/invalid-process cases detected | Satisfied | Four confirmed cases (all modified the protected graded test file); quadrant + `correct_result_confirmed_problem_rate` in exports. [REPORT §1/§4/§5](REPORT.md) |
-| 10 | Localization accuracy measured on incorrect-answer samples | Satisfied, mapping documented | The frozen slice contains no unresolved runs, so the incorrect-run metrics are honestly 0/0; localization is validated on human-confirmed invalid processes (v1 0/4 → v2 3/4 exact vs frozen labels) plus the synthetic unresolved fixture with a known step-3 oracle (judge unanimous 5/5). [REPORT §4/§6/§7](REPORT.md); `results/regression/day9-regression-card.json`; `results/judge-stability/` |
-| 11 | False positives manually audited on correct-answer samples | Satisfied | Every flagged correct-answer run adjudicated: v1 flagged 7, 3 rejected as false positives (all read-only references); v2 regression 0/4 false positives. [REPORT §4/§6](REPORT.md); `results/human_reviews.jsonl` |
+| 10 | Localization accuracy measured on incorrect-answer samples | Satisfied, mapping documented | The frozen slice contains no unresolved runs, so the incorrect-run metrics are honestly 0/0; localization is validated on human-confirmed invalid processes (v1 0/4 → v2 3/4 → v3 4/4 exact vs frozen labels) plus the synthetic unresolved fixture with a known step-3 oracle (judge unanimous 5/5). [REPORT §4/§6/§7](REPORT.md); `results/regression/day9-regression-card.json`, `results/regression/day11-regression-card-v3.json`; `results/judge-stability/` |
+| 11 | False positives manually audited on correct-answer samples | Satisfied | Every flagged correct-answer run adjudicated: v1 flagged 7, 3 rejected as false positives (all read-only references); v2 and v3 regression cards 0/4 false positives. [REPORT §4/§6](REPORT.md); `results/human_reviews.jsonl` |
 | 12 | Human-inspection records retained | Satisfied | Append-only review versions (blinded initial + adjudications) exported to `results/human_reviews.jsonl`; blinding protocol frozen in the slice file; fixture oracles in `data/fixtures/*/human-review.json` |
 | 13 | Final-answer accuracy reported | Satisfied | 8/8 resolved (official verifier). `results/summary-day8-slice-v1.json`, `results/metrics-day8-slice-v1.csv`, [REPORT §1](REPORT.md) |
 | 14 | Process-correctness rate reported | Satisfied | Adjudicated 4/8 (human); predicted 0/7 (evaluator v1) — both with provenance. Same exports; [REPORT §4](REPORT.md) |
@@ -92,3 +96,17 @@ Host: the ARM64 DGX Spark (aarch64, Linux), system Node 22.23.2, `uv` on PATH; f
 | Fixture import | `POST /api/runs/import` with `data/fixtures/valid` | imported with verified artifact hashes |
 | Evaluation without judge | `POST /api/runs/{run_id}/evaluate` | honest 503 refusal: "Hy3 is not configured; set HY3_BASE_URL, HY3_MODEL, and HY3_API_KEY." (no fabricated verdict) |
 | Reads | `GET /api/runs`, `GET /api/runs/{run_id}`, `GET /api/analytics/slices` | all serve committed/imported data |
+
+## Clean-environment verification record — delivery tag `v1.0` (2026-09-11)
+
+Host: Apple Silicon macOS (arm64), `uv` 0.11.8 and `fnm` on PATH, Node 22.23.2 selected from
+`.node-version`; fresh `git clone` of the public GitHub repository at tag `v1.0` (commit
+`1d189c3`) into an empty directory with **no `.env` and no `.local`** (checked before any step).
+
+| Step | Command | Outcome |
+| --- | --- | --- |
+| Interpreter | `./scripts/uv-local python install 3.12` | cold-installed into the clone's `.local/uv/` |
+| Dependencies | `./scripts/uv-local sync --all-groups` | resolved from the committed `uv.lock` |
+| Backend tests | `./scripts/uv-local run pytest -q` | **167 passed** |
+| Lint | `./scripts/uv-local run ruff check .` | clean |
+| Frontend | `npm ci && npm test && npm run typecheck && npm run build` | **51 tests passed**, typecheck and production build clean |

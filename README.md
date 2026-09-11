@@ -124,7 +124,7 @@ evaluates: `0` valid · `2` invalid · `3` inconclusive · `4` not evaluated · 
 
 ## Status
 
-Day 1–11 engineering is complete and audited, and the ≤2-minute demo is recorded
+Day 1–11 engineering is complete and audited, and the narrated demo is recorded
 ([docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)). The guardrail
 intervention slice (`guardrail-slice-v1`) was frozen and its three runs completed, but its
 blinded labeling was not finished before the submission deadline, so it contributes no

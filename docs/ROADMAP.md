@@ -1,5 +1,9 @@
 # 10-Day Build Roadmap
 
+> Historical build record. Delivered 2026-09-11 as tag `v1.0`; the Day 11+ backlog and its
+> outcomes are in [NEXT_STEPS.md](NEXT_STEPS.md), the requirement walk in
+> [REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md).
+
 Research is complete. The fixed direction is a web-based Hy3 coding-agent process evaluator using SWE-bench Verified, mini-SWE-agent, Harbor, and ATIF.
 
 The schedule is outcome-based. If a day slips, cut optional scope in the documented order rather than cutting evaluator validation, reproducibility, result analysis, or the final delivery window.
@@ -9,7 +13,7 @@ The schedule is outcome-based. If a day slips, cut optional scope in the documen
 Completed:
 
 - Research, requirements extraction, architecture, evaluator semantics, and taxonomy are fixed.
-- The isolated Python 3.12/FastAPI and Node 24/React foundations build and test successfully.
+- The isolated Python 3.12/FastAPI and Node/React foundations (Node later pinned to 22.23.2, audit gap 4) build and test successfully.
 - Python dependencies are locked; the frontend lockfile has been generated.
 - The ignored local Hy3 configuration is present.
 - The Hy3 Chat Completions handshake passed with authentication, content, reasoning content, and

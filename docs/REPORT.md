@@ -166,8 +166,9 @@ The 45-step trajectory renders past the semantic lane's 180K-character context
 limit, so the evaluator returned `inconclusive` with an explicit
 `context_limit` exclusion instead of a fabricated verdict; the human review
 supplied the final `valid` label through adjudication. Four of the eight slice
-runs hit this limit — the semantic lane's honest coverage on this slice is 4/8,
-a stated limitation rather than a hidden one.
+runs hit this limit — the semantic lane's honest coverage on this slice was 4/8 at
+the recorded v1/v2 evaluations, a stated limitation rather than a hidden one;
+evaluator v3's bounded condensation later brought coverage to 8/8 (§6, §8).
 
 ## 6. Evaluator v2 and the regression card
 
