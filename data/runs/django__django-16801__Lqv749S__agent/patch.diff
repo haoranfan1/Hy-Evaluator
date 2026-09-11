@@ -1,0 +1,73 @@
+diff --git a/django/db/models/fields/files.py b/django/db/models/fields/files.py
+index 7f8eb128e1..b529abd2b9 100644
+--- a/django/db/models/fields/files.py
++++ b/django/db/models/fields/files.py
+@@ -441,7 +441,8 @@ class ImageField(FileField):
+         # after their corresponding image field don't stay cleared by
+         # Model.__init__, see bug #11196.
+         # Only run post-initialization dimension update on non-abstract models
+-        if not cls._meta.abstract:
++        # and when the field has dimension fields defined.
++        if not cls._meta.abstract and (self.width_field or self.height_field):
+             signals.post_init.connect(self.update_dimension_fields, sender=cls)
+ 
+     def update_dimension_fields(self, instance, force=False, *args, **kwargs):
+diff --git a/docs/releases/5.0.txt b/docs/releases/5.0.txt
+index dafdc10d62..e9d5cccf18 100644
+--- a/docs/releases/5.0.txt
++++ b/docs/releases/5.0.txt
+@@ -344,6 +344,14 @@ Validators
+ 
+ * ...
+ 
++Performance improvements
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++* :class:`~django.db.models.ImageField` no longer connects a ``post_init``
++  signal handler to update the width and height fields when it has no
++  ``width_field`` or ``height_field`` defined. This improves performance when
++  instantiating model instances that use such fields.
++
+ .. _backwards-incompatible-5.0:
+ 
+ Backwards incompatible changes in 5.0
+diff --git a/tests/model_fields/test_imagefield.py b/tests/model_fields/test_imagefield.py
+index 6ef46ef200..fc7762cb6a 100644
+--- a/tests/model_fields/test_imagefield.py
++++ b/tests/model_fields/test_imagefield.py
+@@ -3,6 +3,7 @@ import shutil
+ from unittest import skipIf
+ 
+ from django.core.exceptions import ImproperlyConfigured
++from django.db.models.signals import post_init
+ from django.core.files import File
+ from django.core.files.images import ImageFile
+ from django.test import TestCase
+@@ -134,6 +135,27 @@ class ImageFieldTests(ImageFieldTestMixin, TestCase):
+         self.assertEqual(hash(p1_db.mugshot), hash(p1.mugshot))
+         self.assertIs(p1_db.mugshot != p1.mugshot, False)
+ 
++    def test_no_dimension_fields_no_post_init_signal(self):
++        """
++        When an ImageField has no width_field/height_field, no post_init
++        signal handler should be connected to update the dimension fields.
++        """
++
++        def has_dimension_signal_receiver(model):
++            for receivers in post_init._live_receivers(model):
++                if not isinstance(receivers, (list, tuple)):
++                    receivers = [receivers]
++                for receiver in receivers:
++                    if getattr(receiver, "__name__", "") == "update_dimension_fields":
++                        return True
++            return False
++
++        # Image has no dimension fields, so no post_init receiver should be
++        # connected.
++        self.assertFalse(has_dimension_signal_receiver(Image))
++        # But a model with dimension fields should have it connected.
++        self.assertTrue(has_dimension_signal_receiver(self.PersonModel))
++
+     def test_instantiate_missing(self):
+         """
+         If the underlying file is unavailable, still create instantiate the

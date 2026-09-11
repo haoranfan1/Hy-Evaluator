@@ -35,6 +35,24 @@ Real-task records:
   showing every selected task resolved under its gold patch on the source-built ARM64 images
   before any agent run.
 
+Recorded real-run bundles (`runs/<run_id>/`, one per imported Harbor trial; twelve at `v1.0`:
+the eight `day8-slice-v1` runs, the Day 7 integration run on django-15851, and the three
+`guardrail-slice-v1` reruns):
+
+- `manifest.json`: the task contract — repository, base commit, problem statement, source
+  issue/PR, official difficulty, protected paths, and the **standard answer** (declared
+  `FAIL_TO_PASS` / `PASS_TO_PASS` tests), plus the reference patch as adjudication-only
+  provenance.
+- `trajectory.json` (ATIF v1.7), `patch.diff`, `verifier-report.json` (the official
+  `swebench` `report.json`, unmodified), `test-output.txt`, `reference-patch.diff`, and
+  `run.json` with the SHA-256 identity of every artifact.
+- The Harbor trial log (`run.log`) was not retained in the public copy; `run.json` records
+  `run_log: null` rather than pointing at a missing file. Every other artifact hash matches
+  the recording host's bundle byte for byte.
+- These bundles are the raw evidence behind `results/`; `scripts/verify_outcome.py --all
+  data/runs` re-applies each standard answer to its official report, and any bundle imports
+  into a fresh workbench through `POST /api/runs/import`.
+
 Live Harbor jobs, benchmark datasets, raw API output, and mutable review state belong under the
 ignored project-local `.local/` directory. The structured Hy3 compatibility record is stored at
 `.local/workbench/compatibility/hy3-structured.json`. Final sanitized evaluation evidence belongs

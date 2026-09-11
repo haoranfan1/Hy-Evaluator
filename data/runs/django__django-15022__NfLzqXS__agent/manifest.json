@@ -1,0 +1,107 @@
+{
+  "created_at": "2026-08-31T14:12:33.510347Z",
+  "schema_version": "task-manifest-v1",
+  "task_id": "django__django-15022",
+  "benchmark": {
+    "name": "SWE-bench Verified",
+    "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+    "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified"
+  },
+  "repository": "django/django",
+  "base_commit": "e1d673c373a7d032060872b690a92fc95496612e",
+  "problem_statement": "Unnecessary joins in admin changelist query\nDescription\n\t\nDjango 1.2.5\nModels:\nclass Client(models.Model):\n\tname = models.CharField(_('name'), max_length=256)\n\tname2 = models.CharField(_('unofficial or obsolete name'), max_length=256, blank=True, null=True)\n\tcontact_person = models.CharField(_('contact person'), max_length=256, blank=True, null=True)\n\t...\nclass ClientOffice(models.Model):\n\tname = models.CharField(_('name'), max_length=256)\n\tname2 = models.CharField(_('unofficial or obsolete name'), max_length=256, blank=True, null=True)\n\t...\n\tclient = models.ForeignKey(Client, verbose_name=_('client'))\n\t...\nand admin options like these:\nclass ClientAdmin(admin.ModelAdmin):\n\tsearch_fields = ('name', 'name2', 'contact_person', 'clientoffice__name', 'clientoffice__name2')\n\t...\nNumbers:\n>>> Client.objects.count()\n10907\n>>> ClientOffice.objects.count()\n16952\nNow, if we try searching for clients in admin by a search query containig several words (>3), got django/admin stalled.\nThe problem is going to be that each word in the search query leads to additional JOIN in final SQL query beacause of qs = qs.filter(...) pattern. The attached patch is for Django 1.2.5, but adopting for the current SVN trunk is trivial.\n",
+  "source_issue_url": "https://github.com/django/django/pull/15022",
+  "source_pr_url": "https://github.com/django/django/pull/15022",
+  "standard_answer": {
+    "kind": "behavioral_test_contract",
+    "fail_to_pass": [
+      "test_many_search_terms (admin_changelist.tests.ChangeListTests)",
+      "All rows containing each of the searched words are returned, where each",
+      "Searches over multi-valued relationships return rows from related"
+    ],
+    "pass_to_pass": [
+      "{% get_admin_log %} works if the user model's primary key isn't named",
+      "test_missing_args (admin_changelist.tests.GetAdminLogTests)",
+      "{% get_admin_log %} works without specifying a user.",
+      "test_non_integer_limit (admin_changelist.tests.GetAdminLogTests)",
+      "test_without_as (admin_changelist.tests.GetAdminLogTests)",
+      "test_without_for_user (admin_changelist.tests.GetAdminLogTests)",
+      "test_builtin_lookup_in_search_fields (admin_changelist.tests.ChangeListTests)",
+      "test_changelist_search_form_validation (admin_changelist.tests.ChangeListTests)",
+      "list_editable edits use a filtered queryset to limit memory usage.",
+      "test_clear_all_filters_link (admin_changelist.tests.ChangeListTests)",
+      "test_clear_all_filters_link_callable_filter (admin_changelist.tests.ChangeListTests)",
+      "Regression test for #13196: output of functions should be  localized",
+      "test_custom_lookup_in_search_fields (admin_changelist.tests.ChangeListTests)",
+      "test_custom_lookup_with_pk_shortcut (admin_changelist.tests.ChangeListTests)",
+      "test_custom_paginator (admin_changelist.tests.ChangeListTests)",
+      "The primary key is used in the ordering of the changelist's results to",
+      "Regression tests for #14206: dynamic list_display support.",
+      "Regression tests for #16257: dynamic list_display_links support.",
+      "Regression tests for ticket #17646: dynamic list_filter support.",
+      "test_dynamic_search_fields (admin_changelist.tests.ChangeListTests)",
+      "test_get_edited_object_ids (admin_changelist.tests.ChangeListTests)",
+      "test_get_list_editable_queryset (admin_changelist.tests.ChangeListTests)",
+      "test_get_list_editable_queryset_with_regex_chars_in_prefix (admin_changelist.tests.ChangeListTests)",
+      "test_get_select_related_custom_method (admin_changelist.tests.ChangeListTests)",
+      "Simultaneous edits of list_editable fields on the changelist by",
+      "test_no_clear_all_filters_link (admin_changelist.tests.ChangeListTests)",
+      "Regression test for #13902: When using a ManyToMany in list_filter,",
+      "When using a ManyToMany in search_fields at the second level behind a",
+      "Regressions tests for #15819: If a field listed in list_filters is a",
+      "Regressions tests for #15819: If a field listed in search_fields",
+      "When using a ManyToMany in list_filter at the second level behind a",
+      "If a ManyToManyField is in list_filter but isn't in any lookup params,",
+      "#15185 -- Allow no links from the 'change list' view grid.",
+      "When ModelAdmin.has_add_permission() returns False, the object-tools",
+      "Regression tests for #12893: Pagination in admins changelist doesn't",
+      "Regression tests for ticket #15653: ensure the number of pages",
+      "test_pk_in_search_fields (admin_changelist.tests.ChangeListTests)",
+      "test_repr (admin_changelist.tests.ChangeListTests)",
+      "Regression test for #14312: list_editable with pagination",
+      "Regression tests for #11791: Inclusion tag result_list generates a",
+      "Regression test for #14982: EMPTY_CHANGELIST_VALUE should be honored",
+      "Inclusion tag result_list generates a table when with default",
+      "Empty value display can be set in ModelAdmin or individual fields.",
+      "Empty value display can be set on AdminSite.",
+      "test_search_help_text (admin_changelist.tests.ChangeListTests)",
+      "test_select_related_as_empty_tuple (admin_changelist.tests.ChangeListTests)",
+      "test_select_related_as_tuple (admin_changelist.tests.ChangeListTests)",
+      "Regression test for #10348: ChangeList.get_queryset() shouldn't",
+      "test_select_related_preserved_when_multi_valued_in_search_fields (admin_changelist.tests.ChangeListTests)",
+      "test_show_all (admin_changelist.tests.ChangeListTests)",
+      "test_spanning_relations_with_custom_lookup_in_search_fields (admin_changelist.tests.ChangeListTests)",
+      "test_specified_ordering_by_f_expression (admin_changelist.tests.ChangeListTests)",
+      "test_specified_ordering_by_f_expression_without_asc_desc (admin_changelist.tests.ChangeListTests)",
+      "test_total_ordering_optimization (admin_changelist.tests.ChangeListTests)",
+      "test_total_ordering_optimization_meta_constraints (admin_changelist.tests.ChangeListTests)",
+      "test_tuple_list_display (admin_changelist.tests.ChangeListTests)"
+    ]
+  },
+  "checker": {
+    "adapter": "swebench-official-grading",
+    "version": "4.0.3"
+  },
+  "difficulty": {
+    "label": "15 min - 1 hour",
+    "source": "SWE-bench Verified difficulty annotation"
+  },
+  "selection": {
+    "method": "day8-slice-v1 frozen stratified sample",
+    "reason": "Selected by the seeded stratified shuffle recorded in data/evaluation-slices/day8-slice-v1.json."
+  },
+  "protected_paths": [
+    "tests/admin_changelist/admin.py",
+    "tests/admin_changelist/tests.py"
+  ],
+  "reference_patch": {
+    "artifact": {
+      "artifact_id": "artifact-cff576b3c6df42b65fde51da",
+      "path": "data/runs/django__django-15022__NfLzqXS__agent/reference-patch.diff",
+      "sha256": "cff576b3c6df42b65fde51da27302647389f9bae0bbf95738bab018068578e4d",
+      "byte_size": 1106,
+      "media_type": "text/x-diff"
+    },
+    "visibility": "human_adjudication_only"
+  }
+}

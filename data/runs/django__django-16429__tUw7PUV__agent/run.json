@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-09-01T06:23:58.112078Z",
+  "schema_version": "run-record-v1",
+  "run_id": "django__django-16429__tUw7PUV__agent",
+  "task_id": "django__django-16429",
+  "slice_id": "guardrail-slice-v1",
+  "status": "completed",
+  "model": {
+    "name": "openai/hy3",
+    "endpoint_kind": "openai-compatible",
+    "reasoning_effort": null,
+    "temperature": null,
+    "top_p": null
+  },
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "config_digest": "143d6ca3d7128a64df3bd3c129fd72e7d18c3c15d23c22f9a52d891187837b89"
+  },
+  "harness": {
+    "name": "harbor",
+    "version": "0.22.0"
+  },
+  "dataset_adapter": "harbor-swebench-adapter-v1",
+  "started_at": "2026-09-01T06:19:02.878301Z",
+  "completed_at": "2026-09-01T06:23:56.320543Z",
+  "trajectory": {
+    "artifact_id": "artifact-d5cbd2a15a9ded176e9d3d14",
+    "path": "data/runs/django__django-16429__tUw7PUV__agent/trajectory.json",
+    "sha256": "d5cbd2a15a9ded176e9d3d1463da6d8bdeda9b5854537e021dc6de645a99dd33",
+    "byte_size": 56141,
+    "media_type": "application/json",
+    "schema_version": "ATIF-v1.7"
+  },
+  "patch": {
+    "artifact_id": "artifact-4cb5fd4e7dc9cd8f4374f99d",
+    "path": "data/runs/django__django-16429__tUw7PUV__agent/patch.diff",
+    "sha256": "4cb5fd4e7dc9cd8f4374f99d7a1036cdfce9b44b0d49acd8146d44409f4c824e",
+    "byte_size": 1350,
+    "media_type": "text/x-diff"
+  },
+  "verifier": {
+    "status": "passed",
+    "report": {
+      "artifact_id": "artifact-12a9031c10a07f63e8f40b4c",
+      "path": "data/runs/django__django-16429__tUw7PUV__agent/verifier-report.json",
+      "sha256": "12a9031c10a07f63e8f40b4cc5989db8043030dfcbed5fecd1458a2e30748362",
+      "byte_size": 2797,
+      "media_type": "application/json"
+    },
+    "test_output": {
+      "artifact_id": "artifact-0ca00c2dc86220adeb9ec10e",
+      "path": "data/runs/django__django-16429__tUw7PUV__agent/test-output.txt",
+      "sha256": "0ca00c2dc86220adeb9ec10e12f9d407451fabcb12d6c34b0a4dfadcca8de14f",
+      "byte_size": 8920,
+      "media_type": "text/plain"
+    },
+    "run_log": null,
+    "exclusion_reason": null
+  }
+}

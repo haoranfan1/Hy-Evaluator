@@ -1,0 +1,89 @@
+diff --git a/django/db/models/query_utils.py b/django/db/models/query_utils.py
+index c957ffa564..44fa311535 100644
+--- a/django/db/models/query_utils.py
++++ b/django/db/models/query_utils.py
+@@ -41,7 +41,11 @@ class Q(tree.Node):
+ 
+     def _combine(self, other, conn):
+         if not isinstance(other, Q):
+-            raise TypeError(other)
++            # Handle combining with a boolean expression (e.g. Exists()).
++            if getattr(other, 'conditional', False):
++                other = Q(other)
++            else:
++                raise TypeError(other)
+ 
+         # If the other Q() is empty, ignore it and just use `self`.
+         if not other:
+@@ -87,7 +91,10 @@ class Q(tree.Node):
+         args, kwargs = (), {}
+         if len(self.children) == 1 and not isinstance(self.children[0], Q):
+             child = self.children[0]
+-            kwargs = {child[0]: child[1]}
++            if isinstance(child, tuple) and len(child) == 2:
++                kwargs = {child[0]: child[1]}
++            else:
++                args = (child,)
+         else:
+             args = tuple(self.children)
+             if self.connector != self.default:
+diff --git a/docs/releases/4.0.txt b/docs/releases/4.0.txt
+index f1a25d0d92..5611c3dd72 100644
+--- a/docs/releases/4.0.txt
++++ b/docs/releases/4.0.txt
+@@ -373,3 +373,10 @@ to remove usage of these features.
+ * The ``{% ifequal %}`` and ``{% ifnotequal %}`` template tags are removed.
+ 
+ * The ``DEFAULT_HASHING_ALGORITHM`` transitional setting is removed.
++
++Bugfixes
++========
++
++* Fixed a regression in Django 4.0 that caused ``Q() & Exists()`` and
++  ``Q() | Exists()`` (and other conditional expressions) to raise a
++  ``TypeError`` (:ticket:`32451`).
+diff --git a/tests/queries/test_q.py b/tests/queries/test_q.py
+index 6dcf36ce02..1288fda08d 100644
+--- a/tests/queries/test_q.py
++++ b/tests/queries/test_q.py
+@@ -1,4 +1,5 @@
+-from django.db.models import F, Q
++from django.db import models
++from django.db.models import Exists, F, Q
+ from django.test import SimpleTestCase
+ 
+ 
+@@ -35,6 +36,33 @@ class QTests(SimpleTestCase):
+         with self.assertRaisesMessage(TypeError, str(obj)):
+             q & obj
+ 
++    def test_combine_with_non_q_conditional_expression(self):
++        class Product(models.Model):
++            name = models.CharField(max_length=10)
++
++            class Meta:
++                app_label = 'queries'
++
++        expr = Exists(Product.objects.all())
++        # A Q() combined with a conditional expression in both orders should
++        # work (commutativity).
++        self.assertIsInstance(Q(x=1) & expr, Q)
++        self.assertIsInstance(expr & Q(x=1), Q)
++        self.assertIsInstance(Q(x=1) | expr, Q)
++        self.assertIsInstance(expr | Q(x=1), Q)
++        # An empty Q() combined with a conditional expression.
++        self.assertIsInstance(Q() & expr, Q)
++        self.assertIsInstance(expr & Q(), Q)
++        self.assertIsInstance(Q() | expr, Q)
++        self.assertIsInstance(expr | Q(), Q)
++        # A non-conditional object still raises TypeError.
++        obj = object()
++        q = Q(x=1)
++        with self.assertRaisesMessage(TypeError, str(obj)):
++            q | obj
++        with self.assertRaisesMessage(TypeError, str(obj)):
++            q & obj
++
+     def test_deconstruct(self):
+         q = Q(price__gt=F('discounted_price'))
+         path, args, kwargs = q.deconstruct()

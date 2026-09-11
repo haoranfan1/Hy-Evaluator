@@ -1,0 +1,95 @@
+diff --git a/django/db/models/fields/json.py b/django/db/models/fields/json.py
+index fdca700c9d..493c0b37b6 100644
+--- a/django/db/models/fields/json.py
++++ b/django/db/models/fields/json.py
+@@ -191,15 +191,22 @@ class HasKeyLookup(PostgresOperatorLookup):
+         for key in rhs:
+             if isinstance(key, KeyTransform):
+                 *_, rhs_key_transforms = key.preprocess_lhs(compiler, connection)
++                rhs_params.append(
++                    "%s%s"
++                    % (
++                        lhs_json_path,
++                        compile_json_path(rhs_key_transforms, include_root=False),
++                    )
++                )
+             else:
+-                rhs_key_transforms = [key]
+-            rhs_params.append(
+-                "%s%s"
+-                % (
+-                    lhs_json_path,
+-                    compile_json_path(rhs_key_transforms, include_root=False),
++                # The right-hand side of these lookups is the key name to look
++                # for, which is always a string. Even when it looks like an
++                # integer (e.g. "1111"), it must be treated as a string key
++                # rather than an array index so that the behavior is consistent
++                # across database backends (e.g. the PostgreSQL ? operator).
++                rhs_params.append(
++                    "%s.%s" % (lhs_json_path, json.dumps(str(key)))
+                 )
+-            )
+         # Add condition for each key.
+         if self.logical_operator:
+             sql = "(%s)" % self.logical_operator.join([sql] * len(rhs_params))
+@@ -387,25 +394,26 @@ class KeyTransformTextLookupMixin:
+ class KeyTransformIsNull(lookups.IsNull):
+     # key__isnull=False is the same as has_key='key'
+     def as_oracle(self, compiler, connection):
+-        sql, params = HasKey(
+-            self.lhs.lhs,
+-            self.lhs.key_name,
+-        ).as_oracle(compiler, connection)
++        lhs, lhs_params, lhs_key_transforms = self.lhs.preprocess_lhs(
++            compiler, connection
++        )
++        lhs_json_path = compile_json_path(lhs_key_transforms)
++        sql = "JSON_EXISTS(%s, '%s')" % (lhs, lhs_json_path)
+         if not self.rhs:
+-            return sql, params
++            return sql, tuple(lhs_params)
+         # Column doesn't have a key or IS NULL.
+-        lhs, lhs_params, _ = self.lhs.preprocess_lhs(compiler, connection)
+-        return "(NOT %s OR %s IS NULL)" % (sql, lhs), tuple(params) + tuple(lhs_params)
++        return "(NOT %s OR %s IS NULL)" % (sql, lhs), tuple(lhs_params)
+ 
+     def as_sqlite(self, compiler, connection):
+-        template = "JSON_TYPE(%s, %%s) IS NULL"
+-        if not self.rhs:
+-            template = "JSON_TYPE(%s, %%s) IS NOT NULL"
+-        return HasKey(self.lhs.lhs, self.lhs.key_name).as_sql(
+-            compiler,
+-            connection,
+-            template=template,
++        lhs, lhs_params, lhs_key_transforms = self.lhs.preprocess_lhs(
++            compiler, connection
+         )
++        lhs_json_path = compile_json_path(lhs_key_transforms)
++        if self.rhs:
++            template = "JSON_TYPE(%s, '%s') IS NULL"
++        else:
++            template = "JSON_TYPE(%s, '%s') IS NOT NULL"
++        return template % (lhs, lhs_json_path), tuple(lhs_params)
+ 
+ 
+ class KeyTransformIn(lookups.In):
+@@ -466,13 +474,16 @@ class KeyTransformExact(JSONExact):
+         rhs, rhs_params = super().process_rhs(compiler, connection)
+         if rhs_params == ["null"]:
+             # Field has key and it's NULL.
+-            has_key_expr = HasKey(self.lhs.lhs, self.lhs.key_name)
+-            has_key_sql, has_key_params = has_key_expr.as_oracle(compiler, connection)
++            lhs, lhs_params, lhs_key_transforms = self.lhs.preprocess_lhs(
++                compiler, connection
++            )
++            lhs_json_path = compile_json_path(lhs_key_transforms)
++            has_key_sql = "JSON_EXISTS(%s, '%s')" % (lhs, lhs_json_path)
+             is_null_expr = self.lhs.get_lookup("isnull")(self.lhs, True)
+             is_null_sql, is_null_params = is_null_expr.as_sql(compiler, connection)
+             return (
+                 "%s AND %s" % (has_key_sql, is_null_sql),
+-                tuple(has_key_params) + tuple(is_null_params),
++                tuple(lhs_params) + tuple(is_null_params),
+             )
+         return super().as_sql(compiler, connection)
+ 

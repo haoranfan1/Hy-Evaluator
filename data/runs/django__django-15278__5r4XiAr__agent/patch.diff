@@ -1,0 +1,73 @@
+diff --git a/django/db/backends/sqlite3/schema.py b/django/db/backends/sqlite3/schema.py
+index 6752a8e3c0..8b33b55a90 100644
+--- a/django/db/backends/sqlite3/schema.py
++++ b/django/db/backends/sqlite3/schema.py
+@@ -324,10 +324,14 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
+ 
+     def add_field(self, model, field):
+         """Create a field on a model."""
+-        # Fields with default values cannot by handled by ALTER TABLE ADD
++        # Fields with default values cannot be handled by ALTER TABLE ADD
+         # COLUMN statement because DROP DEFAULT is not supported in
+         # ALTER TABLE.
+-        if not field.null or self.effective_default(field) is not None:
++        if (
++            not field.null or
++            self.effective_default(field) is not None or
++            field.unique
++        ):
+             self._remake_table(model, create_field=field)
+         else:
+             super().add_field(model, field)
+diff --git a/docs/releases/4.1.txt b/docs/releases/4.1.txt
+index 11d2c5ca04..01243ccfe5 100644
+--- a/docs/releases/4.1.txt
++++ b/docs/releases/4.1.txt
+@@ -385,6 +385,13 @@ Miscellaneous
+             ),
+         ]
+ 
++Bugfixes
++========
++
++* Fixed a regression in Django 4.1 that caused a crash when adding a nullable
++  :class:`~django.db.models.OneToOneField` (or any ``unique`` field) on SQLite
++  (:ticket:`33497`).
++
+ Features removed in 4.1
+ =======================
+ 
+diff --git a/tests/schema/tests.py b/tests/schema/tests.py
+index cd6a52f6af..3bf2284922 100644
+--- a/tests/schema/tests.py
++++ b/tests/schema/tests.py
+@@ -531,6 +531,29 @@ class SchemaTests(TransactionTestCase):
+         self.assertEqual(columns['age'][0], connection.features.introspected_field_types['IntegerField'])
+         self.assertTrue(columns['age'][1][6])
+ 
++    @unittest.skipUnless(connection.vendor == 'sqlite', 'SQLite-specific')
++    def test_add_field_nullable_one_to_one(self):
++        """
++        Adding a nullable OneToOneField (unique) on SQLite doesn't crash
++        because SQLite can't add a UNIQUE column via ALTER TABLE ADD COLUMN.
++        """
++        with connection.schema_editor() as editor:
++            editor.create_model(Author)
++            editor.create_model(Book)
++        # Add a nullable OneToOneField.
++        field = OneToOneField(
++            null=True, on_delete=CASCADE, to=Author, related_name='book'
++        )
++        field.set_attributes_from_name('author')
++        with connection.schema_editor() as editor:
++            editor.add_field(Book, field)
++        # The unique constraint is present.
++        constraints = self.get_constraints(Book._meta.db_table)
++        self.assertTrue(any(
++            c['unique'] and c['columns'] == ['author_id']
++            for c in constraints.values()
++        ))
++
+     def test_add_field_remove_field(self):
+         """
+         Adding a field and removing it removes all deferred sql referring to it.

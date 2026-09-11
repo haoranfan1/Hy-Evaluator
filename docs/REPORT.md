@@ -281,8 +281,13 @@ single-configuration judge design.
   `scripts/import_harbor_trial.py`, `scripts/evaluate_run.py` (blinded),
   `scripts/regression_card.py`, `scripts/judge_stability.py`; the Harbor
   invocation is recorded in the slice file's run configuration.
-- Evidence: `results/` (deterministic exports), `.local/` on the recording host
-  (raw trials, bundles, semantic attempts).
+- Evidence: `data/runs/` (the twelve recorded bundles: task manifest with the
+  standard answer, ATIF trajectory, patch, official verifier report, test output,
+  reference patch), `results/` (deterministic exports); raw Harbor trials and
+  semantic attempts stay under `.local/` on the recording host.
+- Final-answer check: `scripts/verify_outcome.py --all data/runs` re-applies each
+  task's declared FAIL_TO_PASS/PASS_TO_PASS contract to its committed official
+  report (12/12 resolved).
 - Verification: `./scripts/uv-local run pytest -q` and
   `cd frontend && npm test` cover the entire evaluator, workflow, and UI logic
   offline.

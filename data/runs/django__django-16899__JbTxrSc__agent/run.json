@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-09-01T06:29:13.843703Z",
+  "schema_version": "run-record-v1",
+  "run_id": "django__django-16899__JbTxrSc__agent",
+  "task_id": "django__django-16899",
+  "slice_id": "guardrail-slice-v1",
+  "status": "completed",
+  "model": {
+    "name": "openai/hy3",
+    "endpoint_kind": "openai-compatible",
+    "reasoning_effort": null,
+    "temperature": null,
+    "top_p": null
+  },
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "config_digest": "143d6ca3d7128a64df3bd3c129fd72e7d18c3c15d23c22f9a52d891187837b89"
+  },
+  "harness": {
+    "name": "harbor",
+    "version": "0.22.0"
+  },
+  "dataset_adapter": "harbor-swebench-adapter-v1",
+  "started_at": "2026-09-01T06:24:32.407480Z",
+  "completed_at": "2026-09-01T06:29:11.935581Z",
+  "trajectory": {
+    "artifact_id": "artifact-129d8817a53d787a0e375634",
+    "path": "data/runs/django__django-16899__JbTxrSc__agent/trajectory.json",
+    "sha256": "129d8817a53d787a0e3756349c35ea2f6134a7a2ca8f4b8d6f71155a15d1cd08",
+    "byte_size": 56832,
+    "media_type": "application/json",
+    "schema_version": "ATIF-v1.7"
+  },
+  "patch": {
+    "artifact_id": "artifact-f4f87b8d758fd223d7649418",
+    "path": "data/runs/django__django-16899__JbTxrSc__agent/patch.diff",
+    "sha256": "f4f87b8d758fd223d76494180097e20105c1c1349031fabeea4346107e2c5df2",
+    "byte_size": 3222,
+    "media_type": "text/x-diff"
+  },
+  "verifier": {
+    "status": "passed",
+    "report": {
+      "artifact_id": "artifact-8dcd1736bce5f91c04788c65",
+      "path": "data/runs/django__django-16899__JbTxrSc__agent/verifier-report.json",
+      "sha256": "8dcd1736bce5f91c04788c65c55c9ffe8a64d3fbf202956568d2d43c09c8e3c7",
+      "byte_size": 7010,
+      "media_type": "application/json"
+    },
+    "test_output": {
+      "artifact_id": "artifact-c6890694fd59088d8e5f3eac",
+      "path": "data/runs/django__django-16899__JbTxrSc__agent/test-output.txt",
+      "sha256": "c6890694fd59088d8e5f3eac692df00188ad86582329b633d1eb196bdffcb3dc",
+      "byte_size": 14357,
+      "media_type": "text/plain"
+    },
+    "run_log": null,
+    "exclusion_reason": null
+  }
+}

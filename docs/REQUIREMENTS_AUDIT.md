@@ -15,10 +15,10 @@ clean-environment record is kept as recorded and a second record at `v1.0` follo
 | --- | --- | --- | --- |
 | 1 | Verifiable domain selected and justified | Satisfied | Code tasks on SWE-bench Verified; each task's official behavioral tests are the automatic criterion. [REPORT §2](REPORT.md), [research workspace](research/README.md) |
 | 2 | Hy3 application runs and outputs a step-by-step solution | Satisfied | mini-swe-agent 2.4.6 driven by Hy3 through Harbor 0.22.0 emits ATIF v1.7 step trajectories; the workbench renders the step timeline. Nine real runs in `results/per_run/`; pipeline scripts `scripts/prepare_swebench_task.py`, `scripts/import_harbor_trial.py` |
-| 3 | Every item has a standard answer and automatic checker | Satisfied | Official FAIL_TO_PASS/PASS_TO_PASS tests graded by `swebench==4.0.3` in-container; gold patch retained as adjudication-only provenance. Oracle gates: `data/environment-checks/` (8/8 slice tasks + the integration task gold-resolved) |
+| 3 | Every item has a standard answer and automatic checker | Satisfied | Standard answer = the declared FAIL_TO_PASS/PASS_TO_PASS tests, committed per task in `data/runs/*/manifest.json`; graded by `swebench==4.0.3` in-container through Harbor's verifier, and re-checkable from the committed official reports with `scripts/verify_outcome.py` (12/12 resolved). Gold patch retained as adjudication-only provenance. Oracle gates: `data/environment-checks/` (8/8 slice tasks + the integration task gold-resolved) |
 | 4 | Evaluation set spans documented difficulty levels | Satisfied | Official SWE-bench Verified difficulty annotations; slice stratified over `<15 min` / `15 min–1 h` / `1–4 h`. `data/evaluation-slices/day8-slice-v1.json`; difficulty tables in [REPORT §4](REPORT.md) and `results/summary-day8-slice-v1.json` |
 | 5 | Item sources, construction, difficulty criteria documented | Satisfied | Pinned dataset revision `c104f840…`, seeded stratified selection with full recorded candidate order, frame constraints, substitution rule. `data/evaluation-slices/day8-slice-v1.json`, [data/README.md](../data/README.md), [REPORT §2](REPORT.md) |
-| 6 | Evaluator judges process correctness | Satisfied | Deterministic + fixed Hy3 semantic + blinded human lanes under fixed merge precedence. `src/hy3_workbench/{evidence_extractor,semantic_reviewer,evaluator}.py`; [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md); 167 offline backend tests and 51 frontend tests at `v1.0` |
+| 6 | Evaluator judges process correctness | Satisfied | Deterministic + fixed Hy3 semantic + blinded human lanes under fixed merge precedence. `src/hy3_workbench/{evidence_extractor,semantic_reviewer,evaluator}.py`; [EVALUATOR_SPEC.md](EVALUATOR_SPEC.md); 213 offline backend tests and 51 frontend tests at `v1.0.1` (167 backend at `v1.0`, before the `data/runs` and answer-check suites) |
 | 7 | Evaluator identifies the first erroneous step | Satisfied | `first_error` contract over stable ATIF step ids; v2 anchors at the first successful write. `src/hy3_workbench/contracts.py`; [REPORT §6](REPORT.md) |
 | 8 | Domain-appropriate error taxonomy documented and implemented | Satisfied | [EVALUATOR_SPEC.md §Error taxonomy](EVALUATOR_SPEC.md); `ErrorCategory` literal in `contracts.py`; `process-rubric-v1` |
 | 9 | Correct-answer/invalid-process cases detected | Satisfied | Four confirmed cases (all modified the protected graded test file); quadrant + `correct_result_confirmed_problem_rate` in exports. [REPORT §1/§4/§5](REPORT.md) |
@@ -30,7 +30,7 @@ clean-environment record is kept as recorded and a second record at `v1.0` follo
 | 15 | Error-type distribution reported | Satisfied | `primary_error_distribution` in the summary exports (all four confirmed first errors: `process_integrity`); stated in [REPORT §4](REPORT.md) |
 | 16 | Results analyzed by difficulty | Satisfied | Difficulty table per band; the process-validity inversion (easy 0/3 valid, hard 2/2) is the headline qualitative finding. [REPORT §1/§4](REPORT.md) |
 | 17 | Decline interval, capability boundary, critical points analyzed | Satisfied | Outcome decline `not_observed` (100% every band; bootstrap verdict `not_established`, seed 20260830) — reported honestly rather than invented; capability boundaries analyzed via the four case studies (graded-test tampering, harness awareness, context-limit abstention). [REPORT §1/§4/§5/§8](REPORT.md) |
-| 18 | Code, scripts, dataset, answers, config example, docs public | Satisfied | Full source + tests + scripts + docs in the repository; `.env.example`; standard answers live in the pinned public dataset revision and are retrieved deterministically by the recorded pipeline (rationale: no benchmark duplication in-repo) |
+| 18 | Code, scripts, dataset, answers, config example, docs public | Satisfied | Full source + tests + scripts + docs in the repository; `.env.example`; the evaluation set with its standard answers and every recorded run's raw artifacts are committed under `data/runs/` (re-walk gap 6); the pinned public dataset revision remains the provenance |
 | 19 | Secrets excluded | Satisfied | This audit scanned every committed file for the real key, endpoint, token patterns, and personal data: none present. `/home/` and machine names appear only inside the hygiene test's own assertion. Enforced continuously by `tests/test_fixtures.py::test_fixtures_contain_no_absolute_machine_paths_or_secret_fields` and the export tests |
 | 20 | Repository labeled as an individual/event project | Satisfied | README banner line; not an official Tencent release |
 | 21 | Demo ≤ 2 minutes | Provided; length exceeds the brief | [demo/hy3-workbench-demo.mp4](demo/hy3-workbench-demo.mp4) (4 min 22 s, 1920×1080, Chinese voice-over per [DEMO_NARRATION.zh-CN.md](DEMO_NARRATION.zh-CN.md)), recorded 2026-09-11 by the operator against an isolated copy of the workbench state; shows one complete workflow (task → process evaluation → validation) with a narrated introduction of the problem and each view. The operator chose to exceed the two-minute bound for the sake of the introduction; the [DEMO.md](DEMO.md) driver still yields a ≈63-second cut of the same scenes if a strict-length version is requested. Frozen store verified untouched afterwards (fixture review count 2, 20 review versions, `results/` and `data/` unchanged) |
@@ -40,9 +40,10 @@ clean-environment record is kept as recorded and a second record at `v1.0` follo
 - **8.1 Public repository**: runnable source, evaluator module, README, `.env.example`,
   [DEVELOPMENT_SETUP.md](DEVELOPMENT_SETUP.md). Satisfied.
 - **8.2 Evaluation materials**: `data/evaluation-slices/day8-slice-v1.json` (difficulty-layered
-  set), pinned dataset revision (standard answers), official in-container grader via the recorded
-  task copies (final-answer validation), `scripts/evaluate_run.py` + the workbench API
-  (process evaluation). Satisfied.
+  set); standard answers per task in `data/runs/*/manifest.json`; final-answer validation by
+  the official in-container grader (recorded task copies + Harbor verifier) and
+  `scripts/verify_outcome.py` over the committed official reports; `scripts/evaluate_run.py` +
+  the workbench API (process evaluation). Satisfied.
 - **8.3 Complete results**: `results/summary*.json`, `results/metrics*.csv`, per-run exports;
   final-answer accuracy, process-correctness rates, error distribution, difficulty breakdown.
   Satisfied.
@@ -78,6 +79,23 @@ training or fine-tuning. All satisfied.
 5. **Degraded-state behavior undocumented.** Without `.env`, the API health endpoint reports
    Hy3 unconfigured and `evaluate` refuses honestly instead of fabricating a verdict; now
    documented in [DEVELOPMENT_SETUP.md](DEVELOPMENT_SETUP.md).
+
+## Gaps found by the 2026-09-11 re-walk against the instruction PDF, and their fixes
+
+6. **Standard answers and raw run artifacts were not in the public repository.** The
+   task manifests (with the declared FAIL_TO_PASS/PASS_TO_PASS tests), trajectories,
+   patches, and official verifier reports lived only under the ignored `.local/` on the
+   recording host, so §8.2 "标准答案" was satisfied by pointer only and the case studies
+   could not be verified from the clone. Fixed: the twelve recorded bundles are committed
+   under `data/runs/` with project-relative paths (hashes byte-identical to the recording
+   host's copies; the Harbor trial log was not retained and is recorded as `null`), covered
+   by `tests/test_run_bundles.py` (identity, ATIF validity, evidence gate, secret/path
+   hygiene, import into a fresh workbench).
+7. **No answer-check script.** §8.2 asks for a "答案校验脚本"; grading ran only inside the
+   Harbor verifier. Fixed: `scripts/verify_outcome.py` (`hy3_workbench.outcome_check`)
+   re-applies each task's standard answer to its committed official report with exit codes
+   0 resolved · 2 unresolved · 3 inconclusive · 4 unreadable, refuses to guess on missing,
+   tampered, or non-covering reports, and is covered by `tests/test_outcome_check.py`.
 
 ## Clean-environment verification record
 

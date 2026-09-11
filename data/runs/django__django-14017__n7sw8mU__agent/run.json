@@ -1,0 +1,60 @@
+{
+  "created_at": "2026-08-31T14:36:24.608695Z",
+  "schema_version": "run-record-v1",
+  "run_id": "django__django-14017__n7sw8mU__agent",
+  "task_id": "django__django-14017",
+  "status": "completed",
+  "model": {
+    "name": "openai/hy3",
+    "endpoint_kind": "openai-compatible",
+    "reasoning_effort": null,
+    "temperature": null,
+    "top_p": null
+  },
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "config_digest": "23968347c0dacddddae97949f0fb97ff308b657e2fba92e2336713e5feb2fdef"
+  },
+  "harness": {
+    "name": "harbor",
+    "version": "0.22.0"
+  },
+  "dataset_adapter": "harbor-swebench-adapter-v1",
+  "started_at": "2026-08-31T14:30:18.481252Z",
+  "completed_at": "2026-08-31T14:36:22.796267Z",
+  "trajectory": {
+    "artifact_id": "artifact-7977faefd468b99d64ab120b",
+    "path": "data/runs/django__django-14017__n7sw8mU__agent/trajectory.json",
+    "sha256": "7977faefd468b99d64ab120bf064b85e5e04b64d423dbb9c13e5faa208838f44",
+    "byte_size": 114740,
+    "media_type": "application/json",
+    "schema_version": "ATIF-v1.7"
+  },
+  "patch": {
+    "artifact_id": "artifact-95d2b9bed7f59c054fed0b71",
+    "path": "data/runs/django__django-14017__n7sw8mU__agent/patch.diff",
+    "sha256": "95d2b9bed7f59c054fed0b7100a3a37ab7d2b565017f4a7e9089149bbdee70bc",
+    "byte_size": 3388,
+    "media_type": "text/x-diff"
+  },
+  "verifier": {
+    "status": "passed",
+    "report": {
+      "artifact_id": "artifact-51d9a85e088f54d37626be46",
+      "path": "data/runs/django__django-14017__n7sw8mU__agent/verifier-report.json",
+      "sha256": "51d9a85e088f54d37626be4686a0e62c55b5e9ac95dbae1646a0a3ae9666d856",
+      "byte_size": 14025,
+      "media_type": "application/json"
+    },
+    "test_output": {
+      "artifact_id": "artifact-c7b34d5e3d8ad9d8f92a01fa",
+      "path": "data/runs/django__django-14017__n7sw8mU__agent/test-output.txt",
+      "sha256": "c7b34d5e3d8ad9d8f92a01fa2fa6456705e7da32f737eea5088c58d1df0a0833",
+      "byte_size": 17584,
+      "media_type": "text/plain"
+    },
+    "run_log": null,
+    "exclusion_reason": null
+  }
+}

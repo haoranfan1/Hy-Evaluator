@@ -1,0 +1,52 @@
+diff --git a/django/db/backends/postgresql/client.py b/django/db/backends/postgresql/client.py
+index 4c9bd63546..3b5ddafaca 100644
+--- a/django/db/backends/postgresql/client.py
++++ b/django/db/backends/postgresql/client.py
+@@ -32,9 +32,9 @@ class DatabaseClient(BaseDatabaseClient):
+             args += ["-h", host]
+         if port:
+             args += ["-p", str(port)]
++        args.extend(parameters)
+         if dbname:
+             args += [dbname]
+-        args.extend(parameters)
+ 
+         env = {}
+         if passwd:
+diff --git a/docs/releases/4.2.txt b/docs/releases/4.2.txt
+index 413e9a9471..49cb8c2b70 100644
+--- a/docs/releases/4.2.txt
++++ b/docs/releases/4.2.txt
+@@ -317,3 +317,10 @@ Miscellaneous
+   for using Python's :py:mod:`secrets` module to generate passwords.
+ 
+ * The ``AlterIndexTogether`` migration operation is deprecated.
++
++Bugfixes
++========
++
++* Fixed a bug in :djadmin:`dbshell` where extra command-line arguments were
++  passed after the database name for the PostgreSQL backend, causing them to
++  be ignored by ``psql``. Arguments are now passed before the database name.
+diff --git a/tests/dbshell/test_postgresql.py b/tests/dbshell/test_postgresql.py
+index 02924d0bcc..e9f84b8bff 100644
+--- a/tests/dbshell/test_postgresql.py
++++ b/tests/dbshell/test_postgresql.py
+@@ -154,7 +154,16 @@ class PostgreSqlDbshellCommandTestCase(SimpleTestCase):
+     def test_parameters(self):
+         self.assertEqual(
+             self.settings_to_cmd_args_env({"NAME": "dbname"}, ["--help"]),
+-            (["psql", "dbname", "--help"], None),
++            (["psql", "--help", "dbname"], None),
++        )
++
++    def test_parameters_before_database_name(self):
++        self.assertEqual(
++            self.settings_to_cmd_args_env(
++                {"NAME": "dbname", "USER": "someuser", "HOST": "somehost"},
++                ["-c", "SELECT 1"],
++            ),
++            (["psql", "-U", "someuser", "-h", "somehost", "-c", "SELECT 1", "dbname"], None),
+         )
+ 
+     @skipUnless(connection.vendor == "postgresql", "Requires a PostgreSQL connection")

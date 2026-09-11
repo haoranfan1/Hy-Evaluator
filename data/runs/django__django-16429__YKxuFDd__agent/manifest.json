@@ -1,0 +1,72 @@
+{
+  "created_at": "2026-08-31T13:57:36.922601Z",
+  "schema_version": "task-manifest-v1",
+  "task_id": "django__django-16429",
+  "benchmark": {
+    "name": "SWE-bench Verified",
+    "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+    "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified"
+  },
+  "repository": "django/django",
+  "base_commit": "6c86495bcee22eac19d7fb040b2988b830707cbd",
+  "problem_statement": "timesince() raises TypeError with USE_TZ=True and >1 month interval.\nDescription\n\t \n\t\t(last modified by Sage Abdullah)\n\t \nAs of 8d67e16493c903adc9d049141028bc0fff43f8c8, calling timesince() with a datetime object that's one month (or more) in the past and the USE_TZ setting is set to True results in the following crash:\nTypeError: can't subtract offset-naive and offset-aware datetimes\nTest:\n...\nclass TimesinceTests(TestCase):\n\t...\n\t@requires_tz_support\n\t@override_settings(USE_TZ=True)\n\tdef test_long_interval_with_tz(self):\n\t\tnow = timezone.now()\n\t\td = now - datetime.timedelta(days=31)\n\t\tself.assertEqual(timesince(d), \"1\\xa0month\")\nI believe this is because the pivot instantiated here: ​https://github.com/django/django/blob/d2310f6473593d28c14b63a72253408b568e100a/django/utils/timesince.py#L93-L100 does not take into account the datetime object's tzinfo. Adding 0, d.tzinfo arguments to the datetime.datetime call seems to fix this.\nHappy to send a PR.\n",
+  "source_issue_url": "https://github.com/django/django/pull/16429",
+  "source_pr_url": "https://github.com/django/django/pull/16429",
+  "standard_answer": {
+    "kind": "behavioral_test_contract",
+    "fail_to_pass": [
+      "test_depth (utils_tests.test_timesince.TZAwareTimesinceTests)",
+      "test_depth_invalid (utils_tests.test_timesince.TZAwareTimesinceTests)",
+      "Test other units.",
+      "test_thousand_years_ago (utils_tests.test_timesince.TZAwareTimesinceTests)"
+    ],
+    "pass_to_pass": [
+      "Timesince should work with both date objects (#9672)",
+      "Both timesince and timeuntil should work on date objects (#17937).",
+      "When using two different timezones.",
+      "If the two differing units aren't adjacent, only the first unit is",
+      "When the second date occurs before the first, we should always",
+      "equal datetimes.",
+      "Microseconds and seconds are ignored.",
+      "test_leap_year (utils_tests.test_timesince.TZAwareTimesinceTests)",
+      "test_leap_year_new_years_eve (utils_tests.test_timesince.TZAwareTimesinceTests)",
+      "test_months_edge (utils_tests.test_timesince.TZAwareTimesinceTests)",
+      "Test multiple units.",
+      "test_naive_datetime_with_tzinfo_attribute (utils_tests.test_timesince.TZAwareTimesinceTests)",
+      "test_second_before_equal_first_humanize_time_strings (utils_tests.test_timesince.TZAwareTimesinceTests)",
+      "test_depth (utils_tests.test_timesince.TimesinceTests)",
+      "test_depth_invalid (utils_tests.test_timesince.TimesinceTests)",
+      "test_leap_year (utils_tests.test_timesince.TimesinceTests)",
+      "test_leap_year_new_years_eve (utils_tests.test_timesince.TimesinceTests)",
+      "test_months_edge (utils_tests.test_timesince.TimesinceTests)",
+      "test_naive_datetime_with_tzinfo_attribute (utils_tests.test_timesince.TimesinceTests)",
+      "test_second_before_equal_first_humanize_time_strings (utils_tests.test_timesince.TimesinceTests)",
+      "test_thousand_years_ago (utils_tests.test_timesince.TimesinceTests)"
+    ]
+  },
+  "checker": {
+    "adapter": "swebench-official-grading",
+    "version": "4.0.3"
+  },
+  "difficulty": {
+    "label": "<15 min fix",
+    "source": "SWE-bench Verified difficulty annotation"
+  },
+  "selection": {
+    "method": "day8-slice-v1 frozen stratified sample",
+    "reason": "Selected by the seeded stratified shuffle recorded in data/evaluation-slices/day8-slice-v1.json."
+  },
+  "protected_paths": [
+    "tests/utils_tests/test_timesince.py"
+  ],
+  "reference_patch": {
+    "artifact": {
+      "artifact_id": "artifact-2e868e782c287a4e430f143f",
+      "path": "data/runs/django__django-16429__YKxuFDd__agent/reference-patch.diff",
+      "sha256": "2e868e782c287a4e430f143fa41afa8c033b2e05992ca773009f4b0d5bc2780f",
+      "byte_size": 359,
+      "media_type": "text/x-diff"
+    },
+    "visibility": "human_adjudication_only"
+  }
+}

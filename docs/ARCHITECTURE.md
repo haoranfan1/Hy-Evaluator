@@ -22,7 +22,8 @@ system differs, the delivered behavior is authoritative:
 - **Persistence layout:** frozen selections live in `data/evaluation-slices/*.json` and
   `data/environment-checks/*.json` (no `data/manifests/`); mutable state is
   `.local/workbench/workbench.sqlite3` with bundles under `.local/workbench/bundles/`; the
-  analysis report is `docs/REPORT.md`, not `results/report.md`.
+  recorded real-run bundles are also committed as importable copies under `data/runs/`
+  (trial log omitted); the analysis report is `docs/REPORT.md`, not `results/report.md`.
 - **Frontend tests:** Vitest with React Testing Library only. Playwright is used by the demo
   recorder (`frontend/scripts/record_demo.mjs`), not as a test.
 - **Run naming:** the run id is the Harbor trial name reused verbatim; the UI shows a short

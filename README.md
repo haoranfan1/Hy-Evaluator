@@ -36,6 +36,15 @@ numbers with numerators, denominators, exclusions, and provenance are in the
 
 ## Quickstart
 
+Environment requirements:
+
+- macOS or Linux; Python 3.12 is installed into the repository by `uv` (nothing touches the
+  system interpreter); Node 22 (`.node-version`, any Node ≥ 22.12 works) for the UI.
+- No GPU. An Hy3 endpoint (`HY3_BASE_URL`, `HY3_MODEL`, `HY3_API_KEY`) is needed only for live
+  semantic evaluation; everything below runs without it.
+- Docker with roughly 120 GB free is needed only to run new SWE-bench tasks live
+  ([Development setup](docs/DEVELOPMENT_SETUP.md)); the recorded runs are committed.
+
 Offline verification — no credentials and no model calls (the suite scripts the judge):
 
 ```bash
@@ -47,6 +56,18 @@ Offline verification — no credentials and no model calls (the suite scripts th
 ```bash
 cd frontend && npm ci && npm test
 ```
+
+Re-check every recorded run's final answer against its standard answer from the committed
+artifacts alone (exit code `0` resolved · `2` unresolved · `3` inconclusive):
+
+```bash
+./scripts/uv-local run python scripts/verify_outcome.py --all data/runs
+```
+
+Browse the recorded runs in the UI: start both servers below, then import a bundle
+(`POST /api/runs/import` with `{"bundle_dir": "data/runs/<run id>"}`, or any fixture under
+`data/fixtures/`); the timeline, patch, verifier, and task views render from the bundle, and
+evaluation needs the Hy3 judge.
 
 Run the workbench (FastAPI on `127.0.0.1:8000`, UI on `127.0.0.1:5173`):
 
@@ -83,20 +104,22 @@ evaluates: `0` valid · `2` invalid · `3` inconclusive · `4` not evaluated · 
 | --- | --- |
 | Analysis report: method, metrics, case studies, limitations | [docs/REPORT.md](docs/REPORT.md) |
 | Requirement-by-requirement audit + clean-environment record | [docs/REQUIREMENTS_AUDIT.md](docs/REQUIREMENTS_AUDIT.md) |
-| Narrated demo video (4 min 22 s, Chinese voice-over; exceeds the two-minute brief by the operator's choice, see the audit) + scene script | [docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4), [docs/DEMO.md](docs/DEMO.md), [docs/DEMO_NARRATION.zh-CN.md](docs/DEMO_NARRATION.zh-CN.md) |
+| Demo video (narrated) + scene script and narration | [docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4), [docs/DEMO.md](docs/DEMO.md), [docs/DEMO_NARRATION.zh-CN.md](docs/DEMO_NARRATION.zh-CN.md) |
 | Frozen slice protocol (selection, blinding, run config) | [data/evaluation-slices/day8-slice-v1.json](data/evaluation-slices/day8-slice-v1.json) |
 | Environment / gold-patch oracle gates | [data/environment-checks/](data/environment-checks/) |
 | Aggregate + per-run results (deterministic exports) | [results/](results/) |
 | Human-inspection records (blinded labels + adjudications) | [results/human_reviews.jsonl](results/human_reviews.jsonl) |
 | Evaluator v2/v3 regression cards vs frozen labels (rendered at `/regressions` in the UI) | [results/regression/](results/regression/) |
 | Judge-stability records (fifteen sessions) | [results/judge-stability/](results/judge-stability/) |
+| Recorded real-run bundles: ATIF trajectory, submitted patch, official verifier report and test output, task manifest with the standard answer (declared FAIL_TO_PASS / PASS_TO_PASS tests), reference patch | [data/runs/](data/runs/) |
+| Final-answer check script (re-applies each task's standard answer to its official verifier report) | [scripts/verify_outcome.py](scripts/verify_outcome.py) |
 | Synthetic oracle fixtures (valid / invalid / inconclusive) | [data/fixtures/](data/fixtures/) |
 
 ## Repository layout
 
 ```text
 .
-├── data/                         # Fixtures, frozen slice, environment checks (versioned evidence)
+├── data/                         # Fixtures, recorded run bundles, frozen slices, environment checks
 ├── docs/                         # Requirements, report, audit, design, roadmap, demo
 ├── frontend/                     # React/Vite evidence-debugger and review UI
 ├── results/                      # Sanitized deterministic exports of validated evidence
@@ -121,15 +144,6 @@ evaluates: `0` valid · `2` invalid · `3` inconclusive · `4` not evaluated · 
 - [Evaluator specification](docs/EVALUATOR_SPEC.md)
 - [Development setup](docs/DEVELOPMENT_SETUP.md)
 - [Research workspace](docs/research/README.md)
-
-## Status
-
-Day 1–11 engineering is complete and audited, and the narrated demo is recorded
-([docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)). The guardrail
-intervention slice (`guardrail-slice-v1`) was frozen and its three runs completed, but its
-blinded labeling was not finished before the submission deadline, so it contributes no
-headline number (see [next steps](docs/NEXT_STEPS.md)). The day-by-day build and validation
-history is recorded in the [roadmap](docs/ROADMAP.md).
 
 ## Development
 

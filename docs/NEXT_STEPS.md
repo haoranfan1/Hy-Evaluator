@@ -248,6 +248,9 @@ session, since the labeling session is exactly where it pays off:
 4. **Done 2026-09-11** (tag `v1.0`, fresh clone from GitHub: 167 backend + 51 frontend
    tests, lint/typecheck/build clean; record in the audit). Remaining: the submission
    itself through the Rhino-Bird channel.
+   Re-walk against the instruction PDF (2026-09-11) added the committed `data/runs/`
+   bundles (standard answers + raw artifacts) and `scripts/verify_outcome.py` (answer
+   check); see audit gaps 6–7.
    Original item: clean-clone re-verification, annotated delivery tag, push, GitHub render check,
    submission through the Rhino-Bird channel.
 

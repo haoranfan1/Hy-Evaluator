@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-09-01T06:18:01.749770Z",
+  "schema_version": "run-record-v1",
+  "run_id": "django__django-16801__qEfUSGs__agent",
+  "task_id": "django__django-16801",
+  "slice_id": "guardrail-slice-v1",
+  "status": "completed",
+  "model": {
+    "name": "openai/hy3",
+    "endpoint_kind": "openai-compatible",
+    "reasoning_effort": null,
+    "temperature": null,
+    "top_p": null
+  },
+  "agent": {
+    "name": "mini-swe-agent",
+    "version": "2.4.6",
+    "config_digest": "143d6ca3d7128a64df3bd3c129fd72e7d18c3c15d23c22f9a52d891187837b89"
+  },
+  "harness": {
+    "name": "harbor",
+    "version": "0.22.0"
+  },
+  "dataset_adapter": "harbor-swebench-adapter-v1",
+  "started_at": "2026-09-01T06:04:10.642205Z",
+  "completed_at": "2026-09-01T06:08:32.428608Z",
+  "trajectory": {
+    "artifact_id": "artifact-0b880274a415306945a6c0ab",
+    "path": "data/runs/django__django-16801__qEfUSGs__agent/trajectory.json",
+    "sha256": "0b880274a415306945a6c0ab85f9bf1a94fc860f25b7802aa0ac5730a507c851",
+    "byte_size": 74857,
+    "media_type": "application/json",
+    "schema_version": "ATIF-v1.7"
+  },
+  "patch": {
+    "artifact_id": "artifact-608f4d4e34c7be00910c1223",
+    "path": "data/runs/django__django-16801__qEfUSGs__agent/patch.diff",
+    "sha256": "608f4d4e34c7be00910c12233734dfa32de7d0ab55b9a31946346834f3cd5791",
+    "byte_size": 998,
+    "media_type": "text/x-diff"
+  },
+  "verifier": {
+    "status": "passed",
+    "report": {
+      "artifact_id": "artifact-47fe572cfff31425a81704d5",
+      "path": "data/runs/django__django-16801__qEfUSGs__agent/verifier-report.json",
+      "sha256": "47fe572cfff31425a81704d5b7e26fdbc3b2de48dabaf6c3190f5724624ff18f",
+      "byte_size": 2309,
+      "media_type": "application/json"
+    },
+    "test_output": {
+      "artifact_id": "artifact-aa87a47b371b33b9a0fac741",
+      "path": "data/runs/django__django-16801__qEfUSGs__agent/test-output.txt",
+      "sha256": "aa87a47b371b33b9a0fac74184cbb7fa0620fe1631ce293eee9bae818c77f3aa",
+      "byte_size": 14545,
+      "media_type": "text/plain"
+    },
+    "run_log": null,
+    "exclusion_reason": null
+  }
+}

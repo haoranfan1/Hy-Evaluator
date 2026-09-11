@@ -29,6 +29,15 @@ Web 工作台。Hy3 通过 mini-SWE-agent 与 Harbor（ATIF v1.7 步骤轨迹）
 
 ## 快速开始
 
+环境要求：
+
+- macOS 或 Linux；Python 3.12 由 `uv` 安装到仓库内部（不碰系统解释器）；界面需要 Node 22
+  （`.node-version`，任何 ≥ 22.12 的 Node 均可）。
+- 不需要 GPU。只有实时语义评估需要 Hy3 端点（`HY3_BASE_URL`、`HY3_MODEL`、`HY3_API_KEY`），
+  下面所有步骤都不依赖它。
+- 只有实时运行新的 SWE-bench 任务才需要 Docker 和约 120 GB 磁盘
+  （见[开发环境设置](docs/DEVELOPMENT_SETUP.md)）；已记录的运行已提交在仓库中。
+
 离线验证——无需凭证、不调用模型（测试套件以脚本替代评审模型）：
 
 ```bash
@@ -40,6 +49,17 @@ Web 工作台。Hy3 通过 mini-SWE-agent 与 Harbor（ATIF v1.7 步骤轨迹）
 ```bash
 cd frontend && npm ci && npm test
 ```
+
+仅凭已提交的产物，重新核验每条真实运行的最终答案是否符合标准答案（退出码 `0` 通过 ·
+`2` 未通过 · `3` 不确定）：
+
+```bash
+./scripts/uv-local run python scripts/verify_outcome.py --all data/runs
+```
+
+在界面中浏览真实运行：启动下面两个服务后导入一个记录包（向 `POST /api/runs/import` 发送
+`{"bundle_dir": "data/runs/<运行 id>"}`，或 `data/fixtures/` 下任一夹具）；时间线、补丁、
+验证器与任务视图直接由记录包渲染，评估则需要 Hy3 评审模型。
 
 启动工作台（FastAPI 监听 `127.0.0.1:8000`，界面在 `127.0.0.1:5173`）：
 
@@ -74,20 +94,22 @@ Harbor/SWE-bench 流水线及其 Docker 门禁见[开发环境设置](docs/DEVEL
 | --- | --- |
 | 分析报告：方法、指标、案例研究、局限 | [docs/REPORT.md](docs/REPORT.md) |
 | 逐条需求审计 + 干净环境记录 | [docs/REQUIREMENTS_AUDIT.md](docs/REQUIREMENTS_AUDIT.md) |
-| 中文配音演示视频（4 分 22 秒，超出任务书两分钟要求，为操作者的选择，见审计）+ 场景脚本 | [docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)、[docs/DEMO.md](docs/DEMO.md)、[docs/DEMO_NARRATION.zh-CN.md](docs/DEMO_NARRATION.zh-CN.md) |
+| 演示视频（中文配音）+ 场景脚本与口播稿 | [docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)、[docs/DEMO.md](docs/DEMO.md)、[docs/DEMO_NARRATION.zh-CN.md](docs/DEMO_NARRATION.zh-CN.md) |
 | 冻结切片协议（选取、盲评、运行配置） | [data/evaluation-slices/day8-slice-v1.json](data/evaluation-slices/day8-slice-v1.json) |
 | 环境 / 参考补丁预言门禁 | [data/environment-checks/](data/environment-checks/) |
 | 汇总 + 逐运行结果（确定性导出） | [results/](results/) |
 | 人工检查记录（盲评标注 + 裁定） | [results/human_reviews.jsonl](results/human_reviews.jsonl) |
 | 评估器 v2/v3 对照冻结标注的回归卡（界面 `/regressions` 页可视化） | [results/regression/](results/regression/) |
 | 评审模型稳定性记录（十五次会话） | [results/judge-stability/](results/judge-stability/) |
+| 真实运行记录包：ATIF 轨迹、提交的补丁、官方验证器报告与测试输出、含标准答案（声明的 FAIL_TO_PASS / PASS_TO_PASS 测试）的任务清单、参考补丁 | [data/runs/](data/runs/) |
+| 答案校验脚本（把每道题的标准答案重新套用到官方验证器报告） | [scripts/verify_outcome.py](scripts/verify_outcome.py) |
 | 合成预言夹具（有效 / 无效 / 不确定） | [data/fixtures/](data/fixtures/) |
 
 ## 仓库结构
 
 ```text
 .
-├── data/                         # 夹具、冻结切片、环境检查（版本化证据）
+├── data/                         # 夹具、真实运行记录包、冻结切片、环境检查
 ├── docs/                         # 需求、报告、审计、设计、路线图、演示
 ├── frontend/                     # React/Vite 证据调试器与评审界面
 ├── results/                      # 已验证证据的脱敏确定性导出
@@ -112,14 +134,6 @@ Harbor/SWE-bench 流水线及其 Docker 门禁见[开发环境设置](docs/DEVEL
 - [评估器规格](docs/EVALUATOR_SPEC.md)
 - [开发环境设置](docs/DEVELOPMENT_SETUP.md)
 - [研究工作区](docs/research/README.md)
-
-## 状态
-
-第 1–11 天的工程工作已完成并通过审计，配音演示已录制（4 分 22 秒，超出任务书两分钟要求，为操作者的选择，见审计）
-（[docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)）。护栏干预切片
-（`guardrail-slice-v1`）已冻结、三条运行已完成，但盲评标注未能在提交截止前完成，因此不贡献
-任何头条数字（见[后续步骤](docs/NEXT_STEPS.md)）。逐日构建与验证历史记录在
-[路线图](docs/ROADMAP.md)中。
 
 ## 开发
 
