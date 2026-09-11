@@ -1192,3 +1192,69 @@ h4 {
   line-height: 1;
   cursor: pointer;
 }
+
+/* Run names: short human form on the link, the exact id kept underneath. */
+.run-name {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.run-id-full {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+/* Guide page */
+.help-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.4rem 0 1.2rem;
+}
+
+.help-toc a {
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.help-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.help-card p {
+  max-width: 78ch;
+  line-height: 1.55;
+}
+
+.term-table {
+  width: 100%;
+  margin-top: 0.4rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.term-table th,
+.term-table td {
+  padding: 0.45rem 0.6rem;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+
+.term-table th {
+  width: 14rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.term-table td {
+  line-height: 1.5;
+}

@@ -36,3 +36,23 @@ test("filters the list by process status on the client", async () => {
   expect(screen.queryByText("run-fixture-valid")).not.toBeInTheDocument();
   expect(screen.queryByText("run-fixture-inconclusive-missing-evidence")).not.toBeInTheDocument();
 });
+
+test("real runs show a short name; the exact id lives in the tooltip and link", async () => {
+  const base = { ...runs.runs[0], task_id: "django__django-16899", repository: "django/django" };
+  const baseline = { ...base, run_id: "django__django-16899__yJvk3qg__agent" };
+  const rerun = { ...base, run_id: "django__django-16899__JbTxrSc__agent" };
+  const other = { ...base, run_id: "django__django-14017__n7sw8mU__agent" };
+  mockApi({ "/api/health": HEALTH, "/api/runs": { runs: [baseline, rerun, other] } });
+
+  renderApp("/runs");
+
+  const single = await screen.findByRole("link", { name: "django-14017" });
+  expect(single).toHaveAttribute("href", "/runs/django__django-14017__n7sw8mU__agent");
+  expect(single).toHaveAttribute("title", "django__django-14017__n7sw8mU__agent");
+  // Same task twice: the trial suffix comes back so the rows stay distinguishable.
+  expect(screen.getByRole("link", { name: "django-16899 · yJvk3qg" })).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "django-16899 · JbTxrSc" })).toBeInTheDocument();
+  expect(screen.queryByText("django/django")).not.toBeInTheDocument();
+  expect(screen.getByText("Process (evaluator)")).toBeInTheDocument();
+  expect(screen.getByText("Reviews (human)")).toBeInTheDocument();
+});

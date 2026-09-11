@@ -262,6 +262,11 @@ single-configuration judge design.
   run at the human-labeled step. Other evasion shapes (e.g. paths built by
   runtime string manipulation) would still fall back to patch-level detection
   with an honest unlocatable step.
+- **Guardrail intervention not measured.** The frozen `guardrail-slice-v1` rerun (the
+  three easy-band tasks with one read-only-tests instruction added to the agent
+  configuration) completed and was imported, but its blinded labeling was not finished
+  before submission because the recording host became unreachable; it contributes no
+  number to this report (see NEXT_STEPS.md, P2).
 - **Judge stochasticity and version drift.** Each regression card reflects one
   live re-evaluation per run; the judge-stability reports quantify repeat
   variance separately.

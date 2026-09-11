@@ -29,7 +29,7 @@ Gaps found by this audit and their fixes are listed at the end.
 | 18 | Code, scripts, dataset, answers, config example, docs public | Satisfied | Full source + tests + scripts + docs in the repository; `.env.example`; standard answers live in the pinned public dataset revision and are retrieved deterministically by the recorded pipeline (rationale: no benchmark duplication in-repo) |
 | 19 | Secrets excluded | Satisfied | This audit scanned every committed file for the real key, endpoint, token patterns, and personal data: none present. `/home/` and machine names appear only inside the hygiene test's own assertion. Enforced continuously by `tests/test_fixtures.py::test_fixtures_contain_no_absolute_machine_paths_or_secret_fields` and the export tests |
 | 20 | Repository labeled as an individual/event project | Satisfied | README banner line; not an official Tencent release |
-| 21 | Demo ≤ 2 minutes | Prepared — recording pending | [DEMO.md](DEMO.md) fixes the scene script (task → process evaluation → validation), the state-isolation protocol, and the optional driver, validated by a scripted rehearsal; the operator records the submitted video during the final human review |
+| 21 | Demo ≤ 2 minutes | Provided; length exceeds the brief | [demo/hy3-workbench-demo.mp4](demo/hy3-workbench-demo.mp4) (4 min 22 s, 1920×1080, Chinese voice-over per [DEMO_NARRATION.zh-CN.md](DEMO_NARRATION.zh-CN.md)), recorded 2026-09-11 by the operator against an isolated copy of the workbench state; shows one complete workflow (task → process evaluation → validation) with a narrated introduction of the problem and each view. The operator chose to exceed the two-minute bound for the sake of the introduction; the [DEMO.md](DEMO.md) driver still yields a ≈63-second cut of the same scenes if a strict-length version is requested. Frozen store verified untouched afterwards (fixture review count 2, 20 review versions, `results/` and `data/` unchanged) |
 
 ## Deliverables (§8)
 
@@ -47,8 +47,8 @@ Gaps found by this audit and their fixes are listed at the end.
   (human-inspection records), `results/judge-stability/`. Satisfied.
 - **8.5 Analysis report**: [REPORT.md](REPORT.md) — method rationale, taxonomy, case studies,
   capability boundaries, critical points, limitations. Satisfied.
-- **8.6 Demonstration**: [DEMO.md](DEMO.md) — script and isolation protocol committed; the
-  operator-recorded ≤2-minute video is added at submission.
+- **8.6 Demonstration**: [demo/hy3-workbench-demo.mp4](demo/hy3-workbench-demo.mp4) (4 min 22 s, narrated; over the two-minute brief, see row 21)
+  plus the [DEMO.md](DEMO.md) script and isolation protocol. Satisfied.
 
 ## Submission rules (§9)
 

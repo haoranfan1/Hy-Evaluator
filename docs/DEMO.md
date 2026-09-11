@@ -1,11 +1,16 @@
 # Demo Script — One Complete Workflow in Under Two Minutes
 
 The submission requires a video or GIF of at most two minutes showing one complete workflow
-from solving a task through process evaluation. **The recording is produced by the operator**
-during the final human review pass; when it exists, place it at
-`docs/demo/hy3-workbench-demo.webm` (or `.mp4`/`.gif`) and link it here.
+from solving a task through process evaluation. **The submitted recording is
+[demo/hy3-workbench-demo.mp4](demo/hy3-workbench-demo.mp4)** (4 min 22 s, 1920×1080,
+Chinese voice-over following [DEMO_NARRATION.zh-CN.md](DEMO_NARRATION.zh-CN.md)), recorded by
+the operator on 2026-09-11 against an isolated copy of the workbench state; the frozen store was
+verified untouched afterwards. The recording deliberately exceeds the two-minute brief so the
+narration can introduce the problem, the pipeline, and each view before walking the workflow;
+the scene order below is unchanged, and the automated driver still produces a ≈63-second cut.
 
-This document fixes the scene-by-scene script, the state-isolation protocol the recording
+A Chinese narration script for an operator-voiced recording is in
+[DEMO_NARRATION.zh-CN.md](DEMO_NARRATION.zh-CN.md). This document fixes the scene-by-scene script, the state-isolation protocol the recording
 must follow, and an optional automated driver. A scripted rehearsal recording (≈65 seconds,
 1280×720) validated the scene flow, the selectors, and the isolation protocol end to end.
 
@@ -16,7 +21,7 @@ a **copy** of the state for the whole recording. In the copy, the synthetic inva
 reviews are reset so it opens blinded again:
 
 ```bash
-cd /path/to/Hy-Evaluator
+cd "$(git rev-parse --show-toplevel)"
 mkdir -p .local/workbench-demo
 cp .local/workbench/workbench.sqlite3 .local/workbench-demo/
 ./scripts/uv-local run python -c "
@@ -61,7 +66,8 @@ Use a self-describing reviewer alias on camera (for example `operator-demo`), an
    evaluator flags **rejected as false positives**.
 5. **The regression card in the published report** — [REPORT.md §6](REPORT.md) rendered on
    the public repository (~10 s): false positives 3/4 → 0/4, detection 4/4 preserved, exact
-   localization 0/4 → 3/4 against the frozen human labels.
+   localization 0/4 → 3/4 against the frozen human labels (the v2 card; the v3 card that
+   follows in the same section closes the last miss, exact localization 4/4).
 
 ## Optional automated recording
 

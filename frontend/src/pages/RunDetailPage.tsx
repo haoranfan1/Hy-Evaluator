@@ -11,6 +11,7 @@ import { ClampedText } from "../components/OutputBlock";
 import { StepTimeline } from "../components/StepTimeline";
 import type { MessageKey } from "../i18n";
 import { useI18n } from "../i18n";
+import { runDisplayName } from "../naming";
 
 const TABS: { id: TabName; label: MessageKey }[] = [
   { id: "timeline", label: "run.tab.timeline" },
@@ -90,10 +91,10 @@ export function RunDetailPage() {
       </p>
       <header className="page-head">
         <div>
-          <h2>{run.run_id}</h2>
+          <h2>{runDisplayName(run.run_id).short}</h2>
           <p className="page-lede">
-            {task.repository} · {t("run.difficulty")} {task.difficulty.label} · {run.agent.name}{" "}
-            {run.agent.version}
+            <code className="run-id-full">{run.run_id}</code> · {task.repository} ·{" "}
+            {t("run.difficulty")} {task.difficulty.label} · {run.agent.name} {run.agent.version}
           </p>
         </div>
         <div className="badges">

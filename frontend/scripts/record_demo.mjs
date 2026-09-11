@@ -30,7 +30,7 @@ const shot = (name) => page.screenshot({ path: `${OUT}/${name}.png` });
 
 // Scene 1 — the run list: real SWE-bench runs and synthetic fixtures together.
 await page.goto(`${UI}/runs`, { waitUntil: "networkidle" });
-await page.waitForSelector(`text=${REAL}`);
+await page.waitForSelector(`a[title="${REAL}"]`);
 await beat(6500);
 await shot("s1-run-list");
 

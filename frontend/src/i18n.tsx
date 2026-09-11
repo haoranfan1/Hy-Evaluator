@@ -17,6 +17,7 @@ export const MESSAGES = {
   "nav.runs": { en: "Runs", zh: "运行" },
   "nav.analytics": { en: "Analytics", zh: "分析" },
   "nav.regressions": { en: "Regressions", zh: "回归" },
+  "nav.help": { en: "Guide", zh: "指南" },
   "health.checking": { en: "checking API…", zh: "正在检查 API…" },
   "health.unreachable": { en: "API unreachable", zh: "API 不可达" },
   "theme.toDark": { en: "Switch to dark theme", zh: "切换到深色主题" },
@@ -43,12 +44,12 @@ export const MESSAGES = {
     zh: "无法从本地 API 加载运行列表。",
   },
   "runs.col.run": { en: "Run", zh: "运行" },
-  "runs.col.repository": { en: "Repository", zh: "代码仓库" },
   "runs.col.difficulty": { en: "Difficulty", zh: "难度" },
-  "runs.col.outcome": { en: "Outcome", zh: "结果" },
-  "runs.col.process": { en: "Process", zh: "过程" },
-  "runs.col.firstError": { en: "First error", zh: "第一处错误" },
-  "runs.col.reviews": { en: "Reviews", zh: "评审" },
+  "runs.col.outcome": { en: "Outcome (official tests)", zh: "结果（官方测试）" },
+  "runs.col.process": { en: "Process (evaluator)", zh: "过程（评估器）" },
+  "runs.col.firstError": { en: "First error (evaluator)", zh: "第一处错误（评估器）" },
+  "runs.col.reviews": { en: "Reviews (human)", zh: "评审（人工）" },
+  "runs.guideLink": { en: "New here? Read the guide.", zh: "第一次使用？先看指南。" },
   "runs.empty": {
     en: "No runs match the current filters.",
     zh: "没有符合当前筛选条件的运行。",
@@ -249,6 +250,14 @@ export const MESSAGES = {
   "analytics.noCases": { en: "None yet.", zh: "暂无。" },
   "analytics.rejectedFalsePositive": { en: "rejected: false positive", zh: "已驳回：误报" },
   "analytics.humanAdjudication": { en: "human {adjudication}", zh: "人工 {adjudication}" },
+
+  // Guide
+  "help.title": { en: "Guide", zh: "使用指南" },
+  "help.lede": {
+    en: "How to read this workbench: where each number comes from, what the statuses and categories mean, and how the pages fit together. Nothing here is recomputed; it explains the records.",
+    zh: "如何阅读这个工作台：每个数字来自哪里、各状态与类别的含义、各页面如何衔接。本页不做任何重新计算，只解释记录。",
+  },
+  "help.contents": { en: "Guide contents", zh: "指南目录" },
 
   // Regressions
   "regressions.title": { en: "Regression evidence", zh: "回归证据" },

@@ -4,6 +4,7 @@ import { Link } from "react-router";
 
 import { fetchRuns } from "../api";
 import { useI18n } from "../i18n";
+import { runShortNames } from "../naming";
 
 // Statuses render untranslated: they are evaluation data, not chrome.
 function StatusChip({ value, fallback }: { value: string | null; fallback: string }) {
@@ -19,6 +20,7 @@ export function RunsPage() {
   const [outcomeFilter, setOutcomeFilter] = useState("all");
   const [processFilter, setProcessFilter] = useState("all");
 
+  const shortNames = runShortNames((runs.data?.runs ?? []).map((run) => run.run_id));
   const visible = (runs.data?.runs ?? []).filter(
     (run) =>
       (outcomeFilter === "all" || run.outcome_status === outcomeFilter) &&
@@ -30,7 +32,9 @@ export function RunsPage() {
       <header className="page-head">
         <div>
           <h2>{t("runs.title")}</h2>
-          <p className="page-lede">{t("runs.lede")}</p>
+          <p className="page-lede">
+            {t("runs.lede")} <Link to="/help">{t("runs.guideLink")}</Link>
+          </p>
         </div>
         <div className="filters">
           <label>
@@ -67,7 +71,6 @@ export function RunsPage() {
           <thead>
             <tr>
               <th scope="col">{t("runs.col.run")}</th>
-              <th scope="col">{t("runs.col.repository")}</th>
               <th scope="col">{t("runs.col.difficulty")}</th>
               <th scope="col">{t("runs.col.outcome")}</th>
               <th scope="col">{t("runs.col.process")}</th>
@@ -79,11 +82,14 @@ export function RunsPage() {
             {visible.map((run) => (
               <tr key={run.run_id}>
                 <td>
-                  <Link className="run-link" to={`/runs/${encodeURIComponent(run.run_id)}`}>
-                    {run.run_id}
+                  <Link
+                    className="run-link run-name"
+                    title={run.run_id}
+                    to={`/runs/${encodeURIComponent(run.run_id)}`}
+                  >
+                    {shortNames.get(run.run_id) ?? run.run_id}
                   </Link>
                 </td>
-                <td>{run.repository}</td>
                 <td>{run.difficulty}</td>
                 <td>
                   <StatusChip value={run.outcome_status} fallback={t("common.notEvaluated")} />
@@ -108,7 +114,7 @@ export function RunsPage() {
             ))}
             {visible.length === 0 && (
               <tr>
-                <td colSpan={7} className="empty-lane">
+                <td colSpan={6} className="empty-lane">
                   {t("runs.empty")}
                 </td>
               </tr>

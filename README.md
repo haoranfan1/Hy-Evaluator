@@ -64,7 +64,8 @@ unconfigured, evaluation refuses instead of fabricating a verdict). The live
 Harbor/SWE-bench pipeline and its Docker gate are documented in
 [Development setup](docs/DEVELOPMENT_SETUP.md) and [report §9](docs/REPORT.md).
 
-The UI defaults to English with a Chinese toggle in the header, plus a light/dark theme.
+The UI defaults to English with a Chinese toggle in the header, plus a light/dark theme. The
+`/help` route is an in-app guide to every page, column, status, and term (both languages).
 
 ### Process gate (CI-friendly)
 
@@ -82,7 +83,7 @@ evaluates: `0` valid · `2` invalid · `3` inconclusive · `4` not evaluated · 
 | --- | --- |
 | Analysis report: method, metrics, case studies, limitations | [docs/REPORT.md](docs/REPORT.md) |
 | Requirement-by-requirement audit + clean-environment record | [docs/REQUIREMENTS_AUDIT.md](docs/REQUIREMENTS_AUDIT.md) |
-| ≤2-minute demo script (operator recording at submission) | [docs/DEMO.md](docs/DEMO.md) |
+| Narrated demo video (4 min 22 s, Chinese voice-over; exceeds the two-minute brief by the operator's choice, see the audit) + scene script | [docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4), [docs/DEMO.md](docs/DEMO.md), [docs/DEMO_NARRATION.zh-CN.md](docs/DEMO_NARRATION.zh-CN.md) |
 | Frozen slice protocol (selection, blinding, run config) | [data/evaluation-slices/day8-slice-v1.json](data/evaluation-slices/day8-slice-v1.json) |
 | Environment / gold-patch oracle gates | [data/environment-checks/](data/environment-checks/) |
 | Aggregate + per-run results (deterministic exports) | [results/](results/) |
@@ -123,9 +124,12 @@ evaluates: `0` valid · `2` invalid · `3` inconclusive · `4` not evaluated · 
 
 ## Status
 
-The Day 1–10 engineering is complete and audited. The operator's end-to-end human review
-and the self-recorded demo are the remaining steps before the delivery tag. The day-by-day
-build and validation history is recorded in the [roadmap](docs/ROADMAP.md).
+Day 1–11 engineering is complete and audited, and the ≤2-minute demo is recorded
+([docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)). The guardrail
+intervention slice (`guardrail-slice-v1`) was frozen and its three runs completed, but its
+blinded labeling was not finished before the submission deadline, so it contributes no
+headline number (see [next steps](docs/NEXT_STEPS.md)). The day-by-day build and validation
+history is recorded in the [roadmap](docs/ROADMAP.md).
 
 ## Development
 

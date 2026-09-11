@@ -2,9 +2,10 @@
 
 ## Status
 
-**Day 1–10 engineering is complete and audited** ([REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md)).
-The delivery freeze holds: every acceptance item is satisfied except the demo recording,
-which is deliberately deferred until the differentiation work below is finished.
+**Day 1–11 engineering is complete and audited** ([REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md)),
+and the narrated demo is recorded (2026-09-11; over the two-minute brief by choice, see the
+audit). Every other acceptance item is satisfied. P2 below was
+closed as incomplete when the recording host became unreachable before the deadline.
 
 This phase (Day 11+) works the prioritized backlog below **strictly in order**. An item
 starts only after the previous item's exit condition is recorded here. The backlog was
@@ -83,7 +84,7 @@ for at least one previously-abstaining run. Honest shortfalls are reported, not 
   error unanimous `none`, advisory finding count the only variance (1–5), two
   attempts used the single schema-repair retry.
 
-### P2 — Guardrail intervention experiment (completing trace-to-regression)
+### P2 — Guardrail intervention experiment (completing trace-to-regression) — **INCOMPLETE, closed 2026-09-10**
 
 The headline finding: on easy tasks the agent edited graded test files (0/3
 process-valid). Rerun those three tasks with **one documented guardrail** added to the
@@ -115,6 +116,17 @@ shared across slices only when its substantive contract is identical.
 **Waiting on the operator:** blinded initial labels for the three runs, entered
 in the UI as `operator-blinded-guardrail` before any reveal; verdicts stay out of
 this conversation until those labels are saved.
+
+**Closed without a result (2026-09-10).** The remote host holding the live state became
+unreachable before the submission deadline. In the last local copy of that state the
+three guardrail runs, their v3 evaluations, and exactly one initial label (run 16801,
+saved under the alias `reviewer-1` rather than the planned `operator-blinded-guardrail`)
+exist; the other two runs are unlabeled, nothing is adjudicated, and nothing is exported.
+The slice therefore contributes no number to the report or README and is reported as an
+incomplete experiment, not a finding. Its frozen inputs
+(`data/evaluation-slices/guardrail-slice-v1.json`, `data/agent-configs/guardrail-v1.yaml`,
+`data/environment-checks/arm64-oracle-guardrail-slice.json`) stay committed as the
+protocol for a future rerun.
 
 ### P3 — Non-UI amplifiers — **COMPLETE (Day 11, 2026-09-01)**
 
@@ -227,6 +239,8 @@ session, since the labeling session is exactly where it pays off:
    the guardrail result.
 3. Record the ≤2-minute demo per [DEMO.md](DEMO.md) (state-isolation protocol; the new
    views join the scene script only if they strengthen it within the time budget).
+   **Done 2026-09-11** — `docs/demo/hy3-workbench-demo.mp4`, 4 min 22 s, operator-narrated
+   in Chinese per `DEMO_NARRATION.zh-CN.md`, recorded locally against a state copy.
 4. Clean-clone re-verification, annotated delivery tag, push, GitHub render check,
    submission through the Rhino-Bird channel.
 

@@ -4,6 +4,7 @@ import { Link, Navigate, NavLink, Route, Routes } from "react-router";
 
 import { I18nProvider, useI18n } from "./i18n";
 import { AnalyticsPage } from "./pages/AnalyticsPage";
+import { HelpPage } from "./pages/HelpPage";
 import { RegressionsPage } from "./pages/RegressionsPage";
 import { RunDetailPage } from "./pages/RunDetailPage";
 import { RunsPage } from "./pages/RunsPage";
@@ -113,6 +114,7 @@ function AppShell() {
             <NavLink to="/runs">{t("nav.runs")}</NavLink>
             <NavLink to="/analytics">{t("nav.analytics")}</NavLink>
             <NavLink to="/regressions">{t("nav.regressions")}</NavLink>
+            <NavLink to="/help">{t("nav.help")}</NavLink>
           </nav>
           <LanguageToggle />
           <ThemeToggle />
@@ -133,6 +135,7 @@ function AppShell() {
         <Route path="/runs/:runId" element={<RunDetailPage />} />
         <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/regressions" element={<RegressionsPage />} />
+        <Route path="/help" element={<HelpPage />} />
       </Routes>
     </main>
   );

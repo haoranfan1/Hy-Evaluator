@@ -56,7 +56,7 @@ API 以诚实的降级状态运行（健康检查报告评审模型未配置，�
 Harbor/SWE-bench 流水线及其 Docker 门禁见[开发环境设置](docs/DEVELOPMENT_SETUP.md)与
 [报告 §9](docs/REPORT.md)。
 
-界面默认英文，可在页眉切换为中文，并支持浅色/深色主题。
+界面默认英文，可在页眉切换为中文，并支持浅色/深色主题。`/help` 路由是内置使用指南，用两种语言解释每个页面、列、状态和术语。
 
 ### 过程门禁（可用于 CI）
 
@@ -74,7 +74,7 @@ Harbor/SWE-bench 流水线及其 Docker 门禁见[开发环境设置](docs/DEVEL
 | --- | --- |
 | 分析报告：方法、指标、案例研究、局限 | [docs/REPORT.md](docs/REPORT.md) |
 | 逐条需求审计 + 干净环境记录 | [docs/REQUIREMENTS_AUDIT.md](docs/REQUIREMENTS_AUDIT.md) |
-| ≤2 分钟演示脚本（提交时由操作者录制） | [docs/DEMO.md](docs/DEMO.md) |
+| 中文配音演示视频（4 分 22 秒，超出任务书两分钟要求，为操作者的选择，见审计）+ 场景脚本 | [docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)、[docs/DEMO.md](docs/DEMO.md)、[docs/DEMO_NARRATION.zh-CN.md](docs/DEMO_NARRATION.zh-CN.md) |
 | 冻结切片协议（选取、盲评、运行配置） | [data/evaluation-slices/day8-slice-v1.json](data/evaluation-slices/day8-slice-v1.json) |
 | 环境 / 参考补丁预言门禁 | [data/environment-checks/](data/environment-checks/) |
 | 汇总 + 逐运行结果（确定性导出） | [results/](results/) |
@@ -115,8 +115,11 @@ Harbor/SWE-bench 流水线及其 Docker 门禁见[开发环境设置](docs/DEVEL
 
 ## 状态
 
-第 1–10 天的工程工作已完成并通过审计。操作者的端到端人工复核与自录演示是交付打标前剩余的
-步骤。逐日构建与验证历史记录在[路线图](docs/ROADMAP.md)中。
+第 1–11 天的工程工作已完成并通过审计，≤2 分钟演示已录制
+（[docs/demo/hy3-workbench-demo.mp4](docs/demo/hy3-workbench-demo.mp4)）。护栏干预切片
+（`guardrail-slice-v1`）已冻结、三条运行已完成，但盲评标注未能在提交截止前完成，因此不贡献
+任何头条数字（见[后续步骤](docs/NEXT_STEPS.md)）。逐日构建与验证历史记录在
+[路线图](docs/ROADMAP.md)中。
 
 ## 开发
 
